@@ -30,16 +30,29 @@ public class UserAgent {
                 "m=audio 4070 RTP/AVP 0 8\n" +
                 "a=rtpmap:0 PCMU/8000\n" +
                 "a=rtpmap:8 PCMA/8000");
+        // TODO Read string from file
+        // TODO ACK
+        // TODO Error management on received packages
         byte[] send = msg.getBytes();
+        byte[] receive = new byte[1024];
+
         InetAddress address = InetAddress.getByName("127.0.0.1");
         int length = send.length;
-        int port = 5080;
+        int port1 = 5080;
+        int port2 = 5070;
+        // TODO libcap not working
         DataLink link = new DataLink();
+
         new LibpcapSniffer(new PromiscuousLinkInterface(link), LibpcapHeader.LINKTYPE_ETHERNET,"Johhny.pcap");
 
-        DatagramPacket johhny = new DatagramPacket(send, length, address, port);
-        DatagramSocket socket = new DatagramSocket();
-        socket.send(johhny);
-        System.out.println("lollino");
+        DatagramPacket alice = new DatagramPacket(send, length, address, port1);
+        DatagramPacket bob = new DatagramPacket(receive, receive.length, address, port2);
+
+        DatagramSocket socket_port1 = new DatagramSocket();
+        DatagramSocket socket_port2 = new DatagramSocket(port2, address);
+
+        socket_port1.send(alice);
+        socket_port2.receive(bob);
+        socket_port2.receive(bob);
     }
 }
