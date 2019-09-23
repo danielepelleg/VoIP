@@ -8,7 +8,7 @@ A simple VoIP application.
 
 [Guido Soncini](https://github.com/gweedo)
 
-[Daniele Pellegrini]((https://github.com/danielepelleg)
+[Daniele Pellegrini](https://github.com/danielepelleg)
 
 ### Testing
 
