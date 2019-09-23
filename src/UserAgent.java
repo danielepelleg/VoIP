@@ -2,6 +2,18 @@ import java.io.IOException;
 import java.net.*;
 import it.unipr.netsec.ipstack.analyzer.LibpcapSniffer;
 import it.unipr.netsec.ipstack.analyzer.LibpcapHeader;
+import it.unipr.netsec.ipstack.analyzer.Sniffer;
+import it.unipr.netsec.ipstack.ip4.Ip4Address;
+import it.unipr.netsec.ipstack.ip4.Ip4Prefix;
+import it.unipr.netsec.ipstack.ip4.SocketAddress;
+import it.unipr.netsec.ipstack.link.EthTunnelInterface;
+import it.unipr.netsec.ipstack.net.Address;
+import it.unipr.netsec.ipstack.net.LoopbackInterface;
+import it.unipr.netsec.ipstack.net.NetInterface;
+import it.unipr.netsec.ipstack.net.Packet;
+import it.unipr.netsec.nemo.ip.Ip4Host;
+import it.unipr.netsec.nemo.ip.Ip4Router;
+import it.unipr.netsec.nemo.ip.IpLink;
 import it.unipr.netsec.nemo.link.DataLink;
 import it.unipr.netsec.nemo.link.PromiscuousLinkInterface;
 
@@ -37,19 +49,22 @@ public class UserAgent {
         byte[] receive = new byte[1024];
 
         InetAddress address = InetAddress.getByName("127.0.0.1");
+        PcapNewtworkInterface ni = Pcaps.getDevByAddress
         int length = send.length;
         int port1 = 5080;
         int port2 = 5070;
         // TODO libcap not working
         DataLink link = new DataLink();
 
-        new LibpcapSniffer(new PromiscuousLinkInterface(link), LibpcapHeader.LINKTYPE_ETHERNET,"Johhny.pcap");
-
         DatagramPacket alice = new DatagramPacket(send, length, address, port1);
         DatagramPacket bob = new DatagramPacket(receive, receive.length, address, port2);
 
         DatagramSocket socket_port1 = new DatagramSocket();
         DatagramSocket socket_port2 = new DatagramSocket(port2, address);
+
+        LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
+       // new PromiscuousLinkInterface(address)
+        new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
 
         socket_port1.send(alice);
         socket_port2.receive(bob);
