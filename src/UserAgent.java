@@ -10,15 +10,16 @@ import it.unipr.netsec.ipstack.link.EthTunnelInterface;
 import it.unipr.netsec.ipstack.net.Address;
 import it.unipr.netsec.ipstack.net.LoopbackInterface;
 import it.unipr.netsec.ipstack.net.NetInterface;
-import it.unipr.netsec.ipstack.net.Packet;
 import it.unipr.netsec.nemo.ip.Ip4Host;
 import it.unipr.netsec.nemo.ip.Ip4Router;
 import it.unipr.netsec.nemo.ip.IpLink;
 import it.unipr.netsec.nemo.link.DataLink;
 import it.unipr.netsec.nemo.link.PromiscuousLinkInterface;
+import org.pcap4j.core.*;
+import org.pcap4j.packet.Packet;
 
 public class UserAgent {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, PcapNativeException {
         String msg = ("INVITE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
                 "Via: SIP/2.0/UDP 160.78.175.190:5070;branch=z9hG4bK9c821e1a\n" +
                 "Max-Forwards: 70\n" +
@@ -49,10 +50,13 @@ public class UserAgent {
         byte[] receive = new byte[1024];
 
         InetAddress address = InetAddress.getByName("127.0.0.1");
-        PcapNewtworkInterface ni = Pcaps.getDevByAddress
+        // Pcap4j module, found on GitHub, implemented trough Maven https://www.pcap4j.org/
+        PcapNetworkInterface networkInterface = Pcaps.getDevByAddress(address);
+
         int length = send.length;
         int port1 = 5080;
         int port2 = 5070;
+        
         // TODO libcap not working
         DataLink link = new DataLink();
 

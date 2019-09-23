@@ -36,5 +36,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="org.pcap4j:pcap4j-core:1.8.2" level="project" />
   </component>
 </module>
