@@ -9,28 +9,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
-        <CLASSES />
-        <JAVADOC>
-          <root url="file://$MODULE_DIR$/nemo-1.2/javadoc" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/nemo-1.2/src" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
         <CLASSES>
           <root url="jar://$USER_HOME$/Desktop/nemo-1.2/lib/nemo.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../nemo/lib/nemo.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

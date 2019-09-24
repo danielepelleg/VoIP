@@ -1,5 +1,14 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.TimeoutException;
+
 import it.unipr.netsec.ipstack.analyzer.LibpcapSniffer;
 import it.unipr.netsec.ipstack.analyzer.LibpcapHeader;
 import it.unipr.netsec.ipstack.analyzer.Sniffer;
@@ -16,47 +25,26 @@ import it.unipr.netsec.nemo.ip.IpLink;
 import it.unipr.netsec.nemo.link.DataLink;
 import it.unipr.netsec.nemo.link.PromiscuousLinkInterface;
 import org.pcap4j.core.*;
+import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 
+import static org.pcap4j.core.Pcaps.getDevByAddress;
+
 public class UserAgent {
-    public static void main(String[] args) throws IOException, PcapNativeException {
-        String msg = ("INVITE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
-                "Via: SIP/2.0/UDP 160.78.175.190:5070;branch=z9hG4bK9c821e1a\n" +
-                "Max-Forwards: 70\n" +
-                "To: \"Bob\" <sip:bob@127.0.0.1:5080>\n" +
-                "From: \"Alice\" <sip:alice@160.78.175.190:5070>;tag=634583768317\n" +
-                "Call-ID: 591112818114@160.78.175.190\n" +
-                "CSeq: 1 INVITE\n" +
-                "Contact: <sip:alice@160.78.175.190:5070>\n" +
-                "Expires: 3600\n" +
-                "User-Agent: mjsip 1.8\n" +
-                "Supported: 100rel,timer\n" +
-                "Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,INFO,PRACK,NOTIFY,MESSAGE,UPDATE\n" +
-                "Content-Length: 147\n" +
-                "Content-Type: application/sdp\n" +
-                "\n" +
-                "v=0\n" +
-                "o=alice 0 0 IN IP4 160.78.175.190\n" +
-                "s=-\n" +
-                "c=IN IP4 160.78.175.190\n" +
-                "t=0 0\n" +
-                "m=audio 4070 RTP/AVP 0 8\n" +
-                "a=rtpmap:0 PCMU/8000\n" +
-                "a=rtpmap:8 PCMA/8000");
-        // TODO Read string from file
+    public static void main(String[] args) throws IOException, PcapNativeException, TimeoutException, NotOpenException {
+        String invite = Files.readString(Paths.get("invite.txt"), StandardCharsets.UTF_8);
+        System.out.println(invite);
         // TODO ACK
         // TODO Error management on received packages
-        byte[] send = msg.getBytes();
+        byte[] send = invite.getBytes();
         byte[] receive = new byte[1024];
 
         InetAddress address = InetAddress.getByName("127.0.0.1");
-        // Pcap4j module, found on GitHub, implemented trough Maven https://www.pcap4j.org/
-        PcapNetworkInterface networkInterface = Pcaps.getDevByAddress(address);
 
         int length = send.length;
         int port1 = 5080;
         int port2 = 5070;
-        
+
         // TODO libcap not working
         DataLink link = new DataLink();
 
