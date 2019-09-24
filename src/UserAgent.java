@@ -1,41 +1,26 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
-
-import it.unipr.netsec.ipstack.analyzer.LibpcapSniffer;
-import it.unipr.netsec.ipstack.analyzer.LibpcapHeader;
-import it.unipr.netsec.ipstack.analyzer.Sniffer;
+import it.unipr.netsec.ipstack.analyzer.*;
 import it.unipr.netsec.ipstack.ip4.Ip4Address;
-import it.unipr.netsec.ipstack.ip4.Ip4Prefix;
 import it.unipr.netsec.ipstack.ip4.SocketAddress;
-import it.unipr.netsec.ipstack.link.EthTunnelInterface;
-import it.unipr.netsec.ipstack.net.Address;
 import it.unipr.netsec.ipstack.net.LoopbackInterface;
-import it.unipr.netsec.ipstack.net.NetInterface;
-import it.unipr.netsec.nemo.ip.Ip4Host;
-import it.unipr.netsec.nemo.ip.Ip4Router;
-import it.unipr.netsec.nemo.ip.IpLink;
 import it.unipr.netsec.nemo.link.DataLink;
-import it.unipr.netsec.nemo.link.PromiscuousLinkInterface;
 import org.pcap4j.core.*;
-import org.pcap4j.packet.IpV4Packet;
-import org.pcap4j.packet.Packet;
-
-import static org.pcap4j.core.Pcaps.getDevByAddress;
 
 public class UserAgent {
-    public static void main(String[] args) throws IOException, PcapNativeException, TimeoutException, NotOpenException {
+    public static void main(String[] args) throws IOException {
+        // I read the content of invite.txt to find the INVITE message
         String invite = Files.readString(Paths.get("invite.txt"), StandardCharsets.UTF_8);
-        System.out.println(invite);
+        String ack = Files.readString(Paths.get("ack.txt"), StandardCharsets.UTF_8);
+        String bye = Files.readString(Paths.get("ack.txt"), StandardCharsets.UTF_8);
+
         // TODO ACK
         // TODO Error management on received packages
+
         byte[] send = invite.getBytes();
         byte[] receive = new byte[1024];
 
@@ -55,7 +40,6 @@ public class UserAgent {
         DatagramSocket socket_port2 = new DatagramSocket(port2, address);
 
         LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
-       // new PromiscuousLinkInterface(address)
         new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
 
         socket_port1.send(alice);
