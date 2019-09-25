@@ -1,15 +1,13 @@
+import it.unipr.netsec.nemo.link.DataLink;
+
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.concurrent.TimeoutException;
-import it.unipr.netsec.ipstack.analyzer.*;
-import it.unipr.netsec.ipstack.ip4.Ip4Address;
-import it.unipr.netsec.ipstack.ip4.SocketAddress;
-import it.unipr.netsec.ipstack.net.LoopbackInterface;
-import it.unipr.netsec.nemo.link.DataLink;
 
 public class UserAgent {
     public static void main(String[] args) throws IOException {
@@ -39,8 +37,8 @@ public class UserAgent {
         DatagramSocket socket_port1 = new DatagramSocket();
         DatagramSocket socket_port2 = new DatagramSocket(port2, address);
 
-        LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
-        new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
+        //LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
+        //new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
 
         socket_port1.send(alice);
         String serveAnswer;
@@ -48,7 +46,7 @@ public class UserAgent {
             socket_port2.receive(bob);
             byte[] serveAnswerB = Arrays.copyOfRange(bob.getData(), 8 ,11);
             serveAnswer = new String(serveAnswerB);
-        }while(serveAnswer.indent(0) == "1");
+        }while(serveAnswer.charAt(0) == '1');
 
 
 
