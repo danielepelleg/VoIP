@@ -10,7 +10,6 @@ import it.unipr.netsec.ipstack.ip4.Ip4Address;
 import it.unipr.netsec.ipstack.ip4.SocketAddress;
 import it.unipr.netsec.ipstack.net.LoopbackInterface;
 import it.unipr.netsec.nemo.link.DataLink;
-import org.pcap4j.core.*;
 
 public class UserAgent {
     public static void main(String[] args) throws IOException {
