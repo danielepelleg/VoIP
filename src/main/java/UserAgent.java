@@ -142,6 +142,7 @@ public class UserAgent {
                                 System.out.println(serveAnswer + " BAD EVENT");
                                 break;
                         }
+                        break;
                     case '9':
                         switch (serveAnswer.charAt(2)) {
                             case '1': //491 Server has some pending request from the same dialog.
@@ -175,6 +176,7 @@ public class UserAgent {
                                 System.out.println(serveAnswer + " VERSION NOT SUPPORTED");
                                 break;
                         }
+                        break;
                     case '1':
                         switch (serveAnswer.charAt(2))  {
                             case '3': //513 The request message length is longer than the server can process.
@@ -183,7 +185,7 @@ public class UserAgent {
                         }
                     case '8':
                         switch (serveAnswer.charAt(8)) {
-                            case '0': //580T he server is unable or unwilling to meet some constraints specified in the offer.
+                            case '0': //580 The server is unable or unwilling to meet some constraints specified in the offer.
                                 System.out.println(serveAnswer + " PRECONDITION FAILURE");
                                 break;
                         }
