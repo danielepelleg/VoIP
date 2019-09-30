@@ -63,7 +63,7 @@ public class UserAgent {
         switch (serveAnswer.charAt(0)){
             case '2':
                 send = ack.getBytes();
-                alice = new DatagramPacket(send, length, address, port1);
+                alice = new DatagramPacket(send, send.length, address, port1);
                 socket_port1.send(alice);
                 break;
 
@@ -146,8 +146,6 @@ public class UserAgent {
                                 break;
                         }
                         break;
-
-
                 }
                 break;
 
