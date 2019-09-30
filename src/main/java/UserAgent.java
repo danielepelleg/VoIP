@@ -16,7 +16,7 @@ public class UserAgent {
 
         String ack = Files.readString(Paths.get("ack.txt"), StandardCharsets.UTF_8);
 
-        String bye = Files.readString(Paths.get("ack.txt"), StandardCharsets.UTF_8);
+        String bye = Files.readString(Paths.get("bye.txt"), StandardCharsets.UTF_8);
 
         // TODO ACK
         // TODO Error management on received packages
@@ -58,6 +58,7 @@ public class UserAgent {
             //taking SIP code form the answers(Byte format)
             byte[] serveAnswerB = Arrays.copyOfRange(bob.getData(), 8 ,11);
             serveAnswer = new String(serveAnswerB);
+
         }while(serveAnswer.charAt(0) == '1');
 
         switch (serveAnswer.charAt(0)){
@@ -71,6 +72,9 @@ public class UserAgent {
                 break;
 
             case '4':
+                switch (serveAnswer){
+
+                }
                 break;
 
             case '5':
@@ -82,3 +86,5 @@ public class UserAgent {
 
     }
 }
+
+class
