@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 public class UserAgent {
     public static void main(String[] args) throws IOException {
@@ -65,9 +64,10 @@ public class UserAgent {
         // Switch that gives the type of response (whether it is an error) and its description.
         switch (serveAnswer.charAt(0)){
             case '2':
-                send = ack.getBytes();
-                alice = new DatagramPacket(send, send.length, address, port1);
-                socket_port1.send(alice);
+                byte [] send1 = ack.getBytes();
+
+                DatagramPacket alice1 = new DatagramPacket(send1, send1.length, address, port1);
+                socket_port1.send(alice1);
                 break;
 
             case '3':
