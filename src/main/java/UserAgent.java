@@ -110,6 +110,8 @@ public class UserAgent {
                             case '5': //415 Request body in a format not supported.
                                 System.out.println(serveAnswer + " UNSUPPORTED MEDIA TYPE");
                                 break;
+                            case '8': //418 Any attempt to brew coffee with a teapot should result in the error code "418 I'm a teapot". The resulting entity body MAY be short and stout.
+                                System.out.println(serveAnswer + " I'M A TEAPOT");
                         }
                         break;
                     case '2':
@@ -151,11 +153,30 @@ public class UserAgent {
                 break;
 
             case '5':
-                break;
-
-            case '6':
+                switch (serveAnswer.charAt(1)) {
+                    case '0':
+                        switch (serveAnswer.charAt(2)) {
+                            case '0': //500 The server encountered an unexpected condition that prevented it from fulfilling the request.
+                                System.out.println(serveAnswer + " INTERNAL SERVER ERROR");
+                                break;
+                            case '1': //501 The server does not support the functionality required to fulfill the request.
+                                System.out.println(serveAnswer + " NOT IMPLEMENTED");
+                                break;
+                            case '2': //502 The server, while acting as a gateway or proxy, received an invalid response from an inbound server it accessed while attempting to fulfill the request.
+                                System.out.println(serveAnswer + " BAD GATEWAY");
+                                break;
+                            case '3': //503 The server is currently unable to handle the request due to a temporary overload or scheduled maintenance, which will likely be alleviated after some delay.
+                                System.out.println(serveAnswer + " SERVICE UNAVAILABLE");
+                                break;
+                            case '4': //504 The server, while acting as a gateway or proxy, did not receive a timely response from an upstream server it needed to access in order to complete the request.
+                                System.out.println(serveAnswer + " GATEWAY TIMEOUT");
+                                break;
+                            case '5': //505 The server does not support, or refuses to support, the major version of HTTP that was used in the request message.
+                                System.out.println(serveAnswer + " HTTP VERSION NOT SUPPORTED");
+                                break;
+                        }
+                }
                 break;
         }
-
     }
 }
