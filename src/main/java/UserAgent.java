@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class UserAgent {
     public static void main(String[] args) throws IOException {
@@ -23,6 +24,7 @@ public class UserAgent {
         //take the invite message and convert it in bytes
         byte[] send = invite.getBytes();
         byte[] receive = new byte[1024];
+        byte[] response = new byte[1024];
 
         InetAddress address = InetAddress.getByName("127.0.0.1");
 
@@ -72,7 +74,7 @@ public class UserAgent {
 
                 break;
 
-            case '4':
+            case '4': //Response 4XX
                 switch (serveAnswer.charAt(1)) {
                     case '0':
                         switch (serveAnswer.charAt(2)) {
@@ -156,6 +158,21 @@ public class UserAgent {
             case '6':
                 break;
         }
+        DatagramPacket bob2 = new DatagramPacket(response, response.length, address, port2);
+        byte[] close_call =  bye.getBytes();
+        alice = new DatagramPacket(close_call, close_call.length, address, port1);
+        try
+        {
+            Thread.sleep(5000);
+            socket_port1.send(alice);
+            socket_port2.receive(bob2);
+            serveAnswer = new String(bob2.getData());
+            System.out.println(serveAnswer);
+        }
+        catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
 
     }
+
 }
