@@ -112,6 +112,8 @@ public class UserAgent {
                             case '5': //415 Request body in a format not supported.
                                 System.out.println(serveAnswer + " UNSUPPORTED MEDIA TYPE");
                                 break;
+                            case '8': //418 Any attempt to brew coffee with a teapot should result in the error code "418 I'm a teapot". The resulting entity body MAY be short and stout.
+                                System.out.println(serveAnswer + " I'M A TEAPOT");
                         }
                         break;
                     case '2':
@@ -142,6 +144,7 @@ public class UserAgent {
                                 System.out.println(serveAnswer + " BAD EVENT");
                                 break;
                         }
+                        break;
                     case '9':
                         switch (serveAnswer.charAt(2)) {
                             case '1': //491 Server has some pending request from the same dialog.
@@ -153,9 +156,43 @@ public class UserAgent {
                 break;
 
             case '5':
-                break;
-
-            case '6':
+                switch (serveAnswer.charAt(1)) {
+                    case '0':
+                        switch (serveAnswer.charAt(2)) {
+                            case '0': //500 The server could not fulfill the request due to some unexpected condition.
+                                System.out.println(serveAnswer + " INTERNAL SERVER ERROR");
+                                break;
+                            case '1': //501 The server does not support the functionality required to fulfill the request.
+                                System.out.println(serveAnswer + " NOT IMPLEMENTED");
+                                break;
+                            case '2': //502 The server, while acting as a gateway or proxy, received an invalid response from an inbound server it accessed while attempting to fulfill the request.
+                                System.out.println(serveAnswer + " BAD GATEWAY");
+                                break;
+                            case '3': //503 The server is currently unable to handle the request due to a temporary overload or scheduled maintenance, which will likely be alleviated after some delay.
+                                System.out.println(serveAnswer + " SERVICE UNAVAILABLE");
+                                break;
+                            case '4': //504 The server, while acting as a gateway or proxy, did not receive a timely response from an upstream server it needed to access in order to complete the request.
+                                System.out.println(serveAnswer + " GATEWAY TIMEOUT");
+                                break;
+                            case '5': //505 The server does not support, or refuses to support, the major version of HTTP that was used in the request message.
+                                System.out.println(serveAnswer + " VERSION NOT SUPPORTED");
+                                break;
+                        }
+                        break;
+                    case '1':
+                        switch (serveAnswer.charAt(2))  {
+                            case '3': //513 The request message length is longer than the server can process.
+                                System.out.println(serveAnswer + " MESSAGE TOO LARGE");
+                                break;
+                        }
+                    case '8':
+                        switch (serveAnswer.charAt(8)) {
+                            case '0': //580 The server is unable or unwilling to meet some constraints specified in the offer.
+                                System.out.println(serveAnswer + " PRECONDITION FAILURE");
+                                break;
+                        }
+                        break;
+                }
                 break;
         }
         DatagramPacket bob2 = new DatagramPacket(response, response.length, address, port2);
@@ -172,7 +209,6 @@ public class UserAgent {
         catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
-
     }
 
 }
