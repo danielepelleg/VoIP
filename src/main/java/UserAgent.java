@@ -156,7 +156,7 @@ public class UserAgent {
                 switch (serveAnswer.charAt(1)) {
                     case '0':
                         switch (serveAnswer.charAt(2)) {
-                            case '0': //500 The server encountered an unexpected condition that prevented it from fulfilling the request.
+                            case '0': //500 The server could not fulfill the request due to some unexpected condition.
                                 System.out.println(serveAnswer + " INTERNAL SERVER ERROR");
                                 break;
                             case '1': //501 The server does not support the functionality required to fulfill the request.
@@ -172,9 +172,22 @@ public class UserAgent {
                                 System.out.println(serveAnswer + " GATEWAY TIMEOUT");
                                 break;
                             case '5': //505 The server does not support, or refuses to support, the major version of HTTP that was used in the request message.
-                                System.out.println(serveAnswer + " HTTP VERSION NOT SUPPORTED");
+                                System.out.println(serveAnswer + " VERSION NOT SUPPORTED");
                                 break;
                         }
+                    case '1':
+                        switch (serveAnswer.charAt(2))  {
+                            case '3': //513 The request message length is longer than the server can process.
+                                System.out.println(serveAnswer + " MESSAGE TOO LARGE");
+                                break;
+                        }
+                    case '8':
+                        switch (serveAnswer.charAt(8)) {
+                            case '0': //580T he server is unable or unwilling to meet some constraints specified in the offer.
+                                System.out.println(serveAnswer + " PRECONDITION FAILURE");
+                                break;
+                        }
+                        break;
                 }
                 break;
         }
