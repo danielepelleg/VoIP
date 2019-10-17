@@ -45,6 +45,7 @@ public class UserAgent {
         DatagramSocket socket_port1 = new DatagramSocket();
         DatagramSocket socket_port2 = new DatagramSocket(port2, address);
 
+
         //LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
         //new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
 
@@ -64,16 +65,13 @@ public class UserAgent {
 
         // Switch that gives the type of response (whether it is an error) and its description.
         switch (serveAnswer.charAt(0)){
-            case '2':
+            case '2': //Receiving 200 OK
                 send = ack.getBytes();
                 alice = new DatagramPacket(send, send.length, address, port1);
                 socket_port1.send(alice);
                 break;
-
             case '3':
-
                 break;
-
             case '4': //Response 4XX
                 switch (serveAnswer.charAt(1)) {
                     case '0':
