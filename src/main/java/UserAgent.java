@@ -1,5 +1,7 @@
 import it.unipr.netsec.nemo.link.DataLink;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -8,11 +10,27 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 public class UserAgent {
+
+
     public static void main(String[] args) throws IOException {
         // I read the content of invite.txt to get the INVITE message
+        BufferedReader reader = new BufferedReader(new FileReader("invite.txt"));
+        int port1 = 5080;
+        int port2 = 5070;
+
+//        String invite = reader.readLine();
+//        invite = invite + "Via: SIP/2.0/UDP 127.0.0.1:"+ port2 +";branch=z9hG4bK9c821e1a\r\n";
+//        int i = 1;
+//        while(true) {
+//            invite = invite + reader.readLine() + "\r\n";
+//            i++;
+//            if (i == 21){
+//                break;
+//            }
+//        }
+
         String invite = Files.readString(Paths.get("invite.txt"), StandardCharsets.UTF_8);
 
         String ack = Files.readString(Paths.get("ack.txt"), StandardCharsets.UTF_8);
@@ -29,8 +47,6 @@ public class UserAgent {
         InetAddress address = InetAddress.getByName("127.0.0.1");
 
         int length = send.length;
-        int port1 = 5080;
-        int port2 = 5070;
 
         // TODO libcap not working
         DataLink link = new DataLink();
@@ -61,15 +77,25 @@ public class UserAgent {
             byte[] serveAnswerB = Arrays.copyOfRange(bob.getData(), 8 ,11);
             serveAnswer = new String(serveAnswerB);
 
+            System.out.println(serveAnswer);
+            if (serveAnswer.charAt(1) == '8'){
+                String recive = new String(bob.getData());
+                String reciverTag = recive.substring(recive.indexOf("tag=")+4,  (recive.indexOf("tag=")+20));
+
+                System.out.println(reciverTag);
+            }
+
         }while(serveAnswer.charAt(0) == '1');
 
-        // Switch that gives the type of response (whether it is an error) and its description.
+
+        /**
+         * Takes the response/error and gives a description
+         */
         switch (serveAnswer.charAt(0)){
             case '2': //Receiving 200 OK
                 send = ack.getBytes();
                 alice = new DatagramPacket(send, send.length, address, port1);
                 socket_port1.send(alice);
-                break;
             case '3':
                 break;
             case '4': //Response 4XX
@@ -193,18 +219,21 @@ public class UserAgent {
                 }
                 break;
         }
+
+
         DatagramPacket bob2 = new DatagramPacket(response, response.length, address, port2);
         byte[] close_call =  bye.getBytes();
-        alice = new DatagramPacket(close_call, close_call.length, address, port1);
+        //new java.util.Scanner(System.in).nextLine();
+        DatagramPacket alice2 = new DatagramPacket(close_call, close_call.length, address, port1);
         try
         {
-            Thread.sleep(5000);
-            socket_port1.send(alice);
+            //new java.util.Scanner(System.in).nextLine();
+            socket_port1.send(alice2);
             socket_port2.receive(bob2);
-            serveAnswer = new String(bob2.getData());
-            System.out.println(serveAnswer);
+            String serveAnswer2 = new String(bob2.getData());
+            System.out.println(serveAnswer2);
         }
-        catch(InterruptedException ex) {
+        catch(Exception ex) {
             Thread.currentThread().interrupt();
         }
     }
