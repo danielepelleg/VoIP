@@ -1,9 +1,10 @@
 BYE sip:bob@127.0.0.1:5080 SIP/2.0
-Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK3e547a34
+Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7
 Max-Forwards: 70
-To: "Bob" <sip:bob@127.0.0.1:5080>;tag=c41489a2814048dd
-From: "Alice" <sip:alice@127.0.0.1:5070>;tag=634583768317
-Call-ID: 591112818114@160.78.179.146
+To: "Bob" <sip:bob@127.0.0.1:5080>;tag=14bcb0b164075bad
+From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
+Call-ID: 958219347383@127.0.0.1
 CSeq: 2 BYE
 User-Agent: mjsip 1.8
 Content-Length: 0
+

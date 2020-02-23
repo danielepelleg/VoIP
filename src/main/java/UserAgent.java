@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.net.*;
+import java.util.Scanner;
 
 /**
  * UserAgent Class
@@ -110,6 +111,7 @@ public class UserAgent{
     public static void run() {
         send(Request.INVITE);
         receive();
+        System.out.println(new String(Request.BYE));
         send(Request.BYE);
         System.out.println("BYE sent");
         receive();

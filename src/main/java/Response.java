@@ -45,6 +45,7 @@ public class Response {
         String serverAnswer;
         do {
             System.out.println(this.responsePacket.toString());
+            System.out.println(new String(this.responsePacket.getData()));
             if (counter != 0)
                 setResponsePacket(UserAgent.listen());
             serverAnswer = new String(this.message);
@@ -55,6 +56,8 @@ public class Response {
             if (serverAnswer.charAt(1) == '8') {
                 String receive = new String(this.responsePacket.getData());
                 String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
+                Request.setAck(receiverTag);
+                Request.setBye(receiverTag);
                 System.out.println(receiverTag);
             }
             counter++;
@@ -63,7 +66,9 @@ public class Response {
         switch (serverAnswer.charAt(0)) {
             // Success Responses
             case '2': //Receiving 200 OK
+                System.out.println(new String(this.responsePacket.getData()));
                 UserAgent.send(Request.ACK);
+                System.out.println(new String(Request.ACK));
                 System.out.println("ACK sent");
                 break;
             // Redirection Responses
