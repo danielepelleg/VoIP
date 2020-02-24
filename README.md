@@ -21,6 +21,8 @@
     - [INVITE](#INVITE)
     - [ACK](#ACK)
     - [BYE](#BYE)
+  - [UML Diagrams](#uml-diagrams)
+    - [Class Diagram](#class-diagram)
   - [Getting Started](#getting-started)
     - [Libraries](#Libraries)
     - [Updates](#updates)
@@ -109,7 +111,13 @@
         CSeq: 2 BYE
         User-Agent: mjsip 1.8
         Content-Length: 0
-   
+
+   <!-- ABOUT THE PROJECT -->
+   ## UML Diagrams
+
+   ### Class Diagram
+   <img src="src/main/resources/ClassDiagram/ClassDiagram.png" alt="classDiagram">
+
    <!-- GETTING STARTED -->
    ## Getting Started
    Download the *mjSIP UA v1.8* at the following <a href="http://www.mjsip.org/download.html">download link</a> and follow the

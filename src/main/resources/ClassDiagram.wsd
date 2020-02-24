@@ -1,0 +1,55 @@
+@startuml
+
+abstract class Request {
+    + {static} INVITE : byte[]
+    + {static} ACK : byte[]
+    + {static} CANCEL : byte[]
+    + {static} OPTIONS : byte[]
+    + {static} BYE : byte[]
+    + {static} void setAck(String receiverTag)
+    + {static} void setBye(String receiverTag)
+    + {static} byte[] getInvite()
+    + {static} byte[] getAck()
+    + {static} byte[] getBye()
+}
+
+class Response {
+    - responsePacket : DatagramPacket
+    - message : byte[]
+    + void setResponsePacket(DatagramPacket responsePacket)
+    + void setMessage()
+    + void showMessage() 
+}
+
+class UserAgent{
+    + {static} address : InetAddress
+    + {static} sourcePort = 5080 : Integer
+    + {static} destinationPort = 5070 : Integer
+    + {static} socketOutgoing : DatagramSocket
+    + {static} socketIncoming : DatagramSocket
+    + {static} InetAddress getAddress()
+    + {static} DatagramSocket getSocketOutgoing()
+    + {static} DatagramSocket getSocketIncoming()
+    + {static} void send(byte[] request)
+    + {static} void receive()
+    + {static} DatagramPacket listen()
+}
+
+class Session{
+    - {static} requests : List<byte[]>
+    - {static} responses : List<byte[]>
+    - {static} packets : List<DatagramPacket>
+    + {static} List<byte[]> getRequests()
+    + {static} List<byte[]> getResponse()
+    + {static} List<DatagramPacket> getPackets()
+    + {static} void addRequest(byte[] newRequest)
+    + {static} void addResponse(byte[] newRequest)
+    + {static} void addPacket(DatagramPacket newPacket)
+    + void save()
+}
+
+Session *-- Request
+Session *-- Response
+Session *-- UserAgent
+
+@enduml
