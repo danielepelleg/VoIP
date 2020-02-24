@@ -1,12 +1,9 @@
-import javax.imageio.IIOException;
-import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.Arrays;
 
 /**
  * Response Class
- * Store the response of SIP Server -> mjua_1.8
+ * Store the response of SIP Server -> mjUA_1.8
  * The class has 2 attribute, the responsePacket, which is a DatagramPacket, and
  * a message, a byte created from the index 8 to 11 of the DatagramPacket Incoming.
  *
@@ -18,15 +15,35 @@ public class Response {
     private DatagramPacket responsePacket;
     private byte[] message;
 
+    /**
+     * Class Constructor
+     *
+     * @param packet the packet received in response
+     */
     public Response(DatagramPacket packet) {
         this.responsePacket = packet;
         setMessage();
     }
 
+    /**
+     * Set the Message from the incoming Packet.
+     * The message consists in the bytes of the packet from the 8th to the 11th index.
+     * It's basically a integer of 3 numbers that describes the result of a request
+     * or an action performed by the client UserAgent.
+     */
     public void setMessage() {
         this.message = Arrays.copyOfRange(this.responsePacket.getData(), 8, 11);
     }
 
+    /**
+     * Set the new Response packet. This method is used when the system receives
+     * some information responses or messages, such as "100 TRYING".
+     *
+     * In this case the application have to listen on the incoming port of the DatagramSocket
+     * for a new message from the other UserAgent, and then sets it as the new Response Packet.
+     *
+     * @param responsePacket the new Response Packet to set
+     */
     public void setResponsePacket(DatagramPacket responsePacket) {
         this.responsePacket = responsePacket;
         setMessage();
@@ -38,36 +55,37 @@ public class Response {
 
     /**
      * Show the client the message he has received from the server
-     * and a few lines of a description.
+     * and a few lines of a description. Send ACK if needed.
      */
     public void showMessage() {
+        // Initialize a counter to set a newResponse after an Information Message.
         int counter = 0;
+
+        // String containing the Server Answer
         String serverAnswer;
         do {
-            System.out.println(this.responsePacket.toString());
             System.out.println(new String(this.responsePacket.getData()));
             if (counter != 0)
-                setResponsePacket(UserAgent.listen());
+                setResponsePacket(UserAgent.listen());          // Set a new Response Packet
             serverAnswer = new String(this.message);
-            if (serverAnswer.equals("100"))
+            if (serverAnswer.equals("100"))                     // 100 TRYING
                 System.out.println(serverAnswer + " TRYING");
-            if (serverAnswer.equals("180"))
+            if (serverAnswer.equals("180"))                     // 180 RINGING
                 System.out.println(serverAnswer + " RINGING");
-            if (serverAnswer.charAt(1) == '8') {
+            if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag and set it to ACK and BYE
                 String receive = new String(this.responsePacket.getData());
                 String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
                 Request.setAck(receiverTag);
                 Request.setBye(receiverTag);
-                System.out.println(receiverTag);
             }
             counter++;
-        }while (serverAnswer.charAt(0) == '1') ; // Informational Responses
+        }while (serverAnswer.charAt(0) == '1') ;                // Informational Responses
 
-        switch (serverAnswer.charAt(0)) {
+        switch (serverAnswer.charAt(0)) {                       // Other Responses
             // Success Responses
             case '2': //Receiving 200 OK
                 System.out.println(new String(this.responsePacket.getData()));
-                UserAgent.send(Request.ACK);
+                UserAgent.send(Request.ACK);                    // Send ACK
                 System.out.println(new String(Request.ACK));
                 System.out.println("ACK sent");
                 break;

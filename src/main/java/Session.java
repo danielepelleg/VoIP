@@ -6,7 +6,7 @@ import java.util.List;
  * Session Class
  *
  * The Session class stores the logs (information) about the VoIP conversation
- *  between the UserAgent (SIP Client) and mjua_1.8 (SIP Server).
+ *  between the UserAgent (SIP Client) and mjUA_1.8 (SIP Server).
  *  It stores the requests sent by the client, the responses sent and received from
  *  the server and the datagram Packets sent through the socket connection.
  *  It has a method to record the conversation in a WireShark capture.
@@ -16,17 +16,17 @@ import java.util.List;
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
 public class Session {
-    private static List<Request> requests = new ArrayList<>();
-    private static List<Response> responses = new ArrayList<>();
+    private static List<byte[]> requests = new ArrayList<>();
+    private static List<byte[]> responses = new ArrayList<>();
     private static List<DatagramPacket> packets = new ArrayList<>();
 
     public Session(){}
 
-    public static List<Request> getRequests() {
+    public static List<byte[]> getRequests() {
         return requests;
     }
 
-    public static List<Response> getResponses() {
+    public static List<byte[]> getResponses() {
         return responses;
     }
 
@@ -34,20 +34,35 @@ public class Session {
         return packets;
     }
 
-    public static void addRequest(Request newRequest){
+    /**
+     * Add a Request to the requests List
+     *
+     * @param newRequest the request to add
+     */
+    public static void addRequest(byte[] newRequest){
         requests.add(newRequest);
     }
 
-    public static void addResponse(Response newResponse){
+    /**
+     * Add a Response to the responses List
+     *
+     * @param newResponse the response to add
+     */
+    public static void addResponse(byte[] newResponse){
         responses.add(newResponse);
     }
 
+    /**
+     * Add a Packet to the pakcets List
+     *
+     * @param newPacket the packet to add
+     */
     public static void addPacket(DatagramPacket newPacket){
         packets.add(newPacket);
     }
 
     /**
-     * Record the VoIP conversation flow in a WireShark capture.
+     * Record the VoIP conversation's flow in a WireShark capture.
      */
     // TODO Ask for advice for a sniffer on the loopback interface
     public void save(){

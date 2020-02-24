@@ -1,12 +1,11 @@
 import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
 
 /**
  * UserAgent Class
  *
  * The UserAgent is the client of SIP (Session Initiation Protocol). The UA sends
- *  Request objects to the server (mjua_1.8) through the SocketSourcePort on port 5080,
+ *  Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
  *  and receives Response objects through socketDestinationPort on port 5070, on the
  *  loopback address.
  *
@@ -24,8 +23,7 @@ public class UserAgent{
     /**
      * Class Constructor
      */
-    public UserAgent(){
-    }
+    public UserAgent(){ }
 
     /**
      * Set the loopback address for a local VoIP Communication.
@@ -66,13 +64,16 @@ public class UserAgent{
     }
 
     /**
-     * Send a request in byte to the Server mjua_1.8
+     * Send a request in byte to the Server mjUA_1.8
      *
      * @param request the request to send (in byte)
      */
     public static void send(byte[] request){
         try {
-            socketOutgoing.send(new DatagramPacket(request, request.length, getAddress(), sourcePort));
+            DatagramPacket sendPacket = new DatagramPacket(request, request.length, getAddress(), sourcePort);
+            socketOutgoing.send(sendPacket);
+            Session.addRequest(sendPacket.getData());
+            Session.addPacket(sendPacket);
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -88,19 +89,23 @@ public class UserAgent{
             DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
             socketIncoming.receive(received);
             new Response(received).showMessage();
+            Session.addPacket(received);
+            Session.addResponse(received.getData());
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
     /**
-     * Listen for a new DatagramPacket on the Incoming DatagramSocket mjua_1.8
+     * Listen for a new DatagramPacket on the Incoming DatagramSocket mjUA_1.8
      */
     public static DatagramPacket listen(){
         try {
             byte[] response = new byte[1024];
             DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
             socketIncoming.receive(received);
+            Session.addPacket(received);
+            Session.addResponse(received.getData());
             return received;
         }catch(IOException e){
             e.printStackTrace();
@@ -108,6 +113,9 @@ public class UserAgent{
         return null;
     }
 
+    /**
+     * Make a VoIP to the UserAgent Bob mjUA listening on port 5080
+     */
     public static void run() {
         send(Request.INVITE);
         receive();
