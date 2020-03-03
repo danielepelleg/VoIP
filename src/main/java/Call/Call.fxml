@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.29411764705882354" layoutY="1.0" orientation="VERTICAL" prefHeight="335.0" prefWidth="490.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="466.0" style="-fx-background-color: #226aa4;">
+               <children>
+                  <AnchorPane prefHeight="95.0" prefWidth="246.0">
+                     <children>
+                        <Button fx:id="sipButton" contentDisplay="TOP" layoutX="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openCallPage" prefHeight="72.0" prefWidth="60.0" style="-fx-background-color: #f5f5f5;" text="Call" AnchorPane.topAnchor="10.0">
+                           <graphic>
+                              <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/sip.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <Separator layoutX="245.0" orientation="VERTICAL" prefHeight="72.0" prefWidth="6.0" AnchorPane.topAnchor="10.0" />
+                  <AnchorPane layoutX="244.0" prefHeight="95.0" prefWidth="246.0">
+                     <children>
+                        <Button contentDisplay="TOP" layoutX="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="72.0" prefWidth="60.0" style="-fx-background-color: #f5f5f5;" text="Logs" AnchorPane.topAnchor="10.0">
+                           <graphic>
+                              <ImageView fx:id="logsButton" fitHeight="45.0" fitWidth="45.0" onDragDetected="#openLogsPage" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/log.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="206.0" prefWidth="490.0">
+               <children>
+                  <ImageView fx:id="logo" fitHeight="80.0" fitWidth="80.0" layoutX="204.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/voip.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="connectionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="149.0" layoutY="103.0" prefHeight="23.0" prefWidth="190.0" style="-fx-background-color: #000000; -fx-border-color: #000000;" text="mjUA (http://www.mjsip.org)" textFill="#a3ff8e">
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="receiverLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="149.0" layoutY="126.0" prefHeight="23.0" prefWidth="190.0" style="-fx-border-color: #000000;" text="&quot;Bob&quot; &lt;sip:bob@127.0.0.1:5080&gt;">
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="hangUpButton" layoutX="260.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hangUp" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #AB4642 #AB4642; -fx-text-fill: #ffffff;" text="HANG UP" />
+                  <Button fx:id="callButton" layoutX="130.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#call" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #3e904f; -fx-text-fill: #ffffff;" text="CALL" />
+                  <Button fx:id="audioButton" contentDisplay="TOP" layoutX="38.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#recordAudio" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #f5f5f5; -fx-border-color: #000000; -fx-border-radius: 5;">
+                     <graphic>
+                        <ImageView fx:id="audioButton" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/podcast.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="stopButton" contentDisplay="TOP" layoutX="90.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#stopAudio" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #f5f5f5; -fx-border-color: #000000; -fx-border-radius: 5;">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/stop.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
