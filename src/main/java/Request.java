@@ -34,7 +34,7 @@ public class Request {
      */
     public static void setAck(String receiverTag) {
         String ack1 = "ACK sip:bob@127.0.0.1:5080 SIP/2.0\n" +
-                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7\n" +
+                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3863b7\n" +
                 "Max-Forwards: 70\n" +
                 "To: \"Bob\" <sip:bob@127.0.0.1:5080>;tag="+ receiverTag +"\n" +
                 "From: \"Alice\" <sip:alice@127.0.0.1:5070>;tag=691822153216\n" +
@@ -43,7 +43,7 @@ public class Request {
                 "Contact: <sip:alice@127.0.0.1:5070>\n" +
                 "Expires: 3600\n" +
                 "User-Agent: mjsip 1.8\n" +
-                "Content-Length: 0\n";
+                "Content-Length: 0\r\n";
         try(PrintWriter out = new PrintWriter("src/main/resources/requests/ack.txt")){
             out.flush();
             out.println(ack1);
@@ -60,14 +60,14 @@ public class Request {
      */
     public static void setBye(String receiverTag) {
         String ack1 = "BYE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
-                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7\n" +
+                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3968b7\n" +
                 "Max-Forwards: 70\n" +
                 "To: \"Bob\" <sip:bob@127.0.0.1:5080>;tag="+ receiverTag +"\n" +
                 "From: \"Alice\" <sip:alice@127.0.0.1:5070>;tag=691822153216\n" +
                 "Call-ID: 958219347383@127.0.0.1\n" +
                 "CSeq: 2 BYE\n" +
                 "User-Agent: mjsip 1.8\n" +
-                "Content-Length: 0\n";
+                "Content-Length: 0\r\n";
         try(PrintWriter out = new PrintWriter("src/main/resources/requests/bye.txt")){
             out.flush();
             out.println(ack1);
@@ -89,7 +89,7 @@ public class Request {
         catch (IOException e){
             e.printStackTrace();
         }
-        return new byte[1024];
+        return null;
     }
 
     /**
@@ -105,7 +105,7 @@ public class Request {
         catch (IOException e){
             e.printStackTrace();
         }
-        return new byte[1024];
+        return null;
     }
 
     /**
@@ -121,6 +121,6 @@ public class Request {
         catch (IOException e){
             e.printStackTrace();
         }
-        return new byte[1024];
+        return null;
     }
 }

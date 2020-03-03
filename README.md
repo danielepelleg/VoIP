@@ -112,7 +112,7 @@
         User-Agent: mjsip 1.8
         Content-Length: 0
 
-   <!-- ABOUT THE PROJECT -->
+   <!-- UML DIAGRAMS -->
    ## UML Diagrams
 
    ### Class Diagram

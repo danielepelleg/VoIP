@@ -64,7 +64,6 @@ public class Response {
         // String containing the Server Answer
         String serverAnswer;
         do {
-            System.out.println(new String(this.responsePacket.getData()));
             if (counter != 0)
                 setResponsePacket(UserAgent.listen());          // Set a new Response Packet
             serverAnswer = new String(this.message);
@@ -78,6 +77,8 @@ public class Response {
                 Request.setAck(receiverTag);
                 Request.setBye(receiverTag);
             }
+            if(serverAnswer.charAt(0) != '2')
+                System.out.println(new String(this.responsePacket.getData()));
             counter++;
         }while (serverAnswer.charAt(0) == '1') ;                // Informational Responses
 
@@ -85,8 +86,9 @@ public class Response {
             // Success Responses
             case '2': //Receiving 200 OK
                 System.out.println(new String(this.responsePacket.getData()));
-                UserAgent.send(Request.ACK);                    // Send ACK
-                System.out.println(new String(Request.ACK));
+                //UserAgent.sendAudio();
+                UserAgent.send(Request.getAck());                    // Send ACK
+                System.out.println(new String(Request.getAck()));
                 System.out.println("ACK sent");
                 break;
             // Redirection Responses

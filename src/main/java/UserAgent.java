@@ -1,3 +1,6 @@
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.*;
 
@@ -80,6 +83,27 @@ public class UserAgent{
     }
 
     /**
+     * Send an Audio file in byte to the Server mjUA_1.8
+     *
+     */
+    public static void sendAudio(){
+        try {
+            File audioFile = new File("src/main/resources/audio/imperial_march.wav");
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(audioFile));
+            double nosofpackets = Math.ceil(((int) audioFile.length())/1024);
+            for(double i=0;i<nosofpackets+1;i++)
+            {
+                byte[] mybytearray = new byte[1024];
+                bis.read(mybytearray, 0, mybytearray.length);
+                System.out.println("Packet:"+(i+1));
+                send(mybytearray);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Receive a response in byte from the Server and print
      * the related message
      */
@@ -119,8 +143,8 @@ public class UserAgent{
     public static void run() {
         send(Request.INVITE);
         receive();
-        System.out.println(new String(Request.BYE));
-        send(Request.BYE);
+        System.out.println(new String(Request.getBye()));
+        send(Request.getBye());
         System.out.println("BYE sent");
         receive();
     }
