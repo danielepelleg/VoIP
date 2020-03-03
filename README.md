@@ -46,7 +46,7 @@
 
     The system has a GUI that starts with the typical telephone interface with 2 buttons to take or hang up the call.
     
-    - Press the green button to call the other mjua UserAgent.
+    - Press the green button to call the other mjUA UserAgent.
     
     - Once the conversation has start, you can change the dialog window to see the logs of the call, and see the requests 
        the application has sent and the responses it received.
@@ -90,7 +90,7 @@
    This tag is unique for Bob's identification and changes at every call.
 
         ACK sip:bob@127.0.0.1:5080 SIP/2.0
-        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7
+        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3863b7
         Max-Forwards: 70
         To: "Bob" <sip:bob@127.0.0.1:5080>;tag=14bcb0b164075bad
         From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
@@ -103,7 +103,7 @@
 
    ### BYE 
         BYE sip:bob@127.0.0.1:5080 SIP/2.0
-        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7
+        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3968b7
         Max-Forwards: 70
         To: "Bob" <sip:bob@127.0.0.1:5080>;tag=14bcb0b164075bad
         From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
