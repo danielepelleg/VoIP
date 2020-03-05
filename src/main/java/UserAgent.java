@@ -141,11 +141,15 @@ public class UserAgent{
      * Make a VoIP to the UserAgent Bob mjUA listening on port 5080
      */
     public static void run() {
-        send(Request.INVITE);
+        System.out.println(" INVITE MESSAGE ");
+        System.out.println(new String(Request.getInvite()));
+        System.out.println(" INVITE SENT ");
+        send(Request.getInvite());
         receive();
+        System.out.println(" BYE MESSAGE ");
         System.out.println(new String(Request.getBye()));
         send(Request.getBye());
-        System.out.println("BYE sent");
+        System.out.println(" BYE SENT ");
         receive();
     }
 }

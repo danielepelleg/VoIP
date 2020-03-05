@@ -73,7 +73,7 @@
         User-Agent: mjsip 1.8
         Supported: 100rel,timer
         Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,INFO,PRACK,NOTIFY,MESSAGE,UPDATE
-        Content-Length: 137
+        Content-Length: 129
         Content-Type: application/sdp
 
         v=0
@@ -86,14 +86,14 @@
         a=rtpmap:8 PCMA/8000
 
    ### ACK
-   Once the conversation is setted and the system receives a 180 RINGING message, it sets the tag of Bob for the ACK and the BYE message.
+   Once the conversation is set and the system receives a 180 RINGING message, it sets the tag of Bob for the ACK and the BYE message.
    This tag is unique for Bob's identification and changes at every call.
 
         ACK sip:bob@127.0.0.1:5080 SIP/2.0
-        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3863b7
+        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bKdijq48al
         Max-Forwards: 70
-        To: "Bob" <sip:bob@127.0.0.1:5080>;tag=14bcb0b164075bad
-        From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
+        To: "Bob" <sip:bob@127.0.0.1:5080>;tag=c7483107c0dc85d2
+        From: "Alice" <sip:alice@127.0.0.1:5070>;tag=965285618558
         Call-ID: 958219347383@127.0.0.1
         CSeq: 1 ACK
         Contact: <sip:alice@127.0.0.1:5070>
@@ -103,11 +103,11 @@
 
    ### BYE 
         BYE sip:bob@127.0.0.1:5080 SIP/2.0
-        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3968b7
+        Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK2dmdtwnf
         Max-Forwards: 70
-        To: "Bob" <sip:bob@127.0.0.1:5080>;tag=14bcb0b164075bad
-        From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
-        Call-ID: 958219347383@127.0.0.1
+        To: "Bob" <sip:bob@127.0.0.1:5080>;tag=c7483107c0dc85d2
+        From: "Alice" <sip:alice@127.0.0.1:5070>;tag=965285618558
+        Call-ID: 813329132967@127.0.0.1
         CSeq: 2 BYE
         User-Agent: mjsip 1.8
         Content-Length: 0

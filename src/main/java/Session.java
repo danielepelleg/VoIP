@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,19 @@ public class Session {
      */
     public static void addPacket(DatagramPacket newPacket){
         packets.add(newPacket);
+    }
+
+    /**
+     * Save the Requests on a file
+     */
+    public static void saveRequestFile(String request, String name){
+        request = request.substring(0, request.length()-1);
+        try (PrintWriter out = new PrintWriter("src/main/resources/requests/"+name+".txt")){
+            out.flush();
+            out.println(request);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

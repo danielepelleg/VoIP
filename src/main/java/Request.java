@@ -1,9 +1,4 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * Request Class
@@ -16,111 +11,129 @@ import java.nio.file.Paths;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class Request {
-    public static byte[] INVITE = getInvite();
-    public static byte[] ACK = getAck();
-    public static byte[] BYE = getBye();
+public abstract class Request {
+    private static String callID = generateCallID();
+    private static String senderTag = generateSenderTag();
+    private static String receiverTag;
 
     /**
-     * Class Default Constructor
+     * Generates a random CallID
      */
-    public Request(){ }
+    public static String generateCallID() {
+        Random random = new Random();
+        String identifier = "";
+        for(int i = 0; i < 12; i++ ){
+            identifier += random.nextInt(10);
+        }
+        return identifier + "@127.0.0.1";
+    }
 
     /**
-     * Set the Receiver Tag in the ACK Request for uniquely identify
-     * the UserAgent b (Bob)
+     * Generates a random Sender Tag
+     */
+    public static String generateSenderTag() {
+        Random random = new Random();
+        String identifier = "tag=";
+        for(int i = 0; i < 12; i++ ){
+            identifier += random.nextInt(10);
+        }
+        return identifier;
+    }
+
+    /**
+     * Generates a random Branch Tag, keeping an initial
+     * "magic number" such as <i>z9hG4bK</i>  for been identified by Bob
+     *  as a trusted branch
+     */
+    public static String generateBranch() {
+        Random random = new Random();
+        String magicNumber = "z9hG4bK";
+        StringBuilder identifier = new StringBuilder();
+        String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        for(int i = 0; i < 8; i++ ){
+            identifier.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return "branch="+magicNumber+identifier;
+    }
+
+    /**
+     * Set the receiverTag attribute after have received it from Bob
+     *  in the 200 OK Response.
      *
-     * @param receiverTag Bob's tag, initialized once it receives the call
+     * @param tag the receiver tag
      */
-    public static void setAck(String receiverTag) {
-        String ack1 = "ACK sip:bob@127.0.0.1:5080 SIP/2.0\n" +
-                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3863b7\n" +
+    public static void setReceiverTag(String tag){
+        receiverTag = "tag=" + tag;
+    }
+
+    /**
+     * Get the Invite Request once have set the callID, the senderTag and a
+     *  pseudo-random generated branch
+     */
+    public static byte[] getInvite() {
+        String invite = "INVITE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
+                "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
                 "Max-Forwards: 70\n" +
-                "To: \"Bob\" <sip:bob@127.0.0.1:5080>;tag="+ receiverTag +"\n" +
-                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;tag=691822153216\n" +
-                "Call-ID: 958219347383@127.0.0.1\n" +
+                "To: \"Bob\" <sip:bob@127.0.0.1:5080>\n" +
+                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
+                "Call-ID: "+ callID +"\n" +
+                "CSeq: 1 INVITE\n" +
+                "Contact: <sip:alice@127.0.0.1:5070>\n" +
+                "Expires: 3600\n" +
+                "User-Agent: mjsip 1.8\n" +
+                "Supported: 100rel,timer\n" +
+                "Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,INFO,PRACK,NOTIFY,MESSAGE,UPDATE\n" +
+                "Content-Length: 129\n" +
+                "Content-Type: application/sdp\n" +
+                "\n" +
+                "v=0\n" +
+                "o=alice 0 0 IN IP4 127.0.0.1\n" +
+                "s=-\n" +
+                "c=IN IP4 127.0.0.1\n" +
+                "t=0 0\n" +
+                "m=audio 4070 RTP/AVP 0 8\n" +
+                "a=rtpmap:0 PCMU/8000\n" +
+                "a=rtpmap:8 PCMA/8000\n";
+        Session.saveRequestFile(invite, "invite");
+        return invite.getBytes();
+    }
+
+    /**
+     * Get the ACK Request after have set the Receiver Tag for uniquely identify
+     * the UserAgent b (Bob).
+     */
+    public static byte[] getAck(){
+        String ack = "ACK sip:bob@127.0.0.1:5080 SIP/2.0\n" +
+                "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
+                "Max-Forwards: 70\n" +
+                "To: \"Bob\" <sip:bob@127.0.0.1:5080>;"+ receiverTag +"\n" +
+                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
+                "Call-ID: "+ callID +"\n" +
                 "CSeq: 1 ACK\n" +
                 "Contact: <sip:alice@127.0.0.1:5070>\n" +
                 "Expires: 3600\n" +
                 "User-Agent: mjsip 1.8\n" +
-                "Content-Length: 0\r\n";
-        try(PrintWriter out = new PrintWriter("src/main/resources/requests/ack.txt")){
-            out.flush();
-            out.println(ack1);
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
+                "Content-Length: 0\r\n\n";
+        Session.saveRequestFile(ack, "ack");
+        return ack.getBytes();
     }
 
     /**
-     * Set the Receiver Tag in the BYE Request for uniquely identify
-     * the UserAgent b (Bob)
-     *
-     * @param receiverTag Bob's tag, initialized once it receives the call
-     */
-    public static void setBye(String receiverTag) {
-        String ack1 = "BYE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
-                "Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3968b7\n" +
-                "Max-Forwards: 70\n" +
-                "To: \"Bob\" <sip:bob@127.0.0.1:5080>;tag="+ receiverTag +"\n" +
-                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;tag=691822153216\n" +
-                "Call-ID: 958219347383@127.0.0.1\n" +
-                "CSeq: 2 BYE\n" +
-                "User-Agent: mjsip 1.8\n" +
-                "Content-Length: 0\r\n";
-        try(PrintWriter out = new PrintWriter("src/main/resources/requests/bye.txt")){
-            out.flush();
-            out.println(ack1);
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Read the invite.txt file
-     *
-     * @return the bytes of the string in the file
-     */
-    public static byte[] getInvite() {
-        try {
-            String invite = Files.readString(Paths.get("src/main/resources/requests/invite.txt"), StandardCharsets.UTF_8);
-            return invite.getBytes();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Read the ack.txt file
-     *
-     * @return the bytes of the string in the file
-     */
-    public static byte[] getAck() {
-        try {
-            String ack = Files.readString(Paths.get("src/main/resources/requests/ack.txt"), StandardCharsets.UTF_8);
-            return ack.getBytes();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Read the bye.txt file
-     *
-     * @return the bytes of the string in the file
+     * Get the BYE Request after have set the Receiver Tag for uniquely identify
+     * the UserAgent b (Bob).
      */
     public static byte[] getBye() {
-        try {
-            String bye = Files.readString(Paths.get("src/main/resources/requests/bye.txt"), StandardCharsets.UTF_8);
-            return bye.getBytes();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
+        String bye = "BYE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
+                "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
+                "Max-Forwards: 70\n" +
+                "To: \"Bob\" <sip:bob@127.0.0.1:5080>;"+ receiverTag +"\n" +
+                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
+                "Call-ID: "+ callID +"\n" +
+                "CSeq: 2 BYE\n" +
+                "User-Agent: mjsip 1.8\n" +
+                "Content-Length: 0\r\n\n";
+        Session.saveRequestFile(bye, "bye");
+        return bye.getBytes();
     }
+
 }

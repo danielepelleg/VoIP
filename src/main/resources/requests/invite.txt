@@ -1,16 +1,16 @@
 INVITE sip:bob@127.0.0.1:5080 SIP/2.0
-Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK5c3663b7
+Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bKdxtj49lb
 Max-Forwards: 70
 To: "Bob" <sip:bob@127.0.0.1:5080>
-From: "Alice" <sip:alice@127.0.0.1:5070>;tag=691822153216
-Call-ID: 958219347383@127.0.0.1
+From: "Alice" <sip:alice@127.0.0.1:5070>;tag=379747903069
+Call-ID: 112036444021@127.0.0.1
 CSeq: 1 INVITE
 Contact: <sip:alice@127.0.0.1:5070>
 Expires: 3600
 User-Agent: mjsip 1.8
 Supported: 100rel,timer
 Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,INFO,PRACK,NOTIFY,MESSAGE,UPDATE
-Content-Length: 137
+Content-Length: 129
 Content-Type: application/sdp
 
 v=0
