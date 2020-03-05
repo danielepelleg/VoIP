@@ -39,3 +39,6 @@ hs_err_pid*
 # Maven
 log/
 target/
+!/src/main/resources/requests/bye.txt
+!/src/main/resources/requests/ack.txt
+!/src/main/resources/requests/invite.txt

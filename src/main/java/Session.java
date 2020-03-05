@@ -17,7 +17,7 @@ import java.util.List;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class Session {
+public abstract class Session {
     private static List<byte[]> requests = new ArrayList<>();
     private static List<byte[]> responses = new ArrayList<>();
     private static List<DatagramPacket> packets = new ArrayList<>();

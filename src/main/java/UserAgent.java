@@ -112,7 +112,8 @@ public class UserAgent{
             byte[] response = new byte[1024];
             DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
             socketIncoming.receive(received);
-            new Response(received).showMessage();
+            Response.setResponsePacket(received);
+            Response.showMessage();
             Session.addPacket(received);
             Session.addResponse(received.getData());
         }catch(IOException e){

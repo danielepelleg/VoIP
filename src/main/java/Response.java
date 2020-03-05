@@ -11,9 +11,9 @@ import java.util.Arrays;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class Response {
-    private DatagramPacket responsePacket;
-    private byte[] message;
+public abstract class Response {
+    private static DatagramPacket responsePacket;
+    private static byte[] message;
 
     /**
      * Class Constructor
@@ -31,8 +31,8 @@ public class Response {
      * It's basically a integer of 3 numbers that describes the result of a request
      * or an action performed by the client UserAgent.
      */
-    public void setMessage() {
-        this.message = Arrays.copyOfRange(this.responsePacket.getData(), 8, 11);
+    public static void setMessage() {
+        message = Arrays.copyOfRange(responsePacket.getData(), 8, 11);
     }
 
     /**
@@ -42,22 +42,22 @@ public class Response {
      * In this case the application have to listen on the incoming port of the DatagramSocket
      * for a new message from the other UserAgent, and then sets it as the new Response Packet.
      *
-     * @param responsePacket the new Response Packet to set
+     * @param response the new Response Packet to set
      */
-    public void setResponsePacket(DatagramPacket responsePacket) {
-        this.responsePacket = responsePacket;
+    public static void setResponsePacket(DatagramPacket response) {
+        responsePacket = response;
         setMessage();
     }
 
     public byte[] getMessage() {
-        return this.message;
+        return message;
     }
 
     /**
      * Show the client the message he has received from the server
      * and a few lines of a description. Send ACK if needed.
      */
-    public void showMessage() {
+    public static void showMessage() {
         // Initialize a counter to set a newResponse after an Information Message.
         int counter = 0;
 
@@ -67,7 +67,7 @@ public class Response {
         do {
             if (counter != 0)
                 setResponsePacket(UserAgent.listen());          // Set a new Response Packet
-            serverAnswer = new String(this.message);
+            serverAnswer = new String(message);
 
             if (serverAnswer.equals("100"))                     // 100 TRYING
                 System.out.println(serverAnswer + " TRYING");
@@ -77,13 +77,13 @@ public class Response {
 
             if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
                                                                 // and set it in Request Class
-                String receive = new String(this.responsePacket.getData());
+                String receive = new String(responsePacket.getData());
                 String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
                 Request.setReceiverTag(receiverTag);
             }
 
             if(serverAnswer.charAt(0) != '2')                   // Print the Information Messages
-                System.out.println(new String(this.responsePacket.getData()));
+                System.out.println(new String(responsePacket.getData()));
 
             counter++;
 
@@ -95,8 +95,8 @@ public class Response {
             // Success Responses
             case '2': //Receiving 200 OK
                 System.out.println(serverAnswer + " OK");
-                System.out.println(new String(this.responsePacket.getData()));
-                String sequence = new String(this.responsePacket.getData());
+                System.out.println(new String(responsePacket.getData()));
+                String sequence = new String(responsePacket.getData());
                 String cSequence = sequence.substring(sequence.indexOf("CSeq:") + 6,    // Takes the CSequence
                         (sequence.indexOf("CSeq:") + 11));
 
