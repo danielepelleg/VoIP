@@ -59,14 +59,13 @@ public abstract class Response {
      */
     public static void showMessage() {
         // Initialize a counter to set a newResponse after an Information Message.
-        int counter = 0;
+
 
         // String containing the Server Answer
         String serverAnswer;
 
         do {
-            if (counter != 0)
-                setResponsePacket(UserAgent.listen());          // Set a new Response Packet
+            setResponsePacket(UserAgent.listen());          // Set a new Response Packet
             serverAnswer = new String(message);
 
             if (serverAnswer.equals("100"))                     // 100 TRYING
@@ -85,7 +84,6 @@ public abstract class Response {
             if(serverAnswer.charAt(0) != '2')                   // Print the Information Messages
                 System.out.println(new String(responsePacket.getData()));
 
-            counter++;
 
         }while (serverAnswer.charAt(0) == '1') ;                // Informational Responses
 
@@ -105,6 +103,14 @@ public abstract class Response {
                     System.out.println(" ACK MESSAGE ");
                     System.out.println(new String(Request.getAck()));
                     System.out.println(" ACK SENT \n");
+
+
+                    /**
+                     * thread
+                     */
+                    AudioThread thread = new AudioThread();
+                    AudioThread.setActiveCall(true);//here set the active call for start the RTP flush
+                    new Thread(thread).start();
                 }
                 break;
 
