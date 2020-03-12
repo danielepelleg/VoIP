@@ -33,7 +33,7 @@ public class AudioThread implements Runnable {
 
     public static void sendAudio(byte[] request) {
         try {
-                DatagramPacket sendPacket = new DatagramPacket(request, request.length, UserAgent.getAddress(), destinationPort);
+                DatagramPacket sendPacket = new DatagramPacket(request, request.length, UserAgent.getAddress(), sourcePort);
                 socketOutgoing.send(sendPacket);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class AudioThread implements Runnable {
         byte[] response = new byte[172];
         byte[] toSend;
         try {
-            DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), sourcePort);
+            DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
             while (activeCall) {
                 socketIncoming.receive(received);
                 //System.out.println(new String(received.getData()));
