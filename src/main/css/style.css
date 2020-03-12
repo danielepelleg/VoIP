@@ -1,0 +1,46 @@
+#anchorMain, #anchorLogs {
+    -fx-background-color:  #f0f8ff;
+}
+
+#mainTab, #logsTab {
+    -fx-background-color: #e1f1f4;
+}
+
+.tab-header-background {
+    -fx-background-color: #226aa4;
+}
+
+#callButton {
+    -fx-background-color:  #3e904f;
+    -fx-text-fill:  #ffffff;
+}
+
+#hangUpButton {
+    -fx-background-color:   #AB4642;
+    -fx-text-fill:  #ffffff;
+}
+
+#audioButton, #stopButton {
+    -fx-background-color:   #f5f5f5;
+    -fx-border-color: #000000;
+    -fx-border-radius: 5;
+}
+
+#saveButton {
+    -fx-background-color: #79c;
+    -fx-text-fill: #ffffff;
+}
+
+#updateButton {
+    -fx-background-color: #cc5a4a;
+    -fx-text-fill: #ffffff;
+}
+
+#connectionLabel {
+    -fx-background-color:  #000000;
+    -fx-border-color:  #000000;
+}
+
+#receiverLabel {
+    -fx-border-color:  #000000;
+}
