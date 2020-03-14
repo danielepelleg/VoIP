@@ -1,8 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Session Class
@@ -55,7 +58,7 @@ public abstract class Session {
     }
 
     /**
-     * Add a Packet to the pakcets List
+     * Add a Packet to the packets List
      *
      * @param newPacket the packet to add
      */
@@ -88,5 +91,25 @@ public abstract class Session {
 
         // LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
         // new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
+    }
+
+    /**
+     * Transforms a DatagramPacket into a String
+     * @param datagramPacket The DatagramPacket as input
+     *
+     * @return The resulting String
+     */
+    public static String packetToString(DatagramPacket datagramPacket) {
+        byte[] buffer = new byte[1024];
+        buffer = datagramPacket.getData();
+        return new String(buffer, 0, datagramPacket.getLength());
+    }
+
+    /**
+     * Returns a String combining every packet in a List of DatagramPackets with a delimiter after each packet
+     * @return The resulting String
+     */
+    public static String combineMessageLogs() {
+        return packets.stream().map(Session::packetToString).collect(Collectors.joining("---- End of Message ----\r\n"));
     }
 }
