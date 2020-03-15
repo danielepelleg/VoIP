@@ -1,9 +1,9 @@
 INVITE sip:bob@127.0.0.1:5080 SIP/2.0
-Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK2yih3jyc
+Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bKkny2lgn9
 Max-Forwards: 70
 To: "Bob" <sip:bob@127.0.0.1:5080>
-From: "Alice" <sip:alice@127.0.0.1:5070>;tag=395692960024
-Call-ID: 081318165760@127.0.0.1
+From: "Alice" <sip:alice@127.0.0.1:5070>;tag=740518036211
+Call-ID: 724274579232@127.0.0.1
 CSeq: 1 INVITE
 Contact: <sip:alice@127.0.0.1:5070>
 Expires: 3600

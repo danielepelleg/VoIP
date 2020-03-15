@@ -1,13 +1,10 @@
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 
 /**
  * UserAgent Class
- * <p>
+ *
  * The UserAgent is the client of SIP (Session Initiation Protocol). The UA sends
  * Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
  * and receives Response objects through socketDestinationPort on port 5070, on the
@@ -85,25 +82,6 @@ public class UserAgent {
     }
 
     /**
-     * Send an Audio file in byte to the Server mjUA_1.8
-     */
-    public static void sendAudio() {
-        try {
-            File audioFile = new File("src/main/resources/audio/imperial_march.wav");
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(audioFile));
-            double nosofpackets = Math.ceil(((int) audioFile.length()) / 1024);
-            for (double i = 0; i < nosofpackets + 1; i++) {
-                byte[] mybytearray = new byte[1024];
-                bis.read(mybytearray, 0, mybytearray.length);
-                System.out.println("Packet:" + (i + 1));
-                send(mybytearray);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Receive a response in byte from the Server and print
      * the related message
      */
@@ -148,7 +126,6 @@ public class UserAgent {
         send(Request.getInvite());
         Response.showMessage();
 
-        //for (float i = 0; i < 100000; i++ ){}
         new Scanner(System.in).next();
 
         System.out.println(" BYE MESSAGE ");
