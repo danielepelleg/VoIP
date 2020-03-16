@@ -7,40 +7,11 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Random;
 
-<<<<<<< HEAD
 import org.zoolu.sound.codec.G711;
 import org.zoolu.sound.codec.g711.G711Encoding;
-
-=======
-/**
- * AudioThread Class
- *
- * The AudioThread class is instantiated once the Client send the first ACK, and the
- *  real time communication has been set. The class implements the Runnable interface
- *  because it is instantiated inside a thread. The class usually receives the packets
- *  from the UserAgent, edit some byte in the payload, and send it back to it.
- *
- * The RTP connection is set on localhost, on the port 4080 and 4070. On the first one,
- *  called source port, the UserAgent Bob receives the data, so the Client use it to send
- *  RTP packets; the second one, called destination port, is used by the Client to receive
- *  packets, so the UserAgent Bob use it to sends packets. The connection has also the
- *  DatagramSocket attributes, which are the channels used for the communication, and a
- *  boolean value activeCall, which is set as true once the RTP flow starts.
- *
- * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
- * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
- * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
- */
->>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
 public class AudioThread implements Runnable {
     private static int destinationPort = 4070;
     public static DatagramSocket socketIncoming = getSocketIncoming();
-<<<<<<< HEAD
-     //to handle the RTP session
-=======
-    public static Boolean activeCall = false;
->>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
-
     /**
      * Get the Datagram Socket Incoming used to receive data from the UserAgent.
      *
@@ -54,31 +25,6 @@ public class AudioThread implements Runnable {
         }
         return null;
     }
-
-    /**
-     * Set the call state, true if the call is Active,
-     *  false otherwise.
-     *
-     * @param state the state of the call
-     */
-
-<<<<<<< HEAD
-
-=======
-    /**
-     * Send audio in a byte request.
-     *
-     * @param audio the audio to send
-     */
-    public static void sendAudio(byte[] audio) {
-        try {
-            DatagramPacket sendPacket = new DatagramPacket(audio, audio.length, UserAgent.getAddress(), sourcePort);
-            socketOutgoing.send(sendPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
->>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
 
     /**
      * Send an Audio file in byte to the Server mjUA_1.8
@@ -98,41 +44,12 @@ public class AudioThread implements Runnable {
                 System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
                 rtpHeader.incrementSequence();
                 rtpHeader.incrementTimeStamp();
-                sendAudio(rtpMessage);
+                OutputAudio.sendAudio(rtpMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-<<<<<<< HEAD
-
-
-=======
-    /**
-     * Send a sinusoidal wave in a RTP packet. The sinusoid is generated mathematically, choosing a
-     *  starting frequency and taking the period. It is then zipped through a PCMU algorithm
-     *  to permit the UserAgent to correctly unzip it and reproduce its original sound.
-     */
-    private void sendSinusoidal() {
-        RTPHeader rtpHeader = new RTPHeader();
-        byte[] rtpBody = new byte[160];
-        byte [] rtpMessage = new byte[172];
-        float time = 0;
-        while (activeCall) {
-            for (int i = 0; i < 160; i++) {
-                double sinusoid = 256 * Math.sin(Math.toRadians(time));
-                time += 0.008;
-                rtpBody[i] = (byte) sinusoid;
-            }
-            System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
-            System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
-            rtpHeader.incrementSequence();
-            rtpHeader.incrementTimeStamp();
-            sendAudio(rtpMessage);
-        }
-    }
->>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
 
 
     /**
@@ -172,10 +89,6 @@ public class AudioThread implements Runnable {
 
     @Override
     public void run() {
-<<<<<<< HEAD
-        receiveAudio();
-=======
-        sendSinusoidal();
->>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
+          receiveAudio();
     }
 }
