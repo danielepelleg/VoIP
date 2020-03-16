@@ -39,15 +39,16 @@ public class RTPHeader {
 
         //fill changing header fields:
         Random random = new Random();
-        String sequence = "";
         String time = "";
+        /*
+        String sequence = "";
         for(int i = 0; i < 5; i++ ){
             sequence += random.nextInt(10);
-        }
+        }*/
         for(int i = 0; i < 9; i++ ){
             time += random.nextInt(10);
         }
-        SequenceNumber = Integer.parseInt(sequence);
+        SequenceNumber = 10000 + random.nextInt(89999);       // Integer.parseInt(sequence);
         TimeStamp = Integer.parseInt(time);
 
         //build the header bistream:

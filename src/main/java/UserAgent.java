@@ -81,6 +81,7 @@ public class UserAgent {
         }
     }
 
+
     /**
      * Receive a response in byte from the Server and print
      * the related message
@@ -130,9 +131,8 @@ public class UserAgent {
 
         System.out.println(" BYE MESSAGE ");
         System.out.println(new String(Request.getBye()));
-
         send(Request.getBye());
-        AudioThread.setActiveCall(false);
+        OutputAudio.setActiveCall(false);
         System.out.println(" BYE SENT "); //here set the active call for stop RTP
         Response.showMessage();
     }

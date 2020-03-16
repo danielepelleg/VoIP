@@ -21,7 +21,7 @@ public abstract class Response {
      * @param packet the packet received in response
      */
     public Response(DatagramPacket packet) {
-        this.responsePacket = packet;
+        responsePacket = packet;
         setMessage();
     }
 
@@ -108,7 +108,10 @@ public abstract class Response {
                      *  Start thread
                     */
                     AudioThread thread = new AudioThread();
-                    AudioThread.setActiveCall(true);            // set the active call true for start the RTP flush
+
+                    OutputAudio.setActiveCall(true);//here set the active call for start the RTP flush
+
+                    OutputAudio.setActiveCall(true);
                     new Thread(thread).start();
                 }
                 break;
