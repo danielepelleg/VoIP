@@ -23,9 +23,6 @@ public class RTPHeader {
     //Bitstream of the RTP payload
     public byte[] payload;
 
-    //--------------------------
-    //Constructor of an RTPpacket object from header fields and payload bitstream
-    //--------------------------
     /**
      * Class Constructor
      *

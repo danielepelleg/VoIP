@@ -56,6 +56,7 @@ public abstract class Session {
     }
 
     /**
+     * Add a Packet to the packets List
      *
      * @param newPacket the packet to add
      */
@@ -80,7 +81,32 @@ public abstract class Session {
      * Record the VoIP conversation's flow in a WireShark capture.
      */
     public void save(){
+        try (PrintWriter out = new PrintWriter("src/main/resources/requests/logs.txt")){
+            out.flush();
+            out.println(Session.logsMessage());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Transforms a DatagramPacket into a String
+     *
+     * @param datagramPacket The DatagramPacket as input
+     * @return The resulting String
+     */
+    public static String packetToString(DatagramPacket datagramPacket) {
+        byte[] buffer = new byte[1024];
+        buffer = datagramPacket.getData();
+        return new String(buffer, 0, datagramPacket.getLength());
+    }
 
+    /**
+     * Returns a String combining every packet in a List of DatagramPackets with a delimiter after each packet
+     *
+     * @return The resulting String
+     */
+    public static String logsMessage() {
+        return packets.stream().map(Session::packetToString).collect(Collectors.joining("---- End of Message ----\r\n"));
     }
 }
