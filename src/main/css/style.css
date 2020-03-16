@@ -20,7 +20,7 @@
     -fx-text-fill:  #ffffff;
 }
 
-#audioButton, #stopButton {
+#spoiledAudioButton, #stopButton, #sinusoidalAudioButton {
     -fx-background-color:   #f5f5f5;
     -fx-border-color: #000000;
     -fx-border-radius: 5;

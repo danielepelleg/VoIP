@@ -62,6 +62,51 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="audioTab" text="Audio">
+                <content>
+                    <AnchorPane fx:id="anchorMain" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <ImageView fx:id="audio" fitHeight="80.0" fitWidth="80.0" layoutX="205.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../resources/images/sound-control.png" />
+                                </image>
+                            </ImageView>
+                            <Label fx:id="receiverLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="111.0" prefHeight="23.0" prefWidth="123.0" stylesheets="@../../css/style.css" text="Audio Control">
+                                <padding>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                </padding>
+                            </Label>
+                            <Button fx:id="spoiledAudioButton" contentDisplay="TOP" layoutX="136.0" layoutY="152.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendSpoiledAudio" prefHeight="45.0" prefWidth="45.0" stylesheets="@../../css/style.css">
+                                <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/images/podcast.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        <Button fx:id="sinusoidalAudioButton" contentDisplay="TOP" layoutX="305.0" layoutY="152.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendSinusoidalAudio" prefHeight="45.0" prefWidth="45.0" stylesheets="@../../css/style.css">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/podcast.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                            <Button fx:id="stopButton" contentDisplay="TOP" layoutX="224.0" layoutY="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#stopAudio" prefHeight="45.0" prefWidth="45.0" stylesheets="@../../css/style.css">
+                                <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/images/stop.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
           <Tab fx:id="logsTab" text="Logs">
             <content>
               <AnchorPane fx:id="anchorLogs" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
