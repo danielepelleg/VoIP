@@ -23,23 +23,85 @@ public class AudioThread implements Runnable {
     }
 
     /**
-     * set if the program can start or when finish the session RTP
      *
      * @param state the state of the call
      */
 
+<<<<<<< HEAD
+
+=======
+    /**
+     * Send audio in a byte request.
+     *
+     * @param audio the audio to send
+     */
+    public static void sendAudio(byte[] audio) {
+        try {
+            DatagramPacket sendPacket = new DatagramPacket(audio, audio.length, UserAgent.getAddress(), sourcePort);
+            socketOutgoing.send(sendPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+>>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
+
+    /**
+     * Send an Audio file in byte to the Server mjUA_1.8
+     */
+    public static void sendFile() {
+        try {
+            RTPHeader rtpHeader = new RTPHeader();
+            byte [] rtpMessage = new byte[172];
+            byte[] rtpBody = new byte[160];
+            File audioFile = new File("src/main/resources/audio/imperial_march.wav");
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(audioFile));
+            double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);
+            for (double i = 0; i < nosofpackets + 1; i++) {
+                bis.read(rtpBody, 0, rtpBody.length);
+                //System.out.println("Packet:" + (i + 1));
+                System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
+                System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
+                rtpHeader.incrementSequence();
+                rtpHeader.incrementTimeStamp();
+                sendAudio(rtpMessage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+<<<<<<< HEAD
 
 
-
-
-
+=======
+    /**
+     * Send a sinusoidal wave in a RTP packet. The sinusoid is generated mathematically, choosing a
+     *  starting frequency and taking the period. It is then zipped through a PCMU algorithm
+     *  to permit the UserAgent to correctly unzip it and reproduce its original sound.
+     */
+    private void sendSinusoidal() {
+        RTPHeader rtpHeader = new RTPHeader();
+        byte[] rtpBody = new byte[160];
+        byte [] rtpMessage = new byte[172];
+        float time = 0;
+        while (activeCall) {
+            for (int i = 0; i < 160; i++) {
+                double sinusoid = 256 * Math.sin(Math.toRadians(time));
+                time += 0.008;
+                rtpBody[i] = (byte) sinusoid;
+            }
+            System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
+            System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
+            rtpHeader.incrementSequence();
+            rtpHeader.incrementTimeStamp();
+            sendAudio(rtpMessage);
+        }
+    }
+>>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
 
 
     /**
-     * Send a RTP dataragram packet for the audio to the Server mjUA 1.8
      *
-     * @param
-     * @return
      */
     public static void receiveAudio() {
         byte[] response = new byte[172];
@@ -48,7 +110,6 @@ public class AudioThread implements Runnable {
             DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
             while (OutputAudio.getActiveCall()) {
                 socketIncoming.receive(received);
-                //System.out.println(new String(received.getData()));
                 toSend = received.getData();
                 Random random = new Random();
                 for (int i = 1; i < 120; i++)
@@ -58,7 +119,6 @@ public class AudioThread implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // return response;
     }
 
     @Override

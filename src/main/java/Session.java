@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Session Class
@@ -55,7 +56,6 @@ public abstract class Session {
     }
 
     /**
-     * Add a Packet to the pakcets List
      *
      * @param newPacket the packet to add
      */
@@ -79,14 +79,8 @@ public abstract class Session {
     /**
      * Record the VoIP conversation's flow in a WireShark capture.
      */
-    // TODO Ask for advice for a sniffer on the loopback interface
     public void save(){
-        // code here
 
-        // -- libcap not working --
-        // -- DataLink link = new DataLink(); --
 
-        // LoopbackInterface loopback = new LoopbackInterface(new SocketAddress(new Ip4Address(address), port1));
-        // new LibpcapSniffer(loopback, LibpcapHeader.LINKTYPE_IPV4,"Johhny.pcap");
     }
 }

@@ -1,13 +1,9 @@
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 
 /**
  * UserAgent Class
- * <p>
  * The UserAgent is the client of SIP (Session Initiation Protocol). The UA sends
  * Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
  * and receives Response objects through socketDestinationPort on port 5070, on the
@@ -84,7 +80,10 @@ public class UserAgent {
         }
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
     /**
      * Receive a response in byte from the Server and print
      * the related message
@@ -130,7 +129,6 @@ public class UserAgent {
         send(Request.getInvite());
         Response.showMessage();
 
-        //for (float i = 0; i < 100000; i++ ){}
         new Scanner(System.in).next();
 
         System.out.println(" BYE MESSAGE ");

@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Random;
 
 public class RTPHeader {
@@ -27,6 +26,10 @@ public class RTPHeader {
     //--------------------------
     //Constructor of an RTPpacket object from header fields and payload bitstream
     //--------------------------
+    /**
+     * Class Constructor
+     *
+     */
     public RTPHeader(){
         //fill by default header fields:
         Version = 2;
@@ -76,9 +79,12 @@ public class RTPHeader {
         //payload = Arrays.copyOf(data, payload_size);
     }
 
-    //--------------------------
-    //Constructor of an RTPpacket object from the packet bistream
-    //--------------------------
+    /**
+     * Class Constructor
+     *
+     * @param packet packet bit-stream
+     * @param packet_size packet size
+     */
     public RTPHeader(byte[] packet, int packet_size)
     {
         //fill default fields:
@@ -111,20 +117,28 @@ public class RTPHeader {
         }
     }
 
-    public void incrementSequence(){
-        this.SequenceNumber++;
-    }
-
-    public void incrementTimeStamp(){
-        this.TimeStamp += 160;
-    }
-
     public byte[] getHeader() {
         return header;
     }
 
-    public void printHeader()
-    {
+    /**
+     * Increment the Sequence value by one unit.
+     */
+    public void incrementSequence(){
+        this.SequenceNumber++;
+    }
+
+    /**
+     * Increment the Timestamp value by 160 units.
+     */
+    public void incrementTimeStamp(){
+        this.TimeStamp += 160;
+    }
+
+    /**
+     * Print RTPPacket's information
+     */
+    public void printHeader() {
         System.out.print("[RTP-Header]\n");
         System.out.println("Version: " + Version
                 + ",\nPadding: " + Padding

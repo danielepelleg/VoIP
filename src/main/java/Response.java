@@ -104,12 +104,15 @@ public abstract class Response {
                     System.out.println(new String(Request.getAck()));
                     System.out.println(" ACK SENT \n");
 
-
                     /**
-                     * thread
-                     */
+                     *  Start thread
+                    */
                     AudioThread thread = new AudioThread();
+<<<<<<< HEAD
                     OutputAudio.setActiveCall(true);//here set the active call for start the RTP flush
+=======
+                    AudioThread.setActiveCall(true);            // set the active call true for start the RTP flush
+>>>>>>> c0336782d68f2a73b982922bf6b8d2b1fd12422c
                     new Thread(thread).start();
                 }
                 break;
