@@ -18,13 +18,12 @@ import java.io.IOException;
 public class Program extends Application {
 
     private static String UI = "Call/Application.fxml";
-    private static String STYLE_SHEET = "style.css";
+    // private static String STYLE_SHEET = "/style.css";
 
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(UI));
-        root.getStylesheets().add(getClass().getResource(STYLE_SHEET).toExternalForm());
+        //root.getStylesheets().add(getClass().getResource(STYLE_SHEET).toExternalForm());
         Scene frame = new Scene(root);
-        //frame.getStylesheets().add(getClass().getResource(STYLE_SHEET).toExternalForm());
         primaryStage.getIcons().add(new Image("/images/voip.png"));
         primaryStage.setResizable(false);
         primaryStage.setTitle("VoIP Application");
