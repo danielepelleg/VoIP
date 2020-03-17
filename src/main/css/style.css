@@ -1,15 +1,29 @@
-#anchorMain, #anchorLogs {
+/**
+    ANCHOR PAIN
+ */
+
+#anchorMain, #anchorLogs, #anchorAudio, #anchorSettings {
     -fx-background-color:  #f0f8ff;
 }
 
-#mainTab, #logsTab {
+/**
+    TABS
+ */
+#mainTab, #logsTab, #audioTab {
     -fx-background-color: #e1f1f4;
+}
+
+#settingsTab {
+    -fx-background-color: #dbd9dd;
 }
 
 .tab-header-background {
     -fx-background-color: #226aa4;
 }
 
+/**
+    BUTTONS
+ */
 #callButton {
     -fx-background-color:  #3e904f;
     -fx-text-fill:  #ffffff;
@@ -26,7 +40,7 @@
     -fx-border-radius: 5;
 }
 
-#saveButton {
+#saveLogsButton, #saveSettingsButton {
     -fx-background-color: #79c;
     -fx-text-fill: #ffffff;
 }
@@ -36,11 +50,15 @@
     -fx-text-fill: #ffffff;
 }
 
-#connectionLabel {
-    -fx-background-color:  #000000;
-    -fx-border-color:  #000000;
+/**
+    LABELS
+ */
+
+#audioControlLabel, #receiverLabel {
+    -fx-border-color: #000000;
 }
 
-#receiverLabel {
+#connectionLabel {
+    -fx-background-color:  #000000;
     -fx-border-color:  #000000;
 }

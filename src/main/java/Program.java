@@ -11,6 +11,7 @@ import java.io.IOException;
  * Main Class
  * Run the UI and open the Application ogin page.
  *
+ * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
