@@ -23,7 +23,7 @@
                      <children>
                         <ImageView fx:id="logo" fitHeight="80.0" fitWidth="80.0" layoutX="205.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/images/voip.png" />
+                              <Image url="@../../resources/images/voip.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="connectionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="152.0" prefHeight="23.0" prefWidth="190.0" stylesheets="@../../css/style.css" text="mjUA (http://www.mjsip.org)" textFill="#a3ff8e">
@@ -51,7 +51,7 @@
                         <children>
                             <ImageView fx:id="audio" fitHeight="80.0" fitWidth="80.0" layoutX="205.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@/images/sound-control.png" />
+                                    <Image url="@../../resources/images/sound-control.png" />
                                 </image>
                             </ImageView>
                             <Label fx:id="audioControlLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="197.0" layoutY="111.0" prefHeight="23.0" prefWidth="96.0" stylesheets="@../../css/style.css" text="Audio Control">
@@ -66,7 +66,7 @@
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/images/sound-waves3.png" />
+                                            <Image url="@../../resources/images/sound-waves3.png" />
                                         </image>
                                     </ImageView>
                                 </graphic>
@@ -75,7 +75,7 @@
                                 <graphic>
                                     <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/images/voice-record.png" />
+                                            <Image url="@../../resources/images/voice-record.png" />
                                         </image>
                                     </ImageView>
                                 </graphic>
@@ -84,7 +84,7 @@
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/images/stop.png" />
+                                            <Image url="@../../resources/images/stop.png" />
                                         </image>
                                     </ImageView>
                                 </graphic>
@@ -99,7 +99,7 @@
                      <children>
                         <ImageView fx:id="logsButton" fitHeight="50.0" fitWidth="50.0" layoutX="65.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/images/log.png" />
+                              <Image url="@../../resources/images/log.png" />
                            </image>
                         </ImageView>
                         <Label alignment="CENTER" layoutX="26.0" layoutY="99.0" prefHeight="24.0" prefWidth="126.0" text="Session Logs " textAlignment="CENTER">
@@ -131,7 +131,7 @@
                         <children>
                             <ImageView fx:id="settings" fitHeight="80.0" fitWidth="80.0" layoutX="374.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@/images/support.png" />
+                                    <Image url="@../../resources/images/support.png" />
                                 </image>
                             </ImageView>
                             <Label fx:id="ApplicationSettingsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="351.0" layoutY="101.0" prefHeight="23.0" prefWidth="125.0" stylesheets="@../../css/style.css" text="Application Settings">

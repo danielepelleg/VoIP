@@ -1,9 +1,9 @@
 ACK sip:bob@127.0.0.1:5080 SIP/2.0
-Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bK45hhxh9t
+Via: SIP/2.0/UDP 127.0.0.1:5070;branch=z9hG4bKmdwc0x0a
 Max-Forwards: 70
-To: "Bob" <sip:bob@127.0.0.1:5080>;tag=cdede6247b88ce90
-From: "Alice" <sip:alice@127.0.0.1:5070>;tag=184076782639
-Call-ID: 151228519995@127.0.0.1
+To: "Bob" <sip:bob@127.0.0.1:5080>;tag=6e3eb51691342808
+From: "Alice" <sip:alice@127.0.0.1:5070>;tag=400503107585
+Call-ID: 587473621282@127.0.0.1
 CSeq: 1 ACK
 Contact: <sip:alice@127.0.0.1:5070>
 Expires: 3600

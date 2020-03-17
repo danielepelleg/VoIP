@@ -22,9 +22,13 @@ public abstract class Session {
     private static List<byte[]> requests = new ArrayList<>();
     private static List<byte[]> responses = new ArrayList<>();
     private static List<DatagramPacket> packets = new ArrayList<>();
+    private static boolean active = false;
 
-    public Session(){}
-
+    /**
+     * Get methods for the lists
+     *
+     * @return the list
+     */
     public static List<byte[]> getRequests() {
         return requests;
     }
@@ -35,6 +39,25 @@ public abstract class Session {
 
     public static List<DatagramPacket> getPackets() {
         return packets;
+    }
+
+    /**
+     * Set the value of the boolean attribute active,
+     *  true if the UserAgent as received a 200OK after the Invite and sent the ACK,
+     *  and so the session is active, false otherwise.
+     */
+    public static void setActive(boolean value) {
+        Session.active = value;
+    }
+
+    /**
+     * Get method of the boolean value active, if true the session is active,
+     *  if false the session is not active.
+     *
+     * @return active
+     */
+    public static boolean isActive() {
+        return active;
     }
 
     /**

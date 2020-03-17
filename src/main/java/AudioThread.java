@@ -37,39 +37,6 @@ public class AudioThread implements Runnable {
         return null;
     }
 
-    /**
-     * Send an Audio file in byte to the Server mjUA_1.8
-     */
-    public static void sendFile() {
-        try {
-            RTPHeader rtpHeader = new RTPHeader();
-            byte [] rtpMessage = new byte[172];
-            byte[] rtpBody = new byte[160];
-            int bytesRead = 0;
-            File audioFile = new File("src/main/resources/audio/imperial_march.wav");
-
-            AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
-            double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);
-            AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, false);
-
-            double sleepTime = (160/audioFormat.getSampleRate());
-            long sleepTimeMillis= (long)(sleepTime*1000);
-            int sleepTimeNanos = (int)((sleepTime*1000-sleepTimeMillis)*1000000);
-
-
-            while ((bytesRead = ais.read(rtpBody, 0, rtpBody.length))!= -1) {
-                //System.out.println("Packet:" + (i + 1));
-                System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
-                System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
-                rtpHeader.incrementSequence();
-                rtpHeader.incrementTimeStamp();
-                OutputAudio.sendAudio(rtpMessage);
-                Thread.sleep(sleepTimeMillis,sleepTimeNanos);
-            }
-        } catch (IOException | UnsupportedAudioFileException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Receive RTP datagram packet. An RTP Datagram Packet is made of a 12byte RTP Header and

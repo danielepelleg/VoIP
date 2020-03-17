@@ -132,7 +132,7 @@ public class UserAgent {
         System.out.println(" BYE MESSAGE ");
         System.out.println(new String(Request.getBye()));
         send(Request.getBye());
-        OutputAudio.setActiveCall(false);
+        OutputAudio.setSendingAudio(false);
         System.out.println(" BYE SENT "); //here set the active call for stop RTP
         Response.showMessage();
     }
