@@ -12,32 +12,57 @@ import java.util.Random;
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
 public abstract class Request {
-    private static String callID = generateCallID();
-    private static String senderTag = generateSenderTag();
+    private static String CALL_ID = generateCallID();
+    private static String SENDER_NAME = "Alice";
+    private static String SENDER_TAG = generateSenderTag();
     private static String receiverTag;
 
     /**
      * Generates a random CallID
      */
     public static String generateCallID() {
-        Random random = new Random();
-        String identifier = "";
-        for(int i = 0; i < 12; i++ ){
-            identifier += random.nextInt(10);
+        if (CALL_ID != null)
+            return CALL_ID;
+        else {
+            Random random = new Random();
+            String identifier = "";
+            for (int i = 0; i < 12; i++) {
+                identifier += random.nextInt(10);
+            }
+            return identifier + "@127.0.0.1";
         }
-        return identifier + "@127.0.0.1";
+    }
+
+    /**
+     * Capitalize the first letter of the value
+     * and set the new Sender Name
+     *
+     * @param newValue the new sender name
+     */
+    public static void setSenderName(String newValue){
+        String firstChar = newValue.charAt(0)+"";
+        String otherChar = "";
+        for (int index = 1; index < newValue.length(); index++){
+            otherChar += newValue.charAt(index);
+        }
+        otherChar = otherChar.toLowerCase();
+        SENDER_NAME = firstChar + otherChar;
     }
 
     /**
      * Generates a random Sender Tag
      */
     public static String generateSenderTag() {
-        Random random = new Random();
-        String identifier = "tag=";
-        for(int i = 0; i < 12; i++ ){
-            identifier += random.nextInt(10);
+        if (SENDER_TAG != null)
+            return  SENDER_TAG;
+        else {
+            Random random = new Random();
+            String identifier = "tag=";
+            for (int i = 0; i < 12; i++) {
+                identifier += random.nextInt(10);
+            }
+            return identifier;
         }
-        return identifier;
     }
 
     /**
@@ -75,10 +100,10 @@ public abstract class Request {
                 "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
                 "Max-Forwards: 70\n" +
                 "To: \"Bob\" <sip:bob@127.0.0.1:5080>\n" +
-                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
-                "Call-ID: "+ callID +"\n" +
+                "From: \""+ SENDER_NAME +"\" <sip:" + SENDER_NAME.toLowerCase() +"@127.0.0.1:5070>;"+ SENDER_TAG +"\n" +
+                "Call-ID: "+ CALL_ID +"\n" +
                 "CSeq: 1 INVITE\n" +
-                "Contact: <sip:alice@127.0.0.1:5070>\n" +
+                "Contact: <sip:" + SENDER_NAME.toLowerCase() + "@127.0.0.1:5070>\n" +
                 "Expires: 3600\n" +
                 "User-Agent: mjsip 1.8\n" +
                 "Supported: 100rel,timer\n" +
@@ -107,10 +132,10 @@ public abstract class Request {
                 "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
                 "Max-Forwards: 70\n" +
                 "To: \"Bob\" <sip:bob@127.0.0.1:5080>;"+ receiverTag +"\n" +
-                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
-                "Call-ID: "+ callID +"\n" +
+                "From: \"" + SENDER_NAME +"\" <sip:"+ SENDER_NAME.toLowerCase() + "@127.0.0.1:5070>;"+ SENDER_TAG +"\n" +
+                "Call-ID: "+ CALL_ID +"\n" +
                 "CSeq: 1 ACK\n" +
-                "Contact: <sip:alice@127.0.0.1:5070>\n" +
+                "Contact: <sip:"+ SENDER_NAME.toLowerCase() + "@127.0.0.1:5070>\n" +
                 "Expires: 3600\n" +
                 "User-Agent: mjsip 1.8\n" +
                 "Content-Length: 0\r\n\n";
@@ -127,8 +152,8 @@ public abstract class Request {
                 "Via: SIP/2.0/UDP 127.0.0.1:5070;"+ generateBranch() +"\n" +
                 "Max-Forwards: 70\n" +
                 "To: \"Bob\" <sip:bob@127.0.0.1:5080>;"+ receiverTag +"\n" +
-                "From: \"Alice\" <sip:alice@127.0.0.1:5070>;"+ senderTag +"\n" +
-                "Call-ID: "+ callID +"\n" +
+                "From: \"" + SENDER_NAME + "\" <sip:" + SENDER_NAME.toLowerCase() + "@127.0.0.1:5070>;"+ SENDER_TAG +"\n" +
+                "Call-ID: "+ CALL_ID +"\n" +
                 "CSeq: 2 BYE\n" +
                 "User-Agent: mjsip 1.8\n" +
                 "Content-Length: 0\r\n\n";
