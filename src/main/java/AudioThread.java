@@ -1,17 +1,28 @@
-import java.io.BufferedInputStream;
+import javax.sound.sampled.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Random;
 
-import org.zoolu.sound.codec.G711;
-import org.zoolu.sound.codec.g711.G711Encoding;
+/**
+ * AudioThread Class
+ *
+ * This class implements runnable because it must be instantiated inside a thread.
+ *  Once the connection is set, the mjUA Bob sends RTP Packets to the UseraAgent on port
+ *  4070, as specified in the invite request. Then, the UA edits some of its byte
+ *  with random values and send it back to the original sender. These two actions
+ *  are done simultaneously, that's why it needs to be used in a thread.
+ *
+ * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
+ * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
+ * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
+ */
 public class AudioThread implements Runnable {
     private static int destinationPort = 4070;
     public static DatagramSocket socketIncoming = getSocketIncoming();
+
     /**
      * Get the Datagram Socket Incoming used to receive data from the UserAgent.
      *
@@ -34,23 +45,31 @@ public class AudioThread implements Runnable {
             RTPHeader rtpHeader = new RTPHeader();
             byte [] rtpMessage = new byte[172];
             byte[] rtpBody = new byte[160];
+            int bytesRead = 0;
             File audioFile = new File("src/main/resources/audio/imperial_march.wav");
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(audioFile));
+
+            AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
             double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);
-            for (double i = 0; i < nosofpackets + 1; i++) {
-                bis.read(rtpBody, 0, rtpBody.length);
+            AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, false);
+
+            double sleepTime = (160/audioFormat.getSampleRate());
+            long sleepTimeMillis= (long)(sleepTime*1000);
+            int sleepTimeNanos = (int)((sleepTime*1000-sleepTimeMillis)*1000000);
+
+
+            while ((bytesRead = ais.read(rtpBody, 0, rtpBody.length))!= -1) {
                 //System.out.println("Packet:" + (i + 1));
                 System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
                 System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);
                 rtpHeader.incrementSequence();
                 rtpHeader.incrementTimeStamp();
                 OutputAudio.sendAudio(rtpMessage);
+                Thread.sleep(sleepTimeMillis,sleepTimeNanos);
             }
-        } catch (IOException e) {
+        } catch (IOException | UnsupportedAudioFileException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Receive RTP datagram packet. An RTP Datagram Packet is made of a 12byte RTP Header and
@@ -67,14 +86,13 @@ public class AudioThread implements Runnable {
      *  disturbed sound, like a distorted rumor.
      *
      *  These compression's algorithms reduce the dynamic range of an audio signal.
-     *
      */
     public static void receiveAudio() {
         byte[] response = new byte[172];
         byte[] toSend;
         try {
             DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
-            while (OutputAudio.getActiveCall()) {
+            while (OutputAudio.isSendingAudio()) {
                 socketIncoming.receive(received);
                 toSend = received.getData();
                 Random random = new Random();
