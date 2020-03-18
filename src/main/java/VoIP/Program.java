@@ -1,3 +1,5 @@
+package VoIP;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,8 +10,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Main Class
- * Run the UI and open the Application ogin page.
+ * VoIP.Main Class
+ * Run the UI and open the Application page.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
@@ -17,7 +19,7 @@ import java.io.IOException;
  */
 public class Program extends Application {
 
-    private static String UI = "Call/Application.fxml";
+    private static String UI = "../Call/Application.fxml";
     // private static String STYLE_SHEET = "/style.css";
 
     public void start(Stage primaryStage) throws IOException {

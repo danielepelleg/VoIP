@@ -1,3 +1,7 @@
+package Audio;
+
+import VoIP.UserAgent;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -5,7 +9,7 @@ import java.net.SocketException;
 import java.util.Random;
 
 /**
- * AudioThread Class
+ * Audio.AudioThread Class
  *
  * This class implements runnable because it must be instantiated inside a thread.
  *  Once the connection is set, the mjUA Bob sends RTP Packets to the UseraAgent on port
@@ -22,7 +26,7 @@ public class AudioThread implements Runnable {
     public static DatagramSocket socketIncoming = getSocketIncoming();
 
     /**
-     * Get the Datagram Socket Incoming used to receive data from the UserAgent.
+     * Get the Datagram Socket Incoming used to receive data from the VoIP.UserAgent.
      *
      * @return the Datagram Socket
      */
@@ -47,7 +51,7 @@ public class AudioThread implements Runnable {
      *  usually send 20ms of audio in every packet, so -> # BYTE = 8000*20ms = 8000*20/1000 = 160 byte in every packet.
      *
      *  Once the packet has been received, take the payload and edit (randomly) the byte array, by replacing every
-     *  number in an array randomly. Sending it back, the UserAgent plays the audio in the packet, which will be a
+     *  number in an array randomly. Sending it back, the VoIP.UserAgent plays the audio in the packet, which will be a
      *  disturbed sound, like a distorted rumor.
      *
      *  These compression's algorithms reduce the dynamic range of an audio signal.

@@ -1,11 +1,13 @@
+package VoIP;
+
 import java.util.Random;
 
 /**
- * Request Class
+ * VoIP.Request Class
  * Store the request type of SIP Client.
- * - INVITE Request
- * - ACK Request
- * - BYE Request
+ * - INVITE VoIP.Request
+ * - ACK VoIP.Request
+ * - BYE VoIP.Request
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
@@ -16,6 +18,14 @@ public abstract class Request {
     private static String SENDER_NAME = "Alice";
     private static String SENDER_TAG = generateSenderTag();
     private static String receiverTag;
+
+    public static String getCallId(){
+        return CALL_ID;
+    }
+
+    public static String getReceiverTag() {
+        return receiverTag;
+    }
 
     /**
      * Generates a random CallID
@@ -83,7 +93,7 @@ public abstract class Request {
 
     /**
      * Set the receiverTag attribute after have received it from Bob
-     *  in the 200 OK Response.
+     *  in the 200 OK VoIP.Response.
      *
      * @param tag the receiver tag
      */
@@ -92,7 +102,7 @@ public abstract class Request {
     }
 
     /**
-     * Get the Invite Request once have set the callID, the senderTag and a
+     * Get the Invite VoIP.Request once have set the callID, the senderTag and a
      *  pseudo-random generated branch
      */
     public static byte[] getInvite() {
@@ -124,8 +134,8 @@ public abstract class Request {
     }
 
     /**
-     * Get the ACK Request after have set the Receiver Tag for uniquely identify
-     * the UserAgent b (Bob).
+     * Get the ACK VoIP.Request after have set the Receiver Tag for uniquely identify
+     * the VoIP.UserAgent b (Bob).
      */
     public static byte[] getAck(){
         String ack = "ACK sip:bob@127.0.0.1:5080 SIP/2.0\n" +
@@ -144,8 +154,8 @@ public abstract class Request {
     }
 
     /**
-     * Get the BYE Request after have set the Receiver Tag for uniquely identify
-     * the UserAgent b (Bob).
+     * Get the BYE VoIP.Request after have set the Receiver Tag for uniquely identify
+     * the VoIP.UserAgent b (Bob).
      */
     public static byte[] getBye() {
         String bye = "BYE sip:bob@127.0.0.1:5080 SIP/2.0\n" +

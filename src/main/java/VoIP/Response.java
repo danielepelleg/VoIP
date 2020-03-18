@@ -1,8 +1,13 @@
+package VoIP;
+
+import Audio.AudioSinusoidalThread;
+import Audio.OutputAudio;
+
 import java.net.DatagramPacket;
 import java.util.Arrays;
 
 /**
- * Response Class
+ * VoIP.Response Class
  * Store the response of SIP Server -> mjUA_1.8
  * The class has 2 attribute, the responsePacket, which is a DatagramPacket, and
  * a message, a byte created from the index 8 to 11 of the DatagramPacket Incoming.
@@ -29,20 +34,20 @@ public abstract class Response {
      * Set the Message from the incoming Packet.
      * The message consists in the bytes of the packet from the 8th to the 11th index.
      * It's basically a integer of 3 numbers that describes the result of a request
-     * or an action performed by the client UserAgent.
+     * or an action performed by the client VoIP.UserAgent.
      */
     public static void setMessage() {
         message = Arrays.copyOfRange(responsePacket.getData(), 8, 11);
     }
 
     /**
-     * Set the new Response packet. This method is used when the system receives
+     * Set the new VoIP.Response packet. This method is used when the system receives
      * some information responses or messages, such as "100 TRYING".
      *
      * In this case the application have to listen on the incoming port of the DatagramSocket
-     * for a new message from the other UserAgent, and then sets it as the new Response Packet.
+     * for a new message from the other VoIP.UserAgent, and then sets it as the new VoIP.Response Packet.
      *
-     * @param response the new Response Packet to set
+     * @param response the new VoIP.Response Packet to set
      */
     public static void setResponsePacket(DatagramPacket response) {
         responsePacket = response;
@@ -65,7 +70,7 @@ public abstract class Response {
         String serverAnswer;
 
         do {
-            setResponsePacket(UserAgent.listen());          // Set a new Response Packet
+            setResponsePacket(UserAgent.listen());          // Set a new VoIP.Response Packet
             serverAnswer = new String(message);
 
             if (serverAnswer.equals("100"))                     // 100 TRYING
@@ -75,7 +80,7 @@ public abstract class Response {
                 System.out.println(serverAnswer + " RINGING");
 
             if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
-                                                                // and set it in Request Class
+                                                                // and set it in VoIP.Request Class
                 String receive = new String(responsePacket.getData());
                 String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
                 Request.setReceiverTag(receiverTag);
@@ -98,8 +103,8 @@ public abstract class Response {
                 String cSequence = sequence.substring(sequence.indexOf("CSeq:") + 6,    // Takes the CSequence
                         (sequence.indexOf("CSeq:") + 11));
 
-                if (!cSequence.equals("2 BYE")) {               // Check the Sequence of the Response, if is not a
-                    UserAgent.send(Request.getAck());           // response of a BYE Request Send ACK
+                if (!cSequence.equals("2 BYE")) {               // Check the Sequence of the VoIP.Response, if is not a
+                    UserAgent.send(Request.getAck());           // response of a BYE VoIP.Request Send ACK
                     System.out.println(" ACK MESSAGE ");
                     System.out.println(new String(Request.getAck()));
                     System.out.println(" ACK SENT \n");
@@ -118,8 +123,8 @@ public abstract class Response {
             case '3':
                 break;
 
-            // Request Failures
-            case '4': //Response 4XX
+            // VoIP.Request Failures
+            case '4': //VoIP.Response 4XX
 
                 switch (serverAnswer.charAt(1)) {
                     case '0':
@@ -140,12 +145,12 @@ public abstract class Response {
                                 break;
 
                             case '4':   // 404 The server has definitive information that
-                                        // the user does not exist at the domain specified in the Request-URI.
+                                        // the user does not exist at the domain specified in the VoIP.Request-URI.
                                 System.out.println(serverAnswer + " NOT FOUND");
                                 break;
 
-                            case '5':   // 405 The method specified in the Request-Line is understood,
-                                        // but not allowed for the address identified by the Request-URI.
+                            case '5':   // 405 The method specified in the VoIP.Request-Line is understood,
+                                        // but not allowed for the address identified by the VoIP.Request-URI.
                                 System.out.println(serverAnswer + " METHOD NON ALLOWED");
                                 break;
 
@@ -170,7 +175,7 @@ public abstract class Response {
                                 System.out.println(serverAnswer + " GONE");
                                 break;
 
-                            case '5':   // 415 Request body in a format not supported.
+                            case '5':   // 415 VoIP.Request body in a format not supported.
                                 System.out.println(serverAnswer + " UNSUPPORTED MEDIA TYPE");
                                 break;
 
@@ -204,12 +209,12 @@ public abstract class Response {
                                 System.out.println(serverAnswer + " BUSY HERE");
                                 break;
 
-                            case '7':   // 487 Request has terminated by bye or cancel.
+                            case '7':   // 487 VoIP.Request has terminated by bye or cancel.
                                 System.out.println(serverAnswer + " REQUEST TERMINATED");
                                 break;
 
                             case '8':   // 488 Some aspect of the session description
-                                        // or the Request-URI is not acceptable
+                                        // or the VoIP.Request-URI is not acceptable
                                 System.out.println(serverAnswer + " NOT ACCEPTABLE HERE");
                                 break;
 

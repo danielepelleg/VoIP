@@ -1,13 +1,17 @@
+package VoIP;
+
+import Audio.OutputAudio;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 
 /**
- * UserAgent Class
+ * VoIP.UserAgent Class
  *
- * The UserAgent is the client of SIP (Session Initiation Protocol). The UA sends
- * Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
- * and receives Response objects through socketDestinationPort on port 5070, on the
+ * The VoIP.UserAgent is the client of SIP (VoIP.Session Initiation Protocol). The UA sends
+ * VoIP.Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
+ * and receives VoIP.Response objects through socketDestinationPort on port 5070, on the
  * loopback address.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
@@ -41,7 +45,7 @@ public class UserAgent {
 
     /**
      * Set the Sockets Port for Outgoing stream.
-     * Outgoing Socket is used to receive byte Response
+     * Outgoing Socket is used to receive byte VoIP.Response
      */
     public static DatagramSocket getSocketOutgoing() {
         try {
@@ -54,7 +58,7 @@ public class UserAgent {
 
     /**
      * Set the Sockets Port for Incoming stream.
-     * Incoming Socket is used to send byte Request
+     * Incoming Socket is used to send byte VoIP.Request
      */
     public static DatagramSocket getSocketIncoming() {
         try {
@@ -118,7 +122,7 @@ public class UserAgent {
     }
 
     /**
-     * Make a VoIP to the UserAgent Bob mjUA listening on port 5080
+     * Make a VoIP to the VoIP.UserAgent Bob mjUA listening on port 5080
      */
     public static void run() {
         System.out.println(" INVITE MESSAGE ");

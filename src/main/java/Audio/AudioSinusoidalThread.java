@@ -1,7 +1,10 @@
+package Audio;
+
+import VoIP.RTPPacket;
 import org.zoolu.sound.codec.G711;
 
 /**
- * AudioSinusoidalThread Class
+ * Audio.AudioSinusoidalThread Class
  *
  * This class implements runnable because it must be instantiated inside a thread.
  *  Once the connection is set, and the sendSinusoidal method is called, the class
