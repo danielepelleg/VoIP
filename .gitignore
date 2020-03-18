@@ -39,14 +39,9 @@ hs_err_pid*
 # Maven
 log/
 target/
-!/src/main/resources/requests/bye.txt
-!/src/main/resources/requests/ack.txt
-!/src/main/resources/requests/invite.txt
 
-src/main/resources/requests/ack.txt
+/src/main/resources/requests/ack.txt
+/src/main/resources/requests/bye.txt
+/src/main/resources/requests/invite.txt
+/src/main/resources/requests/logs.txt
 
-src/main/resources/requests/bye.txt
-
-src/main/resources/requests/invite.txt
-
-src/main/java/Call/Logs.fxml
