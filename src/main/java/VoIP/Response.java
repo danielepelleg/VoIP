@@ -111,10 +111,13 @@ public abstract class Response {
 
                     /**
                      *  Start thread
+                    */
+                    AudioThread thread = new AudioThread();
+
+                    OutputAudio.setActiveCall(true);//here set the active call for start the RTP flush
                     AudioSinusoidalThread thread = new AudioSinusoidalThread();
                     OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
                     new Thread(thread).start();
-                     */
                 }
                 break;
 
@@ -296,4 +299,3 @@ public abstract class Response {
         }
     }
 }
-
