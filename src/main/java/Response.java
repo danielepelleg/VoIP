@@ -110,8 +110,6 @@ public abstract class Response {
                     AudioThread thread = new AudioThread();
 
                     OutputAudio.setActiveCall(true);//here set the active call for start the RTP flush
-
-                    OutputAudio.setActiveCall(true);
                     new Thread(thread).start();
                 }
                 break;
