@@ -1,7 +1,12 @@
 package Call;
 
+import Audio.OutputAudio;
+import VoIP.Request;
+
+import VoIP.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -10,7 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class ApplicationController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ApplicationController implements Initializable {
 
     @FXML
     private TabPane tabPane;
@@ -90,6 +98,19 @@ public class ApplicationController {
     @FXML
     private Button saveSettingsButton;
 
+    /**
+     * Initialize the page
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb){
+        String callID = "";
+        for(int index = 0; index < 12; index++){
+            callID += Request.getCallId().charAt(index);
+        }
+        call_idLabel.setText(callID);
+        receiverTagLabel.setText(Request.getReceiverTag());
+    }
+
     @FXML
     void call(ActionEvent event) {
 
@@ -97,16 +118,6 @@ public class ApplicationController {
 
     @FXML
     void hangUp(ActionEvent event) {
-
-    }
-
-    @FXML
-    void saveLogs(ActionEvent event) {
-
-    }
-
-    @FXML
-    void saveSettings(ActionEvent event) {
 
     }
 
@@ -120,9 +131,24 @@ public class ApplicationController {
 
     }
 
+    /**
+     * Stop sending audio
+     *
+     * @param event press on Stop button
+     */
     @FXML
     void stopAudio(ActionEvent event) {
+        OutputAudio.setSendingAudio(false);
+    }
 
+    /**
+     * Save logs on a external file in resources/requests/logs.txt              //  LOGS TAB
+     *
+     * @param event presso on Save button
+     */
+    @FXML
+    void saveLogs(ActionEvent event) {
+        Session.save();
     }
 
     @FXML
@@ -130,4 +156,16 @@ public class ApplicationController {
 
     }
 
+    /**
+     * Save the new settings of the UserAgent                                   // SETTINGS TAB
+     *
+     * @param event press on Save button
+     */
+    @FXML
+    void saveSettings(ActionEvent event) {
+        String newName = userNameLabel.getText();
+        if(!Session.isActive() && !newName.equals("")) {
+            Request.setSenderName(newName);
+        }
+    }
 }
