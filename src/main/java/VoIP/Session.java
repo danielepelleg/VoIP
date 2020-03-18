@@ -1,3 +1,5 @@
+package VoIP;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
@@ -6,10 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Session Class
+ * VoIP.Session Class
  *
- * The Session class stores the logs (information) about the VoIP conversation
- *  between the UserAgent (SIP Client) and mjUA_1.8 (SIP Server).
+ * The VoIP.Session class stores the logs (information) about the VoIP conversation
+ *  between the VoIP.UserAgent (SIP Client) and mjUA_1.8 (SIP Server).
  *  It stores the requests sent by the client, the responses sent and received from
  *  the server and the datagram Packets sent through the socket connection.
  *  It has a method to record the conversation in a WireShark capture.
@@ -22,9 +24,13 @@ public abstract class Session {
     private static List<byte[]> requests = new ArrayList<>();
     private static List<byte[]> responses = new ArrayList<>();
     private static List<DatagramPacket> packets = new ArrayList<>();
+    private static boolean active = false;
 
-    public Session(){}
-
+    /**
+     * Get methods for the lists
+     *
+     * @return the list
+     */
     public static List<byte[]> getRequests() {
         return requests;
     }
@@ -38,7 +44,26 @@ public abstract class Session {
     }
 
     /**
-     * Add a Request to the requests List
+     * Set the value of the boolean attribute active,
+     *  true if the VoIP.UserAgent as received a 200OK after the Invite and sent the ACK,
+     *  and so the session is active, false otherwise.
+     */
+    public static void setActive(boolean value) {
+        Session.active = value;
+    }
+
+    /**
+     * Get method of the boolean value active, if true the session is active,
+     *  if false the session is not active.
+     *
+     * @return active
+     */
+    public static boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Add a VoIP.Request to the requests List
      *
      * @param newRequest the request to add
      */
@@ -47,7 +72,7 @@ public abstract class Session {
     }
 
     /**
-     * Add a Response to the responses List
+     * Add a VoIP.Response to the responses List
      *
      * @param newResponse the response to add
      */
@@ -80,7 +105,7 @@ public abstract class Session {
     /**
      * Record the VoIP conversation's flow in a WireShark capture.
      */
-    public void save(){
+    public static void save(){
         try (PrintWriter out = new PrintWriter("src/main/resources/requests/logs.txt")){
             out.flush();
             out.println(Session.logsMessage());

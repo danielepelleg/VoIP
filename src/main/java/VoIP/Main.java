@@ -1,6 +1,8 @@
+package VoIP;
+
 /**
- * Main Class
- * Run a UserAgent to make a VoIP call.
+ * VoIP.Main Class
+ * Run a VoIP.UserAgent to make a VoIP call.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140

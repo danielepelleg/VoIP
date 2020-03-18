@@ -1,6 +1,15 @@
+package VoIP;
+
 import java.util.Random;
 
-public class RTPHeader {
+/**
+ * VoIP.RTPPacket Class
+ *
+ * Build RTP Packet objects to send over RTP connection, build a 12byte header with the information
+ *  to be elaborated by the mjUA. If an audio file needs to be send in more RTP Packets, increment
+ *  the Sequence Number in every packet by 1 unit, and the TimeStamp by 160 units.
+ */
+public class RTPPacket {
     //size of the RTP header:
     static int HEADER_SIZE = 12;
 
@@ -24,37 +33,37 @@ public class RTPHeader {
     public byte[] payload;
 
     /**
-     * Class Constructor
+     * Class Default Constructor
      *
      */
-    public RTPHeader(){
-        //fill by default header fields:
+    public RTPPacket(){
+        // fill by default header fields:
         Version = 2;
         Padding = 0;
         Extension = 0;
         CC = 0;
         Marker = 0;
-        Ssrc = 0;    // Identifies the server
+        Ssrc = 0;                       // Identifies the server
         PayloadType = 0;
 
-        //fill changing header fields:
+        // fill changing header fields:
         Random random = new Random();
         String time = "";
-        /*
-        String sequence = "";
-        for(int i = 0; i < 5; i++ ){
-            sequence += random.nextInt(10);
-        }*/
+
+        // randomly generate the initial value of TimeStamp
         for(int i = 0; i < 9; i++ ){
             time += random.nextInt(10);
         }
-        SequenceNumber = 10000 + random.nextInt(89999);       // Integer.parseInt(sequence);
+        // set the TimeStamp
         TimeStamp = Integer.parseInt(time);
 
-        //build the header bistream:
+        // assign a random value to Sequence Number
+        SequenceNumber = 10000 + random.nextInt(89999);
+
+        // build the header bistream:
         header = new byte[HEADER_SIZE];
 
-        //fill the header array of byte with RTP header fields
+        // fill the header array of byte with RTP header fields
         header[0] = (byte)(Version << 6 | Padding << 5 | Extension << 4 | CC);
         header[1] = (byte)(Marker << 7 | PayloadType & 0x000000FF);
         header[2] = (byte)(SequenceNumber >> 8);
@@ -68,23 +77,19 @@ public class RTPHeader {
         header[10] = (byte)(Ssrc >> 8);
         header[11] = (byte)(Ssrc & 0xFF);
 
-        //fill the payload bitstream:
         payload_size = 160;
-        //payload = new byte[data_length];
-
-        //fill payload array of byte from data (given in parameter of the constructor)
-        //payload = Arrays.copyOf(data, payload_size);
     }
 
     /**
      * Class Constructor
+     * starting from a received bytes of a packet
      *
      * @param packet packet bit-stream
      * @param packet_size packet size
      */
-    public RTPHeader(byte[] packet, int packet_size)
+    public RTPPacket(byte[] packet, int packet_size)
     {
-        //fill default fields:
+        // fill default fields:
         Version = 2;
         Padding = 0;
         Extension = 0;
@@ -92,7 +97,7 @@ public class RTPHeader {
         Marker = 0;
         Ssrc = 0;
 
-        //check if total packet size is lower than the header size
+        // check if total packet size is lower than the header size
         if (packet_size >= HEADER_SIZE)
         {
             //get the header bitsream:
@@ -114,6 +119,11 @@ public class RTPHeader {
         }
     }
 
+    /**
+     * Get the Header of the RTP Packet
+     *
+     * @return the header, in byte (12byte)
+     */
     public byte[] getHeader() {
         return header;
     }
@@ -133,7 +143,7 @@ public class RTPHeader {
     }
 
     /**
-     * Print RTPPacket's information
+     * Print VoIP.RTPPacket's information
      */
     public void printHeader() {
         System.out.print("[RTP-Header]\n");
