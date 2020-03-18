@@ -1,6 +1,7 @@
 package VoIP;
 
 import Audio.AudioSinusoidalThread;
+import Audio.AudioThread;
 import Audio.OutputAudio;
 
 import java.net.DatagramPacket;
@@ -108,16 +109,15 @@ public abstract class Response {
                     System.out.println(" ACK MESSAGE ");
                     System.out.println(new String(Request.getAck()));
                     System.out.println(" ACK SENT \n");
+                    Session.setActive(true);
 
                     /**
                      *  Start thread
-                    */
-                    AudioThread thread = new AudioThread();
 
-                    OutputAudio.setActiveCall(true);//here set the active call for start the RTP flush
                     AudioSinusoidalThread thread = new AudioSinusoidalThread();
                     OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
                     new Thread(thread).start();
+                     */
                 }
                 break;
 

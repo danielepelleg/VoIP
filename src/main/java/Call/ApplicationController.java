@@ -191,9 +191,8 @@ public class ApplicationController implements Initializable {
     void sendSpoiledAudio(ActionEvent event) {
         if (this.currentThread == null) {
             AudioThread spoiledThread = new AudioThread();
-            OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
-            this.currentThread = new Thread(spoiledThread);
-            this.currentThread.start();
+            OutputAudio.setSendingAudio(true);                  //here set the active call for start the RTP flush
+            new Thread(spoiledThread).start();
         }
     }
 
@@ -204,7 +203,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void stopAudio(ActionEvent event) {
-        this.currentThread.interrupt();
+        OutputAudio.setSendingAudio(false);
     }
 
     /**

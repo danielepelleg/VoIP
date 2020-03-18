@@ -3,6 +3,8 @@ package Audio;
 import VoIP.RTPPacket;
 import org.zoolu.sound.codec.G711;
 
+import javax.swing.*;
+
 /**
  * Audio.AudioSinusoidalThread Class
  *
@@ -16,7 +18,9 @@ import org.zoolu.sound.codec.G711;
  */
 public class AudioSinusoidalThread implements Runnable {
 
+  private static double FREQUENCY = 200;
   private static double TIME_INCREMENTATION = 5;
+  private static double AMPLITUDE = 4000;
 
   /**
    *  Create a sinusoidal wave given the Width of the wave, it's frequency and
@@ -30,17 +34,22 @@ public class AudioSinusoidalThread implements Runnable {
     RTPPacket rtpPacket = new RTPPacket();
     byte[] rtpBody = new byte[160];
     byte[] rtpMessage = new byte[172];
+    int time = 0;
 
     while (OutputAudio.isSendingAudio()) {                                     // while true the program sends audio
 
-      for (int time = 0; time < 8000; time += TIME_INCREMENTATION) { // time incrementation
-        for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
-          double x = Math.toRadians(time);
-          double sinValue = Math.sin(x);                                     // create the sinusoidal wave
-          int value = (int) (65536 * sinValue);
-          int sinusoid = G711.linear2ulaw(value);                              // compress the byte with PCM algorithm
+      if (time > 8000)
+        time = 0;
+      else
+        time += TIME_INCREMENTATION;                                             // time incrementation
 
-          rtpBody[index] = (byte) sinusoid;                                    // replace it in every index of RTP body
+      for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
+        double x = ( 2 * Math.PI * time * FREQUENCY/8000.0 );
+        double sinValue = Math.sin(x);                                     // create the sinusoidal wave
+        int value = (int) (AMPLITUDE * sinValue);
+        int sinusoid = G711.linear2ulaw(value);                              // compress the byte with PCM algorithm
+
+        rtpBody[index] = (byte) sinusoid;                                    // replace it in every index of RTP body
         }
 
         System.arraycopy(rtpPacket.getHeader(), 0, rtpMessage, 0, 12);  // Array Copy set the RTP Header
@@ -55,7 +64,6 @@ public class AudioSinusoidalThread implements Runnable {
         }catch (InterruptedException ex){
           ex.printStackTrace();
         }
-      }
     }
   }
 }
