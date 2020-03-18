@@ -39,7 +39,6 @@ public class AudioThread implements Runnable {
         return null;
     }
 
-
     /**
      * Receive RTP datagram packet. An RTP Datagram Packet is made of a 12byte RTP Header and
      *  a 160byte of payload, which contains the audio itself. The compression algorithm is usually
@@ -56,26 +55,22 @@ public class AudioThread implements Runnable {
      *
      *  These compression's algorithms reduce the dynamic range of an audio signal.
      */
-    public static void receiveAudio() {
-        byte[] response = new byte[172];
-        byte[] toSend;
-        try {
-            DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
-            while (OutputAudio.isSendingAudio()) {
-                socketIncoming.receive(received);
-                toSend = received.getData();
-                Random random = new Random();
-                for (int i = 1; i < 120; i++)
-                    toSend[random.nextInt(160) + 12] = (byte) random.nextInt();
-                OutputAudio.sendAudio(toSend);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void run() {
-          receiveAudio();
+            byte[] response = new byte[172];
+            byte[] toSend;
+            try {
+                DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
+                while (OutputAudio.isSendingAudio()) {
+                    socketIncoming.receive(received);
+                    toSend = received.getData();
+                    Random random = new Random();
+                    for (int i = 1; i < 120; i++)
+                        toSend[random.nextInt(160) + 12] = (byte) random.nextInt();
+                    OutputAudio.sendAudio(toSend);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 }

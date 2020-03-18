@@ -25,7 +25,8 @@ public class AudioSinusoidalThread implements Runnable {
    *    compress it using the G711 method, for compressing byte with the PCM algorithm
    *    in the sip.jar library. Keep sending the wave until the sendingAudio value is set to false.
    */
-  private void sendSinusoidal() {
+  @Override
+  public void run() {
     RTPPacket rtpPacket = new RTPPacket();
     byte[] rtpBody = new byte[160];
     byte[] rtpMessage = new byte[172];
@@ -56,10 +57,5 @@ public class AudioSinusoidalThread implements Runnable {
         }
       }
     }
-  }
-
-  @Override
-  public void run() {
-    sendSinusoidal();
   }
 }
