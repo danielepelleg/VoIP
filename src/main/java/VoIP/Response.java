@@ -1,14 +1,5 @@
 package VoIP;
 
-import Audio.AudioSinusoidalThread;
-import Audio.AudioThread;
-import Audio.OutputAudio;
-import Call.ApplicationController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXMLLoader;
-
-import javax.sound.sampled.AudioFormat;
 import java.net.DatagramPacket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -75,12 +66,12 @@ public abstract class Response {
 
         // String containing the Server Answer
         String serverAnswer = " ";
-        //Program.controller.setConnectionLabel("CALLING");
+        Program.controller.setConnectionLabel("CALLING");
         do {
             try{
                 setResponsePacket(UserAgent.listen());
             }catch (SocketTimeoutException e) {
-                System.out.println("ERRORACCIO");
+                Program.controller.setConnectionLabel("FAILED (Request Timeout)");
                 break;
             }
             serverAnswer = new String(message);
@@ -226,6 +217,7 @@ public abstract class Response {
                                 break;
 
                             case '6':   // 486 Callee is busy.
+                                Program.controller.setConnectionLabel("BUSY HERE");
                                 System.out.println(serverAnswer + " BUSY HERE");
                                 break;
 

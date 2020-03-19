@@ -121,8 +121,7 @@ public abstract class Session {
      * @return The resulting String
      */
     public static String packetToString(DatagramPacket datagramPacket) {
-        byte[] buffer = new byte[1024];
-        buffer = datagramPacket.getData();
+        byte [] buffer = datagramPacket.getData();
         return new String(buffer, 0, datagramPacket.getLength());
     }
 
@@ -132,6 +131,7 @@ public abstract class Session {
      * @return The resulting String
      */
     public static String logsMessage() {
-        return packets.stream().map(Session::packetToString).collect(Collectors.joining("---- End of Message ----\r\n"));
+        return packets.stream().map(Session::packetToString).collect(Collectors.joining("---- End of Message ----\n\r"));
     }
+
 }

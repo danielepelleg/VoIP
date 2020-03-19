@@ -64,7 +64,7 @@ public class UserAgent implements Runnable{
     public static DatagramSocket getSocketIncoming() {
         try {
             DatagramSocket incoming = new DatagramSocket(destinationPort, getAddress());
-            incoming.setSoTimeout(15000);
+            incoming.setSoTimeout(25000);
             return incoming;
         } catch (SocketException e) {
             e.printStackTrace();
