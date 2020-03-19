@@ -22,7 +22,6 @@ public class Program extends Application {
     public static ApplicationController controller;
 
     private static String UI = "../Call/Application.fxml";
-    // private static String STYLE_SHEET = "/style.css";
 
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(UI));

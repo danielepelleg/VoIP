@@ -9,19 +9,19 @@ import VoIP.Request;
 import VoIP.Response;
 import VoIP.Session;
 import VoIP.UserAgent;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class ApplicationController implements Initializable {
 
@@ -42,6 +42,8 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private Label connectionLabel;
+
+    public String connection = "mjUA (http://www.mjsip.org)";
 
     @FXML
     private Label receiverLabel;
@@ -90,6 +92,12 @@ public class ApplicationController implements Initializable {
     private AnchorPane anchorLogs;
 
     @FXML
+    private TextFlow logsTextFlow;
+
+    @FXML
+    private ScrollPane logsScrollPane;
+
+    @FXML
     private ImageView logsButton;
 
     @FXML
@@ -130,6 +138,7 @@ public class ApplicationController implements Initializable {
         }
         this.call_idLabel.setText(callID.toString());
         this.receiverTagLabel.setText(Request.getReceiverTag());
+        logsScrollPane.setContent(logsTextFlow);
     }
 
     /**
@@ -138,7 +147,7 @@ public class ApplicationController implements Initializable {
      * @param value the status, in a string
      */
     public synchronized void setConnectionLabel(String value){
-        connectionLabel.setText(value);
+        Platform.runLater(()->{this.connectionLabel.setText(value);});
     }
 
     /**
@@ -221,7 +230,10 @@ public class ApplicationController implements Initializable {
 
     @FXML
     void updateLogs(ActionEvent event) {
-
+        Text text = new Text(Session.logsMessage());
+        this.logsTextFlow.getChildren().clear();
+        this.logsTextFlow.getChildren().add(text);
+        logsScrollPane.setContent(logsTextFlow);
     }
 
     /**
