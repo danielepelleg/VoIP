@@ -158,12 +158,15 @@ public class ApplicationController implements Initializable {
      * @param event press on Call button
      */
     @FXML
-    void call(ActionEvent event) {
-        if(callThread != null){
+    void call(ActionEvent event) {                           // Start the call if the Session is not active yet
+        if (callThread != null) {                           // Interrupt the first
             callThread.interrupt();
         }
-        callThread = new Thread(new UserAgent());
-        callThread.start();
+        if(!Session.isActive()) {
+            Session.clear();
+            callThread = new Thread(new UserAgent());
+            callThread.start();
+        }
     }
 
     /**
@@ -268,7 +271,7 @@ public class ApplicationController implements Initializable {
     }
 
     /**
-     * Set the Receiver Tag in the relative label                          // MAIN TAB
+     * Set the Receiver Tag in the relative label
      *
      */
     public synchronized void setReceiverTagLabel(){

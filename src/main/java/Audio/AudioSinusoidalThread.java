@@ -3,9 +3,6 @@ package Audio;
 import VoIP.RTPPacket;
 import org.zoolu.sound.codec.G711;
 
-import javax.sound.sampled.AudioFormat;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Audio.AudioSinusoidalThread Class
  *
@@ -42,8 +39,9 @@ public class AudioSinusoidalThread implements Runnable {
     long start = System.currentTimeMillis();
 
     while (OutputAudio.isSendingAudio()) {                                     // while true the program sends audio
-      long duration = System.currentTimeMillis() - start;
-      //if(duration > 200*counter) {
+
+      //long duration = System.currentTimeMillis() - start;
+      //if(System.currentTimeMillis() > 20*counter - start) {
         if (time > 8000)
           time = 0;
         else
@@ -62,6 +60,7 @@ public class AudioSinusoidalThread implements Runnable {
         System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);      // and the RTP Body in RTP Message.
         rtpPacket.incrementSequence();
         rtpPacket.incrementTimeStamp();
+
 
         try {
           Thread.sleep(20);                           // Add a 20ms delay through one packet and another

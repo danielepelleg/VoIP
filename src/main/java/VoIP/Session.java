@@ -103,6 +103,14 @@ public abstract class Session {
     }
 
     /**
+     * Clear all the lists
+     */
+    public static void clear(){
+        requests.clear();
+        responses.clear();
+        packets.clear();
+    }
+    /**
      * Record the VoIP conversation's flow in a WireShark capture.
      */
     public static void save(){
