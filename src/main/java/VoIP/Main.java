@@ -10,6 +10,6 @@ package VoIP;
  */
 public class Main {
     public static void main(String[] args){
-        UserAgent.run();
+        //UserAgent.run();
     }
 }

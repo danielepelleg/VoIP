@@ -1,5 +1,6 @@
 package VoIP;
 
+import Call.ApplicationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,13 +19,15 @@ import java.io.IOException;
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
 public class Program extends Application {
+    public static ApplicationController controller;
 
     private static String UI = "../Call/Application.fxml";
     // private static String STYLE_SHEET = "/style.css";
 
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(UI));
-        //root.getStylesheets().add(getClass().getResource(STYLE_SHEET).toExternalForm());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(UI));
+        Parent root = loader.load();
+        controller = loader.getController();
         Scene frame = new Scene(root);
         primaryStage.getIcons().add(new Image("/images/voip.png"));
         primaryStage.setResizable(false);

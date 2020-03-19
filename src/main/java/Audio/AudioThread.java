@@ -46,41 +46,6 @@ public class AudioThread implements Runnable {
     }
 
     /**
-     * Send an Audio file in byte to the Server mjUA_1.8
-     */
-    public static void sendFile() {
-        try {
-            RTPPacket rtpHeader = new RTPPacket();
-            byte [] rtpMessage = new byte[172];
-            byte[] rtpBody = new byte[160];
-            int bytesRead = 0;
-            File audioFile = new File("src/main/resources/audio/imperial_march.wav");
-
-            AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);      // Insert the audio in a InputStream
-            ais = AudioSystem.getAudioInputStream(AudioFormat.Encoding.ULAW, ais);  // Remove the WAV Header
-
-            double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);      // Number of packets to be created
-
-            AudioFormat audioFormat =
-                    new AudioFormat(8000, 8, 1, true, false);
-            double sleepTime = (160/audioFormat.getSampleRate());
-            long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
-
-
-            while ((bytesRead = ais.read(rtpBody, 0, rtpBody.length))!= -1) {           // Fill the RTPBody
-                System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
-                System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);       // Create the RTP Message
-                rtpHeader.incrementSequence();
-                rtpHeader.incrementTimeStamp();
-                OutputAudio.sendAudio(rtpMessage);
-                Thread.sleep(sleepTimeMillis);                                            // Sleep 20ms
-            }
-        } catch (IOException | InterruptedException | UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Receive RTP datagram packet. An RTP Datagram Packet is made of a 12byte RTP Header and
      *  a 160byte of payload, which contains the audio itself. The compression algorithm is usually
      *  PCMA (used in Europe for the telephone's network) or the PCMU. Both stands for 1 byte for sample.

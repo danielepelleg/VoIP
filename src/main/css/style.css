@@ -14,7 +14,8 @@
 }
 
 #settingsTab {
-    -fx-background-color: #dbd9dd;
+    -fx-background-color: #232335;
+    -fx-text-base-color: #ffffff;
 }
 
 .tab-header-background {

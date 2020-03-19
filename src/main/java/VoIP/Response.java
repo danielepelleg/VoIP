@@ -3,9 +3,14 @@ package VoIP;
 import Audio.AudioSinusoidalThread;
 import Audio.AudioThread;
 import Audio.OutputAudio;
+import Call.ApplicationController;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXMLLoader;
 
 import javax.sound.sampled.AudioFormat;
 import java.net.DatagramPacket;
+import java.net.SocketTimeoutException;
 import java.util.Arrays;
 
 /**
@@ -69,17 +74,23 @@ public abstract class Response {
 
 
         // String containing the Server Answer
-        String serverAnswer;
-
+        String serverAnswer = " ";
+        //Program.controller.setConnectionLabel("CALLING");
         do {
-            setResponsePacket(UserAgent.listen());          // Set a new VoIP.Response Packet
+            try{
+                setResponsePacket(UserAgent.listen());
+            }catch (SocketTimeoutException e) {
+                System.out.println("ERRORACCIO");
+                break;
+            }
             serverAnswer = new String(message);
 
-            if (serverAnswer.equals("100"))                     // 100 TRYING
+            if (serverAnswer.equals("100"))        // 100 TRYING
                 System.out.println(serverAnswer + " TRYING");
 
-            if (serverAnswer.equals("180"))                     // 180 RINGING
+            if (serverAnswer.equals("180")) {          // 180 RINGING
                 System.out.println(serverAnswer + " RINGING");
+            }
 
             if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
                                                                 // and set it in VoIP.Request Class
@@ -110,17 +121,21 @@ public abstract class Response {
                     System.out.println(" ACK MESSAGE ");
                     System.out.println(new String(Request.getAck()));
                     System.out.println(" ACK SENT \n");
+                    Program.controller.setConnectionLabel("ON CALL");
                     Session.setActive(true);
 
                     /**
                      *  Start thread
 
-                    AudioThread thread = new AudioThread();
-                    OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
-                    new Thread(thread).start();
+                     AudioThread thread = new AudioThread();
+                     OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
+                     new Thread(thread).start();
+
+                     AudioThread.sendFile();
                      */
-                    AudioThread.sendFile();
                 }
+                else Program.controller.setConnectionLabel("BYE");
+
                 break;
 
 
@@ -298,6 +313,8 @@ public abstract class Response {
                         break;
                 }
                 break;
+
+            default: break;
         }
     }
 }

@@ -1,5 +1,6 @@
 package Call;
 
+import Audio.AudioFileThread;
 import Audio.AudioSinusoidalThread;
 import Audio.AudioThread;
 import Audio.OutputAudio;
@@ -56,6 +57,8 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     private Tab audioTab;
+
+    private Thread callThread;
 
     @FXML
     private AnchorPane anchorAudio;
@@ -125,8 +128,8 @@ public class ApplicationController implements Initializable {
         for(int index = 0; index < 12; index++){
             callID.append(Request.getCallId().charAt(index));
         }
-        call_idLabel.setText(callID.toString());
-        receiverTagLabel.setText(Request.getReceiverTag());
+        this.call_idLabel.setText(callID.toString());
+        this.receiverTagLabel.setText(Request.getReceiverTag());
     }
 
     /**
@@ -134,8 +137,8 @@ public class ApplicationController implements Initializable {
      *
      * @param value the status, in a string
      */
-    public void setConnectionLabel(String value){
-        this.connectionLabel.setText(value);
+    public synchronized void setConnectionLabel(String value){
+        connectionLabel.setText(value);
     }
 
     /**
@@ -146,8 +149,11 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void call(ActionEvent event) {
-        UserAgent.send(Request.getInvite());
-        Response.showMessage();
+        if(callThread != null){
+            callThread.interrupt();
+        }
+        callThread = new Thread(new UserAgent());
+        callThread.start();
     }
 
     /**
@@ -159,8 +165,8 @@ public class ApplicationController implements Initializable {
     @FXML
     void hangUp(ActionEvent event) {
         if (Session.isActive()) {
-            UserAgent.send(Request.getBye());
             OutputAudio.setSendingAudio(false);
+            UserAgent.send(Request.getBye());
             Response.showMessage();
         }
     }
@@ -173,11 +179,9 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void sendSinusoidalAudio(ActionEvent event) {
-        if (this.currentThread == null) {
+        if (!OutputAudio.isSendingAudio()) {
             AudioSinusoidalThread sinusoidalThread = new AudioSinusoidalThread();
-            OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
-            this.currentThread = new Thread(sinusoidalThread);
-            this.currentThread.start();
+            new Thread(sinusoidalThread).start();
         }
     }
 
@@ -189,9 +193,8 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void sendSpoiledAudio(ActionEvent event) {
-        if (this.currentThread == null) {
-            AudioThread spoiledThread = new AudioThread();
-            OutputAudio.setSendingAudio(true);                  //here set the active call for start the RTP flush
+        if (!OutputAudio.isSendingAudio()) {
+            AudioFileThread spoiledThread = new AudioFileThread();
             new Thread(spoiledThread).start();
         }
     }

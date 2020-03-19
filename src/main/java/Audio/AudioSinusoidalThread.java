@@ -3,7 +3,8 @@ package Audio;
 import VoIP.RTPPacket;
 import org.zoolu.sound.codec.G711;
 
-import javax.swing.*;
+import javax.sound.sampled.AudioFormat;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Audio.AudioSinusoidalThread Class
@@ -34,22 +35,27 @@ public class AudioSinusoidalThread implements Runnable {
     RTPPacket rtpPacket = new RTPPacket();
     byte[] rtpBody = new byte[160];
     byte[] rtpMessage = new byte[172];
+    OutputAudio.setSendingAudio(true);
     int time = 0;
+    int counter =1;
+
+    long start = System.currentTimeMillis();
 
     while (OutputAudio.isSendingAudio()) {                                     // while true the program sends audio
+      long duration = System.currentTimeMillis() - start;
+      //if(duration > 200*counter) {
+        if (time > 8000)
+          time = 0;
+        else
+          time += TIME_INCREMENTATION;                                             // time incrementation
 
-      if (time > 8000)
-        time = 0;
-      else
-        time += TIME_INCREMENTATION;                                             // time incrementation
+        for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
+          double x = (2 * Math.PI * time * FREQUENCY / 8000.0);
+          double sinValue = Math.sin(x);                                     // create the sinusoidal wave
+          int value = (int) (AMPLITUDE * sinValue);
+          int sinusoid = G711.linear2ulaw(value);                              // compress the byte with PCM algorithm
 
-      for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
-        double x = ( 2 * Math.PI * time * FREQUENCY/8000.0 );
-        double sinValue = Math.sin(x);                                     // create the sinusoidal wave
-        int value = (int) (AMPLITUDE * sinValue);
-        int sinusoid = G711.linear2ulaw(value);                              // compress the byte with PCM algorithm
-
-        rtpBody[index] = (byte) sinusoid;                                    // replace it in every index of RTP body
+          rtpBody[index] = (byte) sinusoid;                                    // replace it in every index of RTP body
         }
 
         System.arraycopy(rtpPacket.getHeader(), 0, rtpMessage, 0, 12);  // Array Copy set the RTP Header
@@ -57,13 +63,15 @@ public class AudioSinusoidalThread implements Runnable {
         rtpPacket.incrementSequence();
         rtpPacket.incrementTimeStamp();
 
-        OutputAudio.sendAudio(rtpMessage);
-
-        try{
+        try {
           Thread.sleep(20);                           // Add a 20ms delay through one packet and another
-        }catch (InterruptedException ex){
+        } catch (InterruptedException ex) {
           ex.printStackTrace();
         }
+
+      OutputAudio.sendAudio(rtpMessage);
+      counter++;
+      //}
     }
   }
 }

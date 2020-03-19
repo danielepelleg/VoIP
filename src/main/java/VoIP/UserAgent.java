@@ -1,5 +1,6 @@
 package VoIP;
 
+import Audio.AudioThread;
 import Audio.OutputAudio;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.Scanner;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class UserAgent {
+public class UserAgent implements Runnable{
     public static InetAddress address = getAddress();
     public static int sourcePort = 5080;
     public static int destinationPort = 5070;
@@ -62,7 +63,9 @@ public class UserAgent {
      */
     public static DatagramSocket getSocketIncoming() {
         try {
-            return new DatagramSocket(destinationPort, getAddress());
+            DatagramSocket incoming = new DatagramSocket(destinationPort, getAddress());
+            incoming.setSoTimeout(15000);
+            return incoming;
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -107,7 +110,7 @@ public class UserAgent {
     /**
      * Listen for a new DatagramPacket on the Incoming DatagramSocket mjUA_1.8
      */
-    public static DatagramPacket listen() {
+    public static DatagramPacket listen() throws SocketTimeoutException {
         try {
             byte[] response = new byte[1024];
             DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
@@ -115,8 +118,11 @@ public class UserAgent {
             Session.addPacket(received);
             Session.addResponse(received.getData());
             return received;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SocketTimeoutException e) {
+            throw new SocketTimeoutException(e.getMessage());
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
@@ -124,7 +130,8 @@ public class UserAgent {
     /**
      * Make a VoIP to the VoIP.UserAgent Bob mjUA listening on port 5080
      */
-    public static void run() {
+    public static void start() {
+        /*
         System.out.println(" INVITE MESSAGE ");
         System.out.println(new String(Request.getInvite()));
         System.out.println(" INVITE SENT ");
@@ -133,11 +140,23 @@ public class UserAgent {
 
         new Scanner(System.in).next();
 
+        //System.out.println("STOP AUDIO");
+        //OutputAudio.setSendingAudio(false);
+
+        //new Scanner(System.in).next();
         System.out.println(" BYE MESSAGE ");
         System.out.println(new String(Request.getBye()));
         send(Request.getBye());
-        OutputAudio.setSendingAudio(false);
+
         System.out.println(" BYE SENT "); //here set the active call for stop RTP
+        Response.showMessage();
+        */
+
+    }
+
+    @Override
+    public void run() {
+        send(Request.getInvite());
         Response.showMessage();
     }
 }
