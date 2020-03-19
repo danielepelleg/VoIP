@@ -88,6 +88,7 @@ public abstract class Response {
                 String receive = new String(responsePacket.getData());
                 String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
                 Request.setReceiverTag(receiverTag);
+                Program.controller.setReceiverTagLabel();
             }
 
             if(serverAnswer.charAt(0) != '2')                   // Print the Information Messages
