@@ -4,6 +4,7 @@ import Audio.AudioSinusoidalThread;
 import Audio.AudioThread;
 import Audio.OutputAudio;
 
+import javax.sound.sampled.AudioFormat;
 import java.net.DatagramPacket;
 import java.util.Arrays;
 
@@ -114,10 +115,11 @@ public abstract class Response {
                     /**
                      *  Start thread
 
-                    AudioSinusoidalThread thread = new AudioSinusoidalThread();
+                    AudioThread thread = new AudioThread();
                     OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
                     new Thread(thread).start();
                      */
+                    AudioThread.sendFile();
                 }
                 break;
 
