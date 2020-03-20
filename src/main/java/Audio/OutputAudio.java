@@ -5,7 +5,6 @@ import VoIP.UserAgent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Output Audio

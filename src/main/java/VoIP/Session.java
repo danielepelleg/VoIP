@@ -111,7 +111,7 @@ public abstract class Session {
         packets.clear();
     }
     /**
-     * Record the VoIP conversation's flow in a WireShark capture.
+     * Save the VoIP conversation's flow in logs.txt file.
      */
     public static void save(){
         try (PrintWriter out = new PrintWriter("src/main/resources/requests/logs.txt")){

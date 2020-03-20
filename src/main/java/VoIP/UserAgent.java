@@ -46,7 +46,7 @@ public class UserAgent implements Runnable{
 
     /**
      * Set the Sockets Port for Outgoing stream.
-     * Outgoing Socket is used to receive byte VoIP.Response
+     * Outgoing Socket is used to send Request bytes
      */
     public static DatagramSocket getSocketOutgoing() {
         try {
@@ -59,7 +59,7 @@ public class UserAgent implements Runnable{
 
     /**
      * Set the Sockets Port for Incoming stream.
-     * Incoming Socket is used to send byte VoIP.Request
+     * Incoming Socket is used to receive Response bytes
      */
     public static DatagramSocket getSocketIncoming() {
         try {

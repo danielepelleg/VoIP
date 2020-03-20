@@ -1,7 +1,6 @@
 package Audio;
 
 import VoIP.RTPPacket;
-import VoIP.UserAgent;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -9,7 +8,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class AudioFileThread implements Runnable{
 
@@ -37,17 +35,20 @@ public class AudioFileThread implements Runnable{
             long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
 
 
-            while (OutputAudio.isSendingAudio()) {           // Fill the RTPBody
-                ais.read(rtpBody, 0, rtpBody.length);
+            while (OutputAudio.isSendingAudio()) {                                          // Fill the RTPBody
+                bytesRead = ais.read(rtpBody, 0, rtpBody.length);
                 System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
-                System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);       // Create the RTP Message
+                System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);        // Create the RTP Message
                 rtpHeader.incrementSequence();
                 rtpHeader.incrementTimeStamp();
                 long startTime = System.currentTimeMillis();
-                Thread.sleep(20);                      // Sleep 20ms
+                Thread.sleep(20);                                                       // Sleep 20ms
                 OutputAudio.sendAudio(rtpMessage);
+                if(bytesRead == -1){
+                    break;
+                }
             }
-            Objects.requireNonNull(UserAgent.getSocketOutgoing()).disconnect();
+            OutputAudio.setSendingAudio(false);
         } catch (IOException | UnsupportedAudioFileException | InterruptedException e) {
             e.printStackTrace();
         }
