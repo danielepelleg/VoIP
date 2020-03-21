@@ -16,31 +16,35 @@ import org.zoolu.sound.codec.G711;
  */
 public class AudioSinusoidalThread implements Runnable {
 
-    private static double FREQUENCY = 200;
-    private static double TIME_INCREMENTATION = 5;
-    private static double AMPLITUDE = 4000;
+    private static double frequency = 200;
+    private static double timeIncrementaion = 5;
+    private static double amplitude = 4000;
 
-    public static double getFREQUENCY() {
-        return FREQUENCY;
+    /**
+     * Get and Set methods
+     */
+    public static double getFrequency() {
+        return frequency;
     }
-    public static void setFREQUENCY(double FREQUENCY) {
-        AudioSinusoidalThread.FREQUENCY = FREQUENCY;
+
+    public static void setFrequency(double newValue) {
+        frequency = newValue;
     }
 
     public static double getTimeIncrementation() {
-        return TIME_INCREMENTATION;
+        return timeIncrementaion;
     }
 
-    public static void setTimeIncrementation(double timeIncrementation) {
-        TIME_INCREMENTATION = timeIncrementation;
+    public static void setTimeIncrementation(double newValue) {
+        timeIncrementaion = newValue;
     }
 
-    public static double getAMPLITUDE() {
-        return AMPLITUDE;
+    public static double getAmplitude() {
+        return amplitude;
     }
 
-    public static void setAMPLITUDE(double AMPLITUDE) {
-        AudioSinusoidalThread.AMPLITUDE = AMPLITUDE;
+    public static void setAmplitude(double newValue) {
+        amplitude = newValue;
     }
 
     /**
@@ -55,25 +59,25 @@ public class AudioSinusoidalThread implements Runnable {
         RTPPacket rtpPacket = new RTPPacket();
         byte[] rtpBody = new byte[160];
         byte[] rtpMessage = new byte[172];
-        OutputAudio.setSendingAudio(true);
+        OutputAudio.setRunning(true);
         int time = 0;
         int counter = 1;
 
         long start = System.currentTimeMillis();
 
-        while (OutputAudio.isSendingAudio()) {                                     // while true the program sends audio
+        while (OutputAudio.isRunning()) {                                     // while true the program sends audio
 
             //long duration = System.currentTimeMillis() - start;
             //if(System.currentTimeMillis() > 20*counter - start) {
             if (time > 8000)
                 time = 0;
             else
-                time += TIME_INCREMENTATION;                                             // time incrementation
+                time += timeIncrementaion;                                             // time incrementation
 
             for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
-                double x = (2 * Math.PI * time * FREQUENCY / 8000.0);
+                double x = (2 * Math.PI * time * frequency / 8000.0);
                 double sinValue = Math.sin(x);                                     // create the sinusoidal wave
-                int value = (int) (AMPLITUDE * sinValue);
+                int value = (int) (amplitude * sinValue);
                 int sinusoid = G711.linear2ulaw(value);                              // compress the byte with PCM algorithm
 
                 rtpBody[index] = (byte) sinusoid;                                    // replace it in every index of RTP body

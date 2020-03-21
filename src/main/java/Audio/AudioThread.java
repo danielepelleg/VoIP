@@ -21,15 +21,15 @@ import java.util.Random;
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
 public class AudioThread implements Runnable {
-    private static int destinationPort = 4070;
-    public static DatagramSocket socketIncoming = getSocketIncoming();
+    private int destinationPort = 4070;
+    public DatagramSocket socketIncoming = getSocketIncoming();
 
     /**
      * Get the Datagram Socket Incoming used to receive data from the VoIP.UserAgent.
      *
      * @return the Datagram Socket
      */
-    public static DatagramSocket getSocketIncoming() {
+    public DatagramSocket getSocketIncoming() {
         try {
             return new DatagramSocket(destinationPort, UserAgent.getAddress());
         } catch (SocketException e) {
@@ -58,10 +58,10 @@ public class AudioThread implements Runnable {
     public void run() {
             byte[] response = new byte[172];
             byte[] toSend;
-            OutputAudio.setSendingAudio(true);                  // here set the active call for start the RTP flush
+            OutputAudio.setRunning(true);                  // here set the active call for start the RTP flush
             try {
                 DatagramPacket received = new DatagramPacket(response, response.length, UserAgent.getAddress(), destinationPort);
-                while (OutputAudio.isSendingAudio()) {
+                while (OutputAudio.isRunning()) {
                     socketIncoming.receive(received);
                     toSend = received.getData();
                     Random random = new Random();

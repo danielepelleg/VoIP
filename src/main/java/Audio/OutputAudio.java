@@ -22,15 +22,15 @@ import java.net.DatagramSocket;
 public abstract class OutputAudio {
     private static int sourcePort = 4080;
     private static DatagramSocket socketOutgoing = UserAgent.getSocketOutgoing();
-    private static volatile boolean isRunning = false;
+    private static volatile boolean running = false;
 
     /**
      * Set sendingAudio
      *
      * @param value, true if the program is sending audio, false otherwise
      */
-    public static void setSendingAudio(boolean value) {
-        isRunning = value;
+    public static void setRunning(boolean value) {
+        running = value;
     }
 
     /**
@@ -38,8 +38,8 @@ public abstract class OutputAudio {
      *
      * @return the value of sendingAudio
      */
-    public static boolean isSendingAudio(){
-        return isRunning;
+    public static boolean isRunning(){
+        return running;
     }
 
     /**

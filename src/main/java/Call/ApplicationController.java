@@ -21,7 +21,6 @@ import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class ApplicationController implements Initializable {
 
@@ -178,7 +177,7 @@ public class ApplicationController implements Initializable {
     @FXML
     void hangUp(ActionEvent event) {
         if (Session.isActive()) {
-            OutputAudio.setSendingAudio(false);
+            OutputAudio.setRunning(false);
             UserAgent.send(Request.getBye());
             Response.showMessage();
         }
@@ -192,7 +191,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void sendSpoiledAudio(ActionEvent event) {
-        if (!OutputAudio.isSendingAudio()) {
+        if (!OutputAudio.isRunning()) {
             AudioThread spoiledThread = new AudioThread();
             new Thread(spoiledThread).start();
         }
@@ -205,7 +204,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void sendImperialMarch(ActionEvent event) {
-        if (!OutputAudio.isSendingAudio()) {
+        if (!OutputAudio.isRunning()) {
             AudioFileThread imperialThread = new AudioFileThread();
             new Thread(imperialThread).start();
         }
@@ -218,7 +217,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void sendSinusoidalAudio(ActionEvent event) {
-        if (!OutputAudio.isSendingAudio()) {
+        if (!OutputAudio.isRunning()) {
             AudioSinusoidalThread sinusoidalThread = new AudioSinusoidalThread();
             new Thread(sinusoidalThread).start();
         }
@@ -231,7 +230,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void stopAudio(ActionEvent event) {
-        OutputAudio.setSendingAudio(false);
+        OutputAudio.setRunning(false);
     }
 
     /**

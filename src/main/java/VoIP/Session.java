@@ -92,9 +92,9 @@ public abstract class Session {
     /**
      * Save the Requests on a file
      */
-    public static void saveRequestFile(String request, String name){
+    public static void saveRequestFile(String request, String fileName){
         request = request.substring(0, request.length()-1);
-        try (PrintWriter out = new PrintWriter("src/main/resources/requests/"+name+".txt")){
+        try (PrintWriter out = new PrintWriter("src/main/resources/requests/"+fileName+".txt")){
             out.flush();
             out.println(request);
         } catch (FileNotFoundException e) {

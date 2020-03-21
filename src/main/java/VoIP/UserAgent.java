@@ -128,32 +128,8 @@ public class UserAgent implements Runnable{
     }
 
     /**
-     * Make a VoIP to the VoIP.UserAgent Bob mjUA listening on port 5080
+     * Make a VoIP Call to the UserAgent Bob mjUA listening on port 5080
      */
-    public static void start() {
-        /*
-        System.out.println(" INVITE MESSAGE ");
-        System.out.println(new String(Request.getInvite()));
-        System.out.println(" INVITE SENT ");
-        send(Request.getInvite());
-        Response.showMessage();
-
-        new Scanner(System.in).next();
-
-        //System.out.println("STOP AUDIO");
-        //OutputAudio.setSendingAudio(false);
-
-        //new Scanner(System.in).next();
-        System.out.println(" BYE MESSAGE ");
-        System.out.println(new String(Request.getBye()));
-        send(Request.getBye());
-
-        System.out.println(" BYE SENT "); //here set the active call for stop RTP
-        Response.showMessage();
-        */
-
-    }
-
     @Override
     public void run() {
         send(Request.getInvite());

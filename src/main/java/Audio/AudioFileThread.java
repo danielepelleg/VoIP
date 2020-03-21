@@ -21,7 +21,7 @@ public class AudioFileThread implements Runnable{
             byte [] rtpMessage = new byte[172];
             byte[] rtpBody = new byte[160];
             int bytesRead = 0;
-            OutputAudio.setSendingAudio(true);
+            OutputAudio.setRunning(true);
             File audioFile = new File("src/main/resources/audio/imperial_march.wav");
 
             AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);      // Insert the audio in a InputStream
@@ -35,7 +35,7 @@ public class AudioFileThread implements Runnable{
             long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
 
 
-            while (OutputAudio.isSendingAudio()) {                                          // Fill the RTPBody
+            while (OutputAudio.isRunning()) {                                          // Fill the RTPBody
                 bytesRead = ais.read(rtpBody, 0, rtpBody.length);
                 System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
                 System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);        // Create the RTP Message
@@ -48,7 +48,7 @@ public class AudioFileThread implements Runnable{
                     break;
                 }
             }
-            OutputAudio.setSendingAudio(false);
+            OutputAudio.setRunning(false);
         } catch (IOException | UnsupportedAudioFileException | InterruptedException e) {
             e.printStackTrace();
         }
