@@ -116,7 +116,7 @@ public class ApplicationController implements Initializable {
     private AnchorPane anchorSettings;
 
     @FXML
-    private TextField userNameLabel;
+    private TextField userNameTextBox;
 
     @FXML
     private Label call_idLabel;
@@ -125,7 +125,16 @@ public class ApplicationController implements Initializable {
     private Label receiverTagLabel;
 
     @FXML
+    private TextField frequencyTextBox;
+
+    @FXML
+    private TextField amplitudeTextBox;
+
+    @FXML
     private Button saveSettingsButton;
+
+    @FXML
+    private TextField incrementationTextBox;
 
     /**
      * Initialize the page
@@ -263,10 +272,23 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void saveSettings(ActionEvent event) {
-        String newName = userNameLabel.getText();
-        if(!Session.isActive() && !newName.equals("")) {
+        String newName = userNameTextBox.getText();                                 // Take the string in the TextBox
+        String newFrequency = frequencyTextBox.getText();
+        String newAmplitude = amplitudeTextBox.getText();
+        String newIncrementation = incrementationTextBox.getText();
+
+        if(!Session.isActive() && !newName.equals(""))
             Request.setSenderName(newName);
-        }
+
+        if(tryParseDouble(newFrequency))                                            // Set the new Frequency
+            AudioSinusoidalThread.setFrequency(Double.parseDouble(newFrequency));
+
+        if(tryParseDouble(newAmplitude))
+            AudioSinusoidalThread.setAmplitude(Double.parseDouble(newAmplitude));   // Set the new Amplitude
+
+        if(tryParseDouble(newIncrementation))
+            AudioSinusoidalThread.                                                  // Set the new Incrementation
+                    setTimeIncrementation(Double.parseDouble(newIncrementation));
     }
 
     /**
@@ -280,4 +302,22 @@ public class ApplicationController implements Initializable {
         }
         Platform.runLater(()->{this.receiverTagLabel.setText(receiverTag.toString());});
     }
+
+    /**
+     * Try Parse Double method
+     *
+     * @param value the value to convert to double
+     * @return true if the string can be converted to double,
+     *  false otherwise
+     */
+    public boolean tryParseDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+
 }

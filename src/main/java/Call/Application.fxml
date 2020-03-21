@@ -157,7 +157,7 @@
                                     <Font name="System Bold" size="12.0" />
                                 </font>
                             </Label>
-                        <Label layoutX="14.0" layoutY="40.0" text="UserAgent Name:">
+                        <Label layoutX="18.0" layoutY="25.0" text="UserAgent Name:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -165,8 +165,8 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="userNameLabel" layoutX="131.0" layoutY="41.0" prefHeight="26.0" prefWidth="98.0" promptText="Alice" />
-                        <Label layoutX="14.0" layoutY="99.0" text="CALL-ID:">
+                        <TextField fx:id="userNameTextBox" layoutX="162.0" layoutY="25.0" prefHeight="26.0" prefWidth="98.0" promptText="Alice" />
+                        <Label layoutX="19.0" layoutY="70.0" text="CALL-ID:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -174,12 +174,12 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="call_idLabel" layoutX="131.0" layoutY="99.0" prefHeight="27.0" prefWidth="152.0">
+                        <Label fx:id="call_idLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="155.0" layoutY="70.0" prefHeight="27.0" prefWidth="109.0">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label layoutX="14.0" layoutY="152.0" text="Receiver Tag:">
+                        <Label layoutX="18.0" layoutY="115.0" text="Receiver Tag:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -187,12 +187,39 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="receiverTagLabel" layoutX="131.0" layoutY="152.0" prefHeight="27.0" prefWidth="150.0">
+                        <Label fx:id="receiverTagLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="155.0" layoutY="115.0" prefHeight="27.0" prefWidth="115.0">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
+                        <Label layoutX="19.0" layoutY="160.0" text="Wave Frequency:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="frequencyTextBox" layoutX="162.0" layoutY="160.0" prefHeight="26.0" prefWidth="98.0" promptText="200" />
+                        <Label layoutX="19.0" layoutY="205.0" text="Wave Amplitude:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="amplitudeTextBox" layoutX="162.0" layoutY="205.0" prefHeight="26.0" prefWidth="98.0" promptText="4000" />
                         <Button fx:id="saveSettingsButton" defaultButton="true" layoutX="367.0" layoutY="251.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="32.0" prefWidth="93.0" stylesheets="@/style.css" text="Save" />
+                        <Label layoutX="18.0" layoutY="250.0" text="Wave Incrementation:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="incrementationTextBox" layoutX="162.0" layoutY="250.0" prefHeight="26.0" prefWidth="98.0" promptText="5" />
                         </children>
                     </AnchorPane>
                 </content>
