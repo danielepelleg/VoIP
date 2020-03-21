@@ -17,12 +17,15 @@
   
   - [Table of Contents](#table-of-contents)
   - [About The Project](#about-the-project)
+    - [Application GUI](#application-gui) 
   - [SIP Requests](#sip-requests)
     - [INVITE](#INVITE)
     - [ACK](#ACK)
     - [BYE](#BYE)
   - [UML Diagrams](#uml-diagrams)
     - [Class Diagram](#class-diagram)
+    - [Use Case Diagram](#use-case-diagram)
+  - [Screenshots](#screenshots)
   - [Getting Started](#getting-started)
     - [Libraries](#Libraries)
     - [Updates](#updates)
@@ -31,31 +34,33 @@
    
    <!-- ABOUT THE PROJECT -->
    ## About The Project
-   **VoIP UserAgent** is a SIP Client UserAgent to use for a VoIP communication. It's a console 
-   program that calls mjSIP User Agent and can capture the client's audio to send through the conversation.  
+   **VoIP UserAgent** is a SIP Client UserAgent to use for a VoIP communication. The application can be used to call mjSIP User Agent and can 
+   send the client some audio in RTP packets through the conversation. The Application first use *Session Initiation Protocol* (SIP) to set
+   the conversation up, then the *Real-Time Transmission Protocol* (RTP) to send to the mjUA the RTP Packets that contain the audio. 
    
-   The system is made up of a two DatagramSocket: one for the incoming responses, the other for the outcoming requests, 
+   The SIP communication is made up of a two DatagramSocket: one for the incoming responses, the other for the outcoming requests, 
    which are the core of the Client UserAgent. The application has a Session Recorder which is a sort of Logs Register: it records
-   all the data (in byte) that flows through the conversation and save them as a string in an external file.
+   all the data (in byte) that flows through the conversation and save them as a string in an external file. In every moment during the communication,
+   the user can see the current logs message and choose to save them on an external file in *resources/requests* folder.
    
    Every request sent and response received is recorded in the Session Recorder.
-   
-   Moreover, once the call start the program capture the conversation in *.pcap* for it to be used for a better analysis using Wireshark.
 
-   <!-- FOR GUI
+   The RTP communication is also made up of a two DatagramSocket: one for the incoming RTP Packets, the other for the outcoming ones. The Socket
+   for the incoming RTP Packets is used when the UserAgent choose to send the mjUA the audio it receives. The bytes audio in the payload of this packet are edited
+   randomly, and the headers remain the same. Once the packets are sent back to the mjUA it plays them and the result is a distorted noise.
 
-    The system has a GUI that starts with the typical telephone interface with 2 buttons to take or hang up the call.
+   There are two other ways through which the UserAgent can send the mjUA the audio. The first is generating a mathematical sine wave of given frequency and amplitude 
+   as a function of x that increments by a given value. The second is taking an external audio file in *resources/audio* folder and insert it in *n* packets of 160 bytes. When the user choose one of this two methods a new RTP header is instantiated and its sequence and the timestamp are incremented when sending every packet.
+
+   ### Application GUI
+
+   The system has a GUI that starts with the typical telephone interface with 2 buttons to take or hang up the call.
     
     - Press the green button to call the other mjUA UserAgent.
     
-    - Once the conversation has start, you can change the dialog window to see the logs of the call, and see the requests 
-       the application has sent and the responses it received.
+    - Once the conversation has start, you can navigate to the other tabs of the window to see the logs of the call, start and stop the sending of audio packets, see the requests the application has sent and the responses it received, and change some of the application settings.
     
-    - You can hang up the call at any moment, by pressing the red button. This will send a BYE Request to the mjua,
-       which will send a 200 OK response.
-
-    -->
-    
+    - You can hang up the call at any moment, by pressing the red button. This will send a BYE Request to the mjua, which will send a 200 OK response.
    
    <!-- SIP REQUESTS  -->
    ## SIP Requests
@@ -116,20 +121,35 @@
    ## UML Diagrams
 
    ### Class Diagram
-   <img src="src/main/resources/ClassDiagram/ClassDiagram.png" alt="classDiagram">
+   <img src="Documentation/UML Diagrams/Class Diagram/Class_Diagram.png" alt="classDiagram">
+
+   ### Use Case Diagram
+   <p align="center"><img src="Documentation/UML Diagrams/Use Case Diagram/Use_Case_Diagram.png" alt="usecaseDiagram"></p>
+
+   <!-- SCREENSHOTS -->
+   ## Screenshots
+   <p align="center">
+   <img src="Documentation/Screenshots/Main Tab.png" alt="mainTab">
+   <img src="Documentation/Screenshots/Audio Tab.png" alt="audioTab">
+   <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab">
+   </p>
 
    <!-- GETTING STARTED -->
    ## Getting Started
    Download the *mjSIP UA v1.8* at the following <a href="http://www.mjsip.org/download.html">download link</a> and follow the
-   guide in the *"simple-call-HOW-TO.txt"* file to run both UA on the same host (PC). Copy the line and open the command prompt
-   in the root directory of mjua v1.8 and run the receiver-only UserAgent b, which stands for "Bob".
+   guide in the *"simple-call-HOW-TO.txt"* file and choose the basic ua-to-ua configuration. Copy the line and open the command prompt 
+   in the root directory of mjua v1.8 and run the mjUA b, which stands for "Bob".
 
-   You can now just clone this repository and run the *Main.java* file of the Application.
+   You can now just clone this repository, import the libraries and run the *Program.java* file of the Application.
    
    ### Libraries
-   The program requires a library. NEMO is used to create *.pcap* file for a more detailed analysis using Wireshark.
+   The program requires a two libraries. Once downloaded the *mjUA v1.8.zip* open the *lib* folder and import the mjsip library. This library is used
+   to convert the audio bytes to send with the PCMU Encoding, through the method of the class *G711.linear2ulaw()*. The other library to import is the
+   *Java FX Windows SDK 11.0.2*, needed to run the GUI.
+
    
-   - <a href="http://netsec.unipr.it/project/nemo/download.html" title="Nemo">NEMO</a>
+   - <a href="http://www.mjsip.org/download.html" title="mjsip">mjsip</a>
+   - <a href="https://gluonhq.com/products/javafx/" title="JavaFX">Java FX</a>
 
    ### Updates
    Pull this repository for updates.
@@ -137,15 +157,25 @@
    <!-- LICENSE -->
    ## LICENSE
    Distributed under the GPL License. See `LICENSE` for more information.
+   <!-- VOIP LOGO IMAGE / SETTINGS IMAGE -->
    <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 
    title="Flaticon"> www.flaticon.com</a></div>
-   <div>Icons made by <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a> from <a href="https://www.flaticon.com/" 
-   title="Flaticon">www.flaticon.com</a></div>
-   <div>Icons made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" 
-   title="Flaticon">www.flaticon.com</a></div>
-   Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 
+   <!-- AUDIO CONTROL BUTTON -->
+   Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" 
    title="Flaticon"> www.flaticon.com</a>
+   <!-- FILE AUDIO BUTTON-->
+   <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+   <!-- SINUSOIDAL AUDIO BUTTON-->
+   <div>Icons made by <a href="https://www.flaticon.com/authors/phatplus" title="phatplus">phatplus</a> from <a href="https://www.flaticon.com/" 
+   title="Flaticon">www.flaticon.com</a></div>
+   <!-- SPOILED AUDIO BUTTON -->
+   <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 
+   title="Flaticon">www.flaticon.com</a></div>
+   <!-- STOP AUDIO BUTTON -->
    <div>Icons made by <a href="https://www.flaticon.com/authors/dinosoftlabs" title="DinosoftLabs">DinosoftLabs</a> from <a href="https://www.flaticon.com/" 
+   title="Flaticon">www.flaticon.com</a></div>
+   <!-- LOGS IMAGE -->
+   <div>Icons made by <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a> from <a href="https://www.flaticon.com/" 
    title="Flaticon">www.flaticon.com</a></div>
 
    
@@ -153,6 +183,8 @@
    ## CONTRIBUTORS
    [Daniele Pellegrini](https://github.com/danielepelleg) - 285240
 
+   [Guido Soncini](https://github.com/gweedo) - 285140
+
    [Mattia Ricci](https://github.com/tiaringhio) - 285237
    
-   [Guido Soncini](https://github.com/gweedo) - 285140
+   
