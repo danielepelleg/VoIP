@@ -1,0 +1,119 @@
+@startuml
+
+abstract class Request {
+    - {static} CALL_ID : String
+    - {static} SENDER_NAME : String
+    - {static} SENDER_TAG : String
+    - {static} receiverTag : String
+    --
+    + {static} String generateCallID()
+    + {static} String generateSenderTag()
+    + {static} String generateBranch()
+    + {static} void setSenderName()
+    + {static} void setReceiverTag()
+    --
+    + {static} byte[] getInvite()
+    + {static} byte[] getAck()
+    + {static} byte[] getBye()
+}
+
+abstract class Response {
+    - responsePacket : DatagramPacket
+    - message : byte[]
+    + void setResponsePacket(DatagramPacket responsePacket)
+    + void setMessage()
+    + void showMessage()
+}
+
+class UserAgent{
+    + {static} address : InetAddress
+    + {static} sourcePort = 5080 : Integer
+    + {static} destinationPort = 5070 : Integer
+    + {static} socketOutgoing : DatagramSocket
+    + {static} socketIncoming : DatagramSocket
+    --
+    + {static} InetAddress getAddress()
+    + {static} DatagramSocket getSocketOutgoing()
+    + {static} DatagramSocket getSocketIncoming()
+    --
+    + {static} void send(byte[] request)
+    + {static} DatagramPacket listen()
+    ==
+    + @Override void run()
+}
+
+abstract class Session{
+    - {static} requests : List<byte[]>
+    - {static} responses : List<byte[]>
+    - {static} packets : List<DatagramPacket>
+    - {static} active : boolean = false
+    --
+    + {static} List<byte[]> getRequests()
+    + {static} List<byte[]> getResponse()
+    + {static} List<DatagramPacket> getPackets()
+    + {static} boolean isActive()
+    + {static} void setActive(boolean newValue)
+    --
+    + {static} void addRequest(byte[] newRequest)
+    + {static} void addResponse(byte[] newRequest)
+    + {static} void addPacket(DatagramPacket newPacket)
+    + {static} void clear()
+    --
+    + {static} String logsMessage()
+    + {static} void saveRequestFile(String request, String fileName)
+    + {static} void save()
+}
+
+Session *-- Request
+Session *-- Response
+Request o-- UserAgent
+Response o-- UserAgent
+
+abstract class OutputAudio{
+    - {static} sourcePort = 4080 : int
+    - {static} socketOutgoing : DatagramSocket
+    - {static} <i>volatile</i> active : boolean
+    --
+    + {static} boolean isRunning()
+    + {static} void setRunning(boolean newValue)
+    --
+    + {static} void sendAudio(byte[] toSend)
+}
+
+class AudioThread{
+    - {static} sourcePort = 4070 : int
+    - {static} socketIncoming : DatagramSocket
+    --
+    + {static} DatagramSocket getSocketIncoming()
+    --
+    + @Override void run()
+}
+
+class AudioSinusoidalThread{
+    - {static} FREQUENCY = 200 : double
+    - {static} AMPLITUDE = 4000 : double
+    - {static} TIME_INCREMENTATION = 5 : double
+    --
+    + {static} double getFrequency()
+    + {static} double getAmplitude()
+    + {static} double getTimeIncrementation()
+    + {static} double setFrequency()
+    + {static} double setAmplitude()
+    + {static} double setTimeIncrementation()
+    --
+    + @Override void run()
+}
+
+class AudioFileThread{
+    @ Override void run()
+}
+
+class RTPPacket{
+}
+
+AudioThread *-- OutputAudio
+AudioSinusoidalThread *-- OutputAudio
+AudioFileThread *-- OutputAudio
+OutputAudio *-- RTPPacket
+
+@enduml
