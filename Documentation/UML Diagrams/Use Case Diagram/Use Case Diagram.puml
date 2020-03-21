@@ -1,0 +1,61 @@
+@startuml
+left to right direction
+
+title VoIP Application - Use Case Diagram
+
+actor UserAgent
+
+rectangle VoIP_Application {
+
+    /'
+        Set alias of the actions
+    '/
+
+    (Send Invite Request) as Invite
+    (Send Bye Request) as Bye
+
+    (200 OK Response Received) as Confirmation
+    (Send ACK Request) as ACK
+
+    (Send Audio) as Audio
+    (Send Spoiled Audio) as Spoiled
+    (Send Sinusoidal Audio) as Sinusoidal
+    (Send File Audio) as File
+    (Receive Audio) as Receive
+
+    /'
+        Set Actions
+    '/
+    UserAgent -- (Invite)
+
+    note bottom of (Invite)
+        Start the communication
+    end note
+
+    (Confirmation) -left-> (ACK) : <<include>>
+
+    note right of (ACK)
+        At this point the RTP Connection
+        is set up and the two UserAgent
+        can communicate.
+    end note
+
+    (Invite) ..> (Audio) : <<extend>>
+    (Audio) -left-> (Confirmation) : <<include>>
+
+    UserAgent -- (Bye)
+
+    note bottom of (Bye)
+        Close the communication
+    end note
+
+    (Bye) --> (ACK) : <<include>>
+
+    (Audio) ..> (Spoiled) : <<extend>>
+    (Audio) ..> (Sinusoidal) : <<extend>>
+    (Audio) ..> (File) : <<extend>>
+
+    (Spoiled) -right-> (Receive) : <<include>>
+}
+
+@enduml
