@@ -220,6 +220,7 @@ public abstract class Response {
                             case '6':   // 486 Callee is busy.
                                 Program.controller.setConnectionLabel("BUSY HERE");
                                 System.out.println(serverAnswer + " BUSY HERE");
+                                UserAgent.send(Request.getAck());
                                 break;
 
                             case '7':   // 487 VoIP.Request has terminated by bye or cancel.
