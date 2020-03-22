@@ -128,10 +128,12 @@
 
    <!-- SCREENSHOTS -->
    ## Screenshots
+   <p align="center">
    <img src="Documentation/Screenshots/Main Tab.png" alt="mainTab">
    <img src="Documentation/Screenshots/Audio Tab.png" alt="audioTab">
    <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab">
    <img src="Documentation/Screenshots/Settings Tab.png" alt="settingsTab">
+   </p>
 
    <!-- GETTING STARTED -->
    ## Getting Started
