@@ -22,6 +22,9 @@
     - [INVITE](#INVITE)
     - [ACK](#ACK)
     - [BYE](#BYE)
+  - [Wireshark Captures](#wireshark-captures)
+    - [SIP](#sip) 
+    - [SIP and UDP](#sip-and-udp)
   - [UML Diagrams](#uml-diagrams)
     - [Class Diagram](#class-diagram)
     - [Use Case Diagram](#use-case-diagram)
@@ -119,6 +122,19 @@
         CSeq: 2 BYE
         User-Agent: mjsip 1.8
         Content-Length: 0
+  
+   <!-- WIRESHARK CAPTURES -->
+   ## Wireshark Captures
+
+   ### SIP
+   <p align="center">
+   <img src="Documentation/Wireshark Captures/sip.png" alt="sipCapture">
+   </p>
+
+   ### SIP and UDP
+   <p align="center">
+   <img src="Documentation/Wireshark Captures/sip-udp.png" alt="sip_udpCapture">
+   </p>
 
    <!-- UML DIAGRAMS -->
    ## UML Diagrams
@@ -132,10 +148,16 @@
    <!-- SCREENSHOTS -->
    ## Screenshots
    <p align="center">
-   <img src="Documentation/Screenshots/Main Tab.png" alt="mainTab">
-   <img src="Documentation/Screenshots/Audio Tab.png" alt="audioTab">
-   <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab">
-   <img src="Documentation/Screenshots/Settings Tab.png" alt="settingsTab">
+   <div class="row">
+   <div class="column">
+   <img src="Documentation/Screenshots/Main Tab.png" alt="mainTab" >
+   <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab" >
+   </div>
+   <div class="column">
+   <img src="Documentation/Screenshots/Audio Tab.png" alt="audioTab" >
+   <img src="Documentation/Screenshots/Settings Tab.png" alt="settingsTab" >
+   </div>
+   </div>
    </p>
 
    <!-- GETTING STARTED -->
