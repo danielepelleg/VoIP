@@ -88,25 +88,6 @@ public class UserAgent implements Runnable{
         }
     }
 
-
-    /**
-     * Receive a response in byte from the Server and print
-     * the related message
-     */
-    public static void receive() {
-        try {
-            byte[] response = new byte[1024];
-            DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
-            socketIncoming.receive(received);
-            Response.setResponsePacket(received);
-            Response.showMessage();
-            Session.addPacket(received);
-            Session.addResponse(received.getData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Listen for a new DatagramPacket on the Incoming DatagramSocket mjUA_1.8
      */
