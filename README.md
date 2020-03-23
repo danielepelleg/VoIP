@@ -58,9 +58,12 @@
     
     - Press the green button to call the other mjUA UserAgent.
     
-    - Once the conversation has start, you can navigate to the other tabs of the window to see the logs of the call, \nstart and stop the sending of audio packets, see the requests the application has sent and the responses \nit received, and change some of the application settings.
+    - Once the conversation has start, you can navigate to the other tabs of the window to see the logs of the call, 
+    start and stop the sending of audio packets, see the requests the application has sent and the responses 
+    it received, and change some of the application settings.
     
-    - You can hang up the call at any moment, by pressing the red button. This will send a BYE Request to the mjua, \nwhich will send a 200 OK response.
+    - You can hang up the call at any moment, by pressing the red button. This will send a BYE Request to the mjua, 
+    which will send a 200 OK response.
    
    <!-- SIP REQUESTS  -->
    ## SIP Requests
