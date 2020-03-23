@@ -133,9 +133,6 @@ public class ApplicationController implements Initializable {
     @FXML
     private Button saveSettingsButton;
 
-    @FXML
-    private TextField incrementationTextBox;
-
     /**
      * Initialize the page
      */
@@ -275,7 +272,6 @@ public class ApplicationController implements Initializable {
         String newName = userNameTextBox.getText();                                 // Take the string in the TextBox
         String newFrequency = frequencyTextBox.getText();
         String newAmplitude = amplitudeTextBox.getText();
-        String newIncrementation = incrementationTextBox.getText();
 
         if(!Session.isActive() && !newName.equals(""))
             Request.setSenderName(newName);
@@ -285,10 +281,6 @@ public class ApplicationController implements Initializable {
 
         if(tryParseDouble(newAmplitude))
             AudioSinusoidalThread.setAmplitude(Double.parseDouble(newAmplitude));   // Set the new Amplitude
-
-        if(tryParseDouble(newIncrementation))
-            AudioSinusoidalThread.                                                  // Set the new Incrementation
-                    setTimeIncrementation(Double.parseDouble(newIncrementation));
     }
 
     /**

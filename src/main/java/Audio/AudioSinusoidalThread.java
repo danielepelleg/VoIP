@@ -31,14 +31,6 @@ public class AudioSinusoidalThread implements Runnable {
         frequency = newValue;
     }
 
-    public static double getTimeIncrementation() {
-        return timeIncrementaion;
-    }
-
-    public static void setTimeIncrementation(double newValue) {
-        timeIncrementaion = newValue;
-    }
-
     public static double getAmplitude() {
         return amplitude;
     }
