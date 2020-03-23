@@ -1,5 +1,5 @@
 @startuml
-
+left to right direction
 abstract class Request {
     - {static} CALL_ID : String
     - {static} SENDER_NAME : String

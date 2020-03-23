@@ -1,5 +1,5 @@
 @startuml
-
+left to right direction
 abstract class OutputAudio{
     - {static} sourcePort = 4080 : int
     - {static} socketOutgoing : DatagramSocket
