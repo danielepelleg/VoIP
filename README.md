@@ -148,16 +148,10 @@
    <!-- SCREENSHOTS -->
    ## Screenshots
    <p align="center">
-   <div class="row">
-   <div class="column">
    <img src="Documentation/Screenshots/Main Tab.png" alt="mainTab" >
-   <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab" >
-   </div>
-   <div class="column">
    <img src="Documentation/Screenshots/Audio Tab.png" alt="audioTab" >
+   <img src="Documentation/Screenshots/Logs Tab.png" alt="logsTab" >
    <img src="Documentation/Screenshots/Settings Tab.png" alt="settingsTab" >
-   </div>
-   </div>
    </p>
 
    <!-- GETTING STARTED -->
