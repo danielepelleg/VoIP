@@ -52,19 +52,23 @@ public class AudioSinusoidalThread implements Runnable {
         byte[] rtpBody = new byte[160];
         byte[] rtpMessage = new byte[172];
         OutputAudio.setRunning(true);
-        int time = 0;
-        int counter = 1;
+        int time = 1;
+       // int counter = 1;
 
         long start = System.currentTimeMillis();
 
         while (OutputAudio.isRunning()) {                                     // while true the program sends audio
 
-            //long duration = System.currentTimeMillis() - start;
-            //if(System.currentTimeMillis() > 20*counter - start) {
-            if (time > 8000)
-                time = 0;
+            if(System.currentTimeMillis() < start + (20 * time) )
+                continue;
+
+            if (time > 8000) {
+                time = 1;
+                start = System.currentTimeMillis();
+            }
             else
                 time += timeIncrementaion;                                             // time incrementation
+
 
             for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
                 double x = (2 * Math.PI * time * frequency / 8000.0);
@@ -87,7 +91,7 @@ public class AudioSinusoidalThread implements Runnable {
             }
 
             OutputAudio.sendAudio(rtpMessage);
-            counter++;
+            //counter++;
             //}
         }
     }
