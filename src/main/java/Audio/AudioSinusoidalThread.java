@@ -5,10 +5,10 @@ import org.zoolu.sound.codec.G711;
 
 /**
  * Audio.AudioSinusoidalThread Class
- *
+ * <p>
  * This class implements runnable because it must be instantiated inside a thread.
- *  Once the connection is set, and the sendSinusoidal method is called, the class
- *  create a sinusoidal wave to send to the mjUA.
+ * Once the connection is set, and the sendSinusoidal method is called, the class
+ * create a sinusoidal wave to send to the mjUA.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
@@ -17,7 +17,6 @@ import org.zoolu.sound.codec.G711;
 public class AudioSinusoidalThread implements Runnable {
 
     private static double frequency = 200;
-    private static double timeIncrementaion = 5;
     private static double amplitude = 4000;
 
     /**
@@ -40,11 +39,11 @@ public class AudioSinusoidalThread implements Runnable {
     }
 
     /**
-     *  Create a sinusoidal wave given the Width of the wave, it's frequency and
-     *    the time incrementation when calculating it. The method creates a new RTP Packet,
-     *    then start calculating the values of the wave, and for each value obtained,
-     *    compress it using the G711 method, for compressing byte with the PCM algorithm
-     *    in the sip.jar library. Keep sending the wave until the sendingAudio value is set to false.
+     * Create a sinusoidal wave given the Width of the wave, it's frequency and
+     * the time incrementation when calculating it. The method creates a new RTP Packet,
+     * then start calculating the values of the wave, and for each value obtained,
+     * compress it using the G711 method, for compressing byte with the PCM algorithm
+     * in the sip.jar library. Keep sending the wave until the sendingAudio value is set to false.
      */
     @Override
     public void run() {
@@ -53,21 +52,20 @@ public class AudioSinusoidalThread implements Runnable {
         byte[] rtpMessage = new byte[172];
         OutputAudio.setRunning(true);
         int time = 1;
-       // int counter = 1;
+        // int counter = 1;
 
         long start = System.currentTimeMillis();
 
         while (OutputAudio.isRunning()) {                                     // while true the program sends audio
 
-            if(System.currentTimeMillis() < start + (20 * time) )
+            if (System.currentTimeMillis() < start + (20 * time))
                 continue;
 
             if (time > 8000) {
                 time = 1;
                 start = System.currentTimeMillis();
-            }
-            else
-                time += timeIncrementaion;                                             // time incrementation
+            } else
+                time += 1;                                             // time incrementation
 
 
             for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
@@ -84,11 +82,11 @@ public class AudioSinusoidalThread implements Runnable {
             rtpPacket.incrementSequence();
             rtpPacket.incrementTimeStamp();
 
-            try {
+            /*try {
                 Thread.sleep(20);                           // Add a 20ms delay through one packet and another
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
-            }
+            }*/
 
             OutputAudio.sendAudio(rtpMessage);
             //counter++;
