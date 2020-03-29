@@ -27,12 +27,12 @@ public class AudioFileThread implements Runnable{
             AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);      // Insert the audio in a InputStream
             ais = AudioSystem.getAudioInputStream(AudioFormat.Encoding.ULAW, ais);  // Remove the WAV Header
 
-            double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);      // Number of packets to be created
+            //double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);      // Number of packets to be created
 
             AudioFormat audioFormat =
                     new AudioFormat(8000, 8, 1, true, false);
             double sleepTime = (160/audioFormat.getSampleRate());
-            long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
+            //long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
 
 
             while (OutputAudio.isRunning()) {                                          // Fill the RTPBody
