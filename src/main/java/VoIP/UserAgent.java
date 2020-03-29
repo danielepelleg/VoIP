@@ -1,11 +1,7 @@
 package VoIP;
 
-import Audio.AudioThread;
-import Audio.OutputAudio;
-
 import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
 
 /**
  * VoIP.UserAgent Class

@@ -62,7 +62,11 @@ public abstract class Response {
      * and a few lines of a description. Send ACK if needed.
      */
     public static void showMessage() {
+<<<<<<< HEAD
         // Initialize a counter to set a newResponse after an Information Message.
+=======
+
+>>>>>>> c469627fbb0b270cc39232a290fac14d24d98683
         // String containing the Server Answer
         serverAnswer = " ";
         Program.controller.setConnectionLabel("CALLING");
