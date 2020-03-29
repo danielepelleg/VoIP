@@ -15,7 +15,7 @@ import java.net.*;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class UserAgent extends Thread {
+public class UserAgent implements Runnable {
     public static InetAddress address = getAddress();
     public static int sourcePort = 5080;
     public static int destinationPort = 5070;
@@ -106,19 +106,14 @@ public class UserAgent extends Thread {
     /**
      *Close the VoIP call. control if the Receiver answered the call
      */
-    private static void closeCall() {
+    public static void closeCall() {
         String serverAnswer = Response.getServerAnswer();
-        switch (serverAnswer) {
-            case "180":
-                send(Request.getCancel());
-                break;
-            case "480":
-                send(Request.getOk());
-                break;
-            default:
-                send(Request.getBye());
-                break;
+        if ("480".equals(serverAnswer)) {
+            send(Request.getAck());
+        } else {
+            send(Request.getBye());
         }
+        Response.showMessage();
         Session.setActive(false);
     }
 
@@ -126,15 +121,10 @@ public class UserAgent extends Thread {
      * Make a VoIP Call to the UserAgent Bob mjUA listening on port 5080
      */
     @Override
-    public void start() {
+    public void run() {
         send(Request.getInvite());
         Response.showMessage();
     }
 
-    @Override
-    public void interrupt() {
-        UserAgent.closeCall();
-        super.interrupt();
-    }
 
 }
