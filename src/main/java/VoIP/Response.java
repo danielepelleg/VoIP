@@ -61,8 +61,6 @@ public abstract class Response {
      * and a few lines of a description. Send ACK if needed.
      */
     public static void showMessage() {
-        // Initialize a counter to set a newResponse after an Information Message.
-
 
         // String containing the Server Answer
         String serverAnswer = " ";

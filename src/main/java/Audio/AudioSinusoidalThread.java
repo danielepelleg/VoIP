@@ -52,7 +52,6 @@ public class AudioSinusoidalThread implements Runnable {
         byte[] rtpMessage = new byte[172];
         OutputAudio.setRunning(true);
         int time = 1;
-        // int counter = 1;
 
         long start = System.currentTimeMillis();
 
@@ -82,15 +81,7 @@ public class AudioSinusoidalThread implements Runnable {
             rtpPacket.incrementSequence();
             rtpPacket.incrementTimeStamp();
 
-            /*try {
-                Thread.sleep(20);                           // Add a 20ms delay through one packet and another
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }*/
-
             OutputAudio.sendAudio(rtpMessage);
-            //counter++;
-            //}
         }
     }
 }
