@@ -3,6 +3,7 @@ package VoIP;
 import java.net.DatagramPacket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * VoIP.Response Class
@@ -54,7 +55,11 @@ public abstract class Response {
     }
 
     public static String getServerAnswer() {
-        return serverAnswer;
+        try{
+            return serverAnswer;
+        }catch (NullPointerException e){
+            return null;
+        }
     }
 
     /**
@@ -62,11 +67,7 @@ public abstract class Response {
      * and a few lines of a description. Send ACK if needed.
      */
     public static void showMessage() {
-<<<<<<< HEAD
         // Initialize a counter to set a newResponse after an Information Message.
-=======
-
->>>>>>> c469627fbb0b270cc39232a290fac14d24d98683
         // String containing the Server Answer
         serverAnswer = " ";
         Program.controller.setConnectionLabel("CALLING");
@@ -89,7 +90,12 @@ public abstract class Response {
             if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
                 // and set it in VoIP.Request Class
                 String receive = new String(responsePacket.getData());
-                String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("To")) - 2);
+                Scanner scanner = new Scanner(receive);
+                String line;
+                 do {
+                    line = scanner.nextLine();
+                }while (!line.contains("To"));
+                String receiverTag = line.substring(line.indexOf("tag=") + 4, (line.length()));
                 Request.setReceiverTag(receiverTag);
                 Program.controller.setReceiverTagLabel();
             }
@@ -140,7 +146,6 @@ public abstract class Response {
 
             // VoIP.Request Failures
             case '4': //VoIP.Response 4XX
-
                 switch (serverAnswer.charAt(1)) {
                     case '0':
                         switch (serverAnswer.charAt(2)) {
