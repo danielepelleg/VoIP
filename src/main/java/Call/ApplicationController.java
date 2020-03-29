@@ -164,10 +164,9 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     void call(ActionEvent event) {                           // Start the call if the Session is not active yet
-        if (callThread != null) {                           // Interrupt the first
-            callThread.interrupt();
-        }
-        if(!Session.isActive()) {
+
+        if(!Session.isActive() && (Response.getServerAnswer() == null ||Response.getServerAnswer().equals("200"))) {
+            callThread = null;
             Session.clear();
             callThread = new Thread(new UserAgent());
             callThread.start();
@@ -183,9 +182,12 @@ public class ApplicationController implements Initializable {
     @FXML
     void hangUp(ActionEvent event) {
         if (Session.isActive()) {
+            /*
             OutputAudio.setRunning(false);
             UserAgent.send(Request.getBye());
-            Response.showMessage();
+            Session.setActive(false);
+            Response.showMessage();*/
+            UserAgent.closeCall();
         }
     }
 
@@ -289,7 +291,7 @@ public class ApplicationController implements Initializable {
      */
     public synchronized void setReceiverTagLabel(){
         StringBuilder receiverTag = new StringBuilder();
-        for(int index = 4; index < 20; index++){
+        for(int index = 4; index < Request.getReceiverTag().length(); index++){
             receiverTag.append(Request.getReceiverTag().charAt(index));
         }
         Platform.runLater(()->{this.receiverTagLabel.setText(receiverTag.toString());});
