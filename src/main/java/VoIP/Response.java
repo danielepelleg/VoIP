@@ -17,6 +17,7 @@ import java.util.Arrays;
 public abstract class Response {
     private static DatagramPacket responsePacket;
     private static byte[] message;
+    private static String serverAnswer;
 
     /**
      * Class Constructor
@@ -41,7 +42,7 @@ public abstract class Response {
     /**
      * Set the new VoIP.Response packet. This method is used when the system receives
      * some information responses or messages, such as "100 TRYING".
-     *
+     * <p>
      * In this case the application have to listen on the incoming port of the DatagramSocket
      * for a new message from the other VoIP.UserAgent, and then sets it as the new VoIP.Response Packet.
      *
@@ -52,8 +53,8 @@ public abstract class Response {
         setMessage();
     }
 
-    public byte[] getMessage() {
-        return message;
+    public static String getServerAnswer() {
+        return serverAnswer;
     }
 
     /**
@@ -62,15 +63,13 @@ public abstract class Response {
      */
     public static void showMessage() {
         // Initialize a counter to set a newResponse after an Information Message.
-
-
         // String containing the Server Answer
-        String serverAnswer = " ";
+        serverAnswer = " ";
         Program.controller.setConnectionLabel("CALLING");
         do {
-            try{
+            try {
                 setResponsePacket(UserAgent.listen());
-            }catch (SocketTimeoutException e) {
+            } catch (SocketTimeoutException e) {
                 Program.controller.setConnectionLabel("FAILED (Request Timeout)");
                 break;
             }
@@ -84,18 +83,19 @@ public abstract class Response {
             }
 
             if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
-                                                                // and set it in VoIP.Request Class
+                // and set it in VoIP.Request Class
                 String receive = new String(responsePacket.getData());
-                String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("tag=") + 20));
+                String receiverTag = receive.substring(receive.indexOf("tag=") + 4, (receive.indexOf("To")) - 2);
                 Request.setReceiverTag(receiverTag);
                 Program.controller.setReceiverTagLabel();
             }
 
-            if(serverAnswer.charAt(0) != '2')                   // Print the Information Messages
+            if (serverAnswer.charAt(0) != '2')                   // Print the Information Messages
                 System.out.println(new String(responsePacket.getData()));
 
 
-        }while (serverAnswer.charAt(0) == '1') ;                // Informational Responses
+        } while (serverAnswer.charAt(0) == '1');                // Informational Responses
+
 
         switch (serverAnswer.charAt(0)) {                       // Other Responses
 
@@ -125,8 +125,7 @@ public abstract class Response {
 
                      AudioThread.sendFile();
                      */
-                }
-                else Program.controller.setConnectionLabel("BYE");
+                } else Program.controller.setConnectionLabel("BYE");
 
                 break;
 
@@ -147,22 +146,22 @@ public abstract class Response {
                                 break;
 
                             case '1':   // 401 The request requires user authentication.
-                                        // This response is issued by UASs and registrars.
+                                // This response is issued by UASs and registrars.
                                 System.out.println(serverAnswer + " UNAUTHORIZED");
                                 break;
 
                             case '3':   // 403 The server understood the request, but is refusing to fulfill it.
-                                        // Sometimes the call has been rejected by the receiver.
+                                // Sometimes the call has been rejected by the receiver.
                                 System.out.println(serverAnswer + " FORBIDDEN");
                                 break;
 
                             case '4':   // 404 The server has definitive information that
-                                        // the user does not exist at the domain specified in the VoIP.Request-URI.
+                                // the user does not exist at the domain specified in the VoIP.Request-URI.
                                 System.out.println(serverAnswer + " NOT FOUND");
                                 break;
 
                             case '5':   // 405 The method specified in the VoIP.Request-Line is understood,
-                                        // but not allowed for the address identified by the VoIP.Request-URI.
+                                // but not allowed for the address identified by the VoIP.Request-URI.
                                 System.out.println(serverAnswer + " METHOD NON ALLOWED");
                                 break;
 
@@ -183,7 +182,7 @@ public abstract class Response {
                     case '1':
                         switch (serverAnswer.charAt(2)) {
                             case '0':   // 410 The user existed once,
-                                        // but is not available here any more.
+                                // but is not available here any more.
                                 System.out.println(serverAnswer + " GONE");
                                 break;
 
@@ -192,8 +191,8 @@ public abstract class Response {
                                 break;
 
                             case '8':   // 418 Any attempt to brew coffee with a teapot
-                                        // should result in the error code "418 I'm a teapot".
-                                        // The resulting entity body MAY be short and stout.
+                                // should result in the error code "418 I'm a teapot".
+                                // The resulting entity body MAY be short and stout.
                                 System.out.println(serverAnswer + " I'M A TEAPOT");
                         }
                         break;
@@ -201,7 +200,7 @@ public abstract class Response {
                     case '2':
                         switch (serverAnswer.charAt(2)) {
                             case '0':   // 420 Bad SIP Protocol Extension used,
-                                        // not understood by the server.
+                                // not understood by the server.
                                 System.out.println(serverAnswer + " GONE");
                                 break;
                         }
@@ -228,12 +227,12 @@ public abstract class Response {
                                 break;
 
                             case '8':   // 488 Some aspect of the session description
-                                        // or the VoIP.Request-URI is not acceptable
+                                // or the VoIP.Request-URI is not acceptable
                                 System.out.println(serverAnswer + " NOT ACCEPTABLE HERE");
                                 break;
 
                             case '9':   // 489 The server did not understand an event package
-                                        // specified in an Event header field.
+                                // specified in an Event header field.
                                 System.out.println(serverAnswer + " BAD EVENT");
                                 break;
                         }
@@ -256,42 +255,42 @@ public abstract class Response {
                     case '0':
                         switch (serverAnswer.charAt(2)) {
                             case '0':   // 500 The server could not fulfill the request
-                                        // due to some unexpected condition.
+                                // due to some unexpected condition.
                                 System.out.println(serverAnswer + " INTERNAL SERVER ERROR");
                                 break;
 
                             case '1':   // 501 The server does not support the functionality
-                                        // required to fulfill the request.
+                                // required to fulfill the request.
                                 System.out.println(serverAnswer + " NOT IMPLEMENTED");
                                 break;
 
                             case '2':   // 502 The server, while acting as a gateway or proxy,
-                                        // received an invalid response from an inbound server it accessed
-                                        // while attempting to fulfill the request.
+                                // received an invalid response from an inbound server it accessed
+                                // while attempting to fulfill the request.
                                 System.out.println(serverAnswer + " BAD GATEWAY");
                                 break;
 
                             case '3':   // 503 The server is currently unable to handle the request
-                                        // due to a temporary overload or scheduled maintenance,
-                                        // which will likely be alleviated after some delay.
+                                // due to a temporary overload or scheduled maintenance,
+                                // which will likely be alleviated after some delay.
                                 System.out.println(serverAnswer + " SERVICE UNAVAILABLE");
                                 break;
 
                             case '4':   // 504 The server, while acting as a gateway or proxy,
-                                        // did not receive a timely response from an upstream server
-                                        // it needed to access in order to complete the request.
+                                // did not receive a timely response from an upstream server
+                                // it needed to access in order to complete the request.
                                 System.out.println(serverAnswer + " GATEWAY TIMEOUT");
                                 break;
 
                             case '5':   // 505 The server does not support, or refuses to support,
-                                        // the major version of HTTP that was used in the request message.
+                                // the major version of HTTP that was used in the request message.
                                 System.out.println(serverAnswer + " VERSION NOT SUPPORTED");
                                 break;
                         }
                         break;
 
                     case '1':
-                        switch (serverAnswer.charAt(2))  {
+                        switch (serverAnswer.charAt(2)) {
                             case '3':   // 513 The request message length is longer than the server can process.
                                 System.out.println(serverAnswer + " MESSAGE TOO LARGE");
                                 break;
@@ -300,7 +299,7 @@ public abstract class Response {
                     case '8':
                         switch (serverAnswer.charAt(8)) {
                             case '0':   // 580 The server is unable or unwilling to meet
-                                        // some constraints specified in the offer.
+                                // some constraints specified in the offer.
                                 System.out.println(serverAnswer + " PRECONDITION FAILURE");
                                 break;
                         }
@@ -308,7 +307,8 @@ public abstract class Response {
                 }
                 break;
 
-            default: break;
+            default:
+                break;
         }
     }
 }

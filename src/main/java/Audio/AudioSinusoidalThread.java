@@ -20,18 +20,10 @@ public class AudioSinusoidalThread implements Runnable {
     private static double amplitude = 4000;
 
     /**
-     * Get and Set methods
+     * Set methods
      */
-    public static double getFrequency() {
-        return frequency;
-    }
-
     public static void setFrequency(double newValue) {
         frequency = newValue;
-    }
-
-    public static double getAmplitude() {
-        return amplitude;
     }
 
     public static void setAmplitude(double newValue) {
@@ -52,7 +44,6 @@ public class AudioSinusoidalThread implements Runnable {
         byte[] rtpMessage = new byte[172];
         OutputAudio.setRunning(true);
         int time = 1;
-        // int counter = 1;
 
         long start = System.currentTimeMillis();
 
@@ -66,7 +57,6 @@ public class AudioSinusoidalThread implements Runnable {
                 start = System.currentTimeMillis();
             } else
                 time += 1;                                             // time incrementation
-
 
             for (int index = 0; index < 160; index++) {                            // for every byte in the RTP body
                 double x = (2 * Math.PI * time * frequency / 8000.0);
@@ -82,15 +72,7 @@ public class AudioSinusoidalThread implements Runnable {
             rtpPacket.incrementSequence();
             rtpPacket.incrementTimeStamp();
 
-            /*try {
-                Thread.sleep(20);                           // Add a 20ms delay through one packet and another
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }*/
-
             OutputAudio.sendAudio(rtpMessage);
-            //counter++;
-            //}
         }
     }
 }
