@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * VoIP.UserAgent Class
- *
+ * <p>
  * The VoIP.UserAgent is the client of SIP (VoIP.Session Initiation Protocol). The UA sends
  * VoIP.Request objects to the server (mjUA_1.8) through the SocketSourcePort on port 5080,
  * and receives VoIP.Response objects through socketDestinationPort on port 5070, on the
@@ -19,7 +19,7 @@ import java.util.Scanner;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public class UserAgent implements Runnable{
+public class UserAgent extends Thread {
     public static InetAddress address = getAddress();
     public static int sourcePort = 5080;
     public static int destinationPort = 5070;
@@ -101,19 +101,44 @@ public class UserAgent implements Runnable{
             return received;
         } catch (SocketTimeoutException e) {
             throw new SocketTimeoutException(e.getMessage());
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return null;
     }
 
     /**
+     *Close the VoIP call. control if the Receiver answered the call
+     */
+    private static void closeCall() {
+        String serverAnswer = Response.getServerAnswer();
+        switch (serverAnswer) {
+            case "180":
+                send(Request.getCancel());
+                break;
+            case "480":
+                send(Request.getOk());
+                break;
+            default:
+                send(Request.getBye());
+                break;
+        }
+        Session.setActive(false);
+    }
+
+    /**
      * Make a VoIP Call to the UserAgent Bob mjUA listening on port 5080
      */
     @Override
-    public void run() {
+    public void start() {
         send(Request.getInvite());
         Response.showMessage();
     }
+
+    @Override
+    public void interrupt() {
+        UserAgent.closeCall();
+        super.interrupt();
+    }
+
 }
