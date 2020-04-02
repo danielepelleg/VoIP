@@ -170,43 +170,4 @@ public abstract class Request {
         Session.saveRequestFile(bye, "bye");
         return bye.getBytes();
     }
-
-    /**
-     * Get the CANCEL VoIP.Request after have set the Receiver Tag for uniquely identify
-     * the VoIP.UserAgent b (Bob).
-     */
-    public static byte[] getCancel(){
-        String cancel ="CANCEL sip:bob@127.0.0.1:5080 SIP/2.0\n"+
-        "Via: SIP/2.0/UDP 192.168.178.32:5070;" + generateBranch() + "\n"+
-        "Max-Forwards: 70\n"+
-        "To: \"Bob\" <sip:bob@127.0.0.1:5080>\n"+ //receiver tag not needed;
-        "From: \"" + SENDER_NAME + "\" <sip:" + SENDER_NAME.toLowerCase() + "@192.168.178.32:5070>;tag=803096317826\n"+
-        "Call-ID: "+ CALL_ID + "\n" +
-        "CSeq: 1 CANCEL\n"+
-        "Contact: <sip:alice@192.168.178.32:5070>\n"+
-        "Expires: 3600\n"+
-        "User-Agent: mjsip 1.8\n"+
-        "Content-Length: 0\r\n\n";
-        Session.saveRequestFile(cancel, "cancel");
-        return  cancel.getBytes();
-    }
-
-    /**
-     * Get the 200OK VoIP.Request after have set the Receiver Tag for uniquely identify
-     * the VoIP.UserAgent b (Bob).
-     */
-    public  static  byte[] getOk(){
-        String ok ="SIP/2.0 200 OK\n" +
-                "Via: SIP/2.0/UDP 192.168.178.32:5070;" + generateBranch() + ";received=127.0.0.1\n" +
-                "To: \"Bob\" <sip:bob@127.0.0.1:5080>\n" + //receiver tag not needed;
-                "From: \"" + SENDER_NAME + "\" <sip:" + SENDER_NAME.toLowerCase() + "@192.168.178.32:5070>;tag=803096317826\n" +
-                "Call-ID: " + CALL_ID + "\n" +
-                "CSeq: 1 CANCEL\n" +
-                "Server: mjsip 1.8\n" +
-                "Content-Length: 0\n";
-        Session.saveRequestFile(ok, "200ok");
-        return ok.getBytes();
-    }
-
-
 }
