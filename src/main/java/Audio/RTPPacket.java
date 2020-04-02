@@ -1,9 +1,9 @@
-package VoIP;
+package Audio;
 
 import java.util.Random;
 
 /**
- * VoIP.RTPPacket Class
+ * Audio.RTPPacket Class
  *
  * Build RTP Packet objects to send over RTP connection, build a 12byte header with the information
  *  to be elaborated by the mjUA. If an audio file needs to be send in more RTP Packets, increment
@@ -143,7 +143,7 @@ public class RTPPacket {
     }
 
     /**
-     * Print VoIP.RTPPacket's information
+     * Print Audio.RTPPacket's information
      */
     public void printHeader() {
         System.out.print("[RTP-Header]\n");
