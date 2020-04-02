@@ -45,7 +45,7 @@ public abstract class Session {
 
     /**
      * Set the value of the boolean attribute active,
-     *  true if the VoIP.UserAgent as received a 200OK after the Invite and sent the ACK,
+     *  true if the VoIP.UserAgent has received a 200 OK after the Invite and has sent the ACK,
      *  and so the session is active, false otherwise.
      */
     public static void setActive(boolean value) {

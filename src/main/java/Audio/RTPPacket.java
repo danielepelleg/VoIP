@@ -6,7 +6,7 @@ import java.util.Random;
  * Audio.RTPPacket Class
  *
  * Build RTP Packet objects to send over RTP connection, build a 12byte header with the information
- *  to be elaborated by the mjUA. If an audio file needs to be send in more RTP Packets, increment
+ *  to be elaborated by the mjUA. If an audio file needs to be sent in more RTP Packets, increment
  *  the Sequence Number in every packet by 1 unit, and the TimeStamp by 160 units.
  */
 public class RTPPacket {

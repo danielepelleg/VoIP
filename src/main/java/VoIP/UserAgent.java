@@ -104,7 +104,7 @@ public class UserAgent implements Runnable {
     }
 
     /**
-     *Close the VoIP call. control if the Receiver answered the call
+     * Close the VoIP call. Control if the Receiver answered the call
      */
     public static void closeCall() {
         String serverAnswer = Response.getServerAnswer();

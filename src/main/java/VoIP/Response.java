@@ -125,16 +125,6 @@ public abstract class Response {
                     System.out.println(" ACK SENT \n");
                     Program.controller.setConnectionLabel("ON CALL");
                     Session.setActive(true);
-
-                    /**
-                     *  Start thread
-
-                     AudioThread thread = new AudioThread();
-                     OutputAudio.setSendingAudio(true);            //here set the active call for start the RTP flush
-                     new Thread(thread).start();
-
-                     AudioThread.sendFile();
-                     */
                 } else Program.controller.setConnectionLabel("BYE");
 
                 break;

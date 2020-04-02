@@ -9,11 +9,11 @@ import java.net.DatagramSocket;
 /**
  * Output Audio
  *
- * This is the base-audio class. It stores all the necessary to set up the RTP Connection.
+ * This is the base-audio class. It stores all that is necessary to set up the RTP Connection.
  *  It has the sourcePort attribute, which is the port used by the VoIP.UserAgent to send
  *  RTP Packets to the mjUA "Bob", and DatagramSocket socketOutgoing, previously initialized
  *  in the VoIP.UserAgent Class, used to send Requests to the other mjUA. Then it has boolean attribute
- *  sendingAudio, which is initially set as false, and turn to true once the VoIP.UserAgent starts to send audio.
+ *  sendingAudio, which is initially set as false, and turns to true once the VoIP.UserAgent starts to send audio.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140

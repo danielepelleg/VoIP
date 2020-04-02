@@ -6,8 +6,8 @@ import org.zoolu.sound.codec.G711;
  * Audio.AudioSinusoidalThread Class
  * <p>
  * This class implements runnable because it must be instantiated inside a thread.
- * Once the connection is set, and the sendSinusoidal method is called, the class
- * create a sinusoidal wave to send to the mjUA.
+ * Once the connection is set and the sendSinusoidal method is called, the class
+ * creates a sinusoidal wave to send to the mjUA.
  *
  * @author Daniele Pellegrini <daniele.pellegrini@studenti.unipr.it> - 285240
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
@@ -30,10 +30,10 @@ public class AudioSinusoidalThread implements Runnable {
     }
 
     /**
-     * Create a sinusoidal wave given the Width of the wave, it's frequency and
+     * Create a sinusoidal wave given the Width of the wave, its frequency and
      * the time incrementation when calculating it. The method creates a new RTP Packet,
      * then start calculating the values of the wave, and for each value obtained,
-     * compress it using the G711 method, for compressing byte with the PCM algorithm
+     * compresses it using the G711 method for compressing bytes with the PCM algorithm
      * in the sip.jar library. Keep sending the wave until the sendingAudio value is set to false.
      */
     @Override

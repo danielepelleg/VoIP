@@ -77,7 +77,7 @@ public abstract class Request {
 
     /**
      * Generates a random Branch Tag, keeping an initial
-     * "magic number" such as <i>z9hG4bK</i>  for been identified by Bob
+     * "magic number" such as <i>z9hG4bK</i> to be identified by Bob
      *  as a trusted branch
      */
     public static String generateBranch() {
@@ -102,8 +102,8 @@ public abstract class Request {
     }
 
     /**
-     * Get the Invite VoIP.Request once have set the callID, the senderTag and a
-     *  pseudo-random generated branch
+     * Get the Invite VoIP.Request once the callID, the senderTag and a
+     *  pseudo-random generated branch have been set
      */
     public static byte[] getInvite() {
         String invite = "INVITE sip:bob@127.0.0.1:5080 SIP/2.0\n" +
@@ -154,7 +154,7 @@ public abstract class Request {
     }
 
     /**
-     * Get the BYE VoIP.Request after have set the Receiver Tag for uniquely identify
+     * Get the BYE VoIP.Request after having set the Receiver Tag to uniquely identify
      * the VoIP.UserAgent b (Bob).
      */
     public static byte[] getBye() {
