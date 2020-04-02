@@ -1,7 +1,5 @@
 package Audio;
 
-import VoIP.RTPPacket;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -27,21 +25,12 @@ public class AudioFileThread implements Runnable{
             AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);      // Insert the audio in a InputStream
             ais = AudioSystem.getAudioInputStream(AudioFormat.Encoding.ULAW, ais);  // Remove the WAV Header
 
-            //double nosofpackets = Math.ceil(((int) audioFile.length()) / 160);      // Number of packets to be created
-
-            AudioFormat audioFormat =
-                    new AudioFormat(8000, 8, 1, true, false);
-            double sleepTime = (160/audioFormat.getSampleRate());
-            //long sleepTimeMillis= (long)(sleepTime*1000);           // Initialize the Audio Format to get the sleep time
-
-
             while (OutputAudio.isRunning()) {                                          // Fill the RTPBody
                 bytesRead = ais.read(rtpBody, 0, rtpBody.length);
                 System.arraycopy(rtpHeader.getHeader(), 0, rtpMessage, 0, 12);
                 System.arraycopy(rtpBody, 0, rtpMessage, 12, rtpBody.length);        // Create the RTP Message
                 rtpHeader.incrementSequence();
                 rtpHeader.incrementTimeStamp();
-                long startTime = System.currentTimeMillis();
                 Thread.sleep(20);                                                       // Sleep 20ms
                 OutputAudio.sendAudio(rtpMessage);
                 if(bytesRead == -1){

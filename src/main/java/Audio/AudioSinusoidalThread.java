@@ -1,6 +1,5 @@
 package Audio;
 
-import VoIP.RTPPacket;
 import org.zoolu.sound.codec.G711;
 
 /**
