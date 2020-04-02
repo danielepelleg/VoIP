@@ -18,11 +18,13 @@ abstract class Request {
 }
 
 abstract class Response {
-    - responsePacket : DatagramPacket
-    - message : byte[]
-    + void setResponsePacket(DatagramPacket responsePacket)
-    + void setMessage()
-    + void showMessage()
+    - {static} responsePacket : DatagramPacket
+    - {static} message : byte[]
+    - {static} serverResponse : String
+    + {static} void setResponsePacket(DatagramPacket responsePacket)
+    + {static} void setMessage()
+    + {static} String getServerResponse()
+    + {static} void showMessage()
 }
 
 class UserAgent{
@@ -38,6 +40,7 @@ class UserAgent{
     --
     + {static} void send(byte[] request)
     + {static} DatagramPacket listen()
+    + {static} void closeCall()
     ==
     + @Override void run()
 }
@@ -92,14 +95,11 @@ class AudioThread{
 class AudioSinusoidalThread{
     - {static} FREQUENCY = 200 : double
     - {static} AMPLITUDE = 4000 : double
-    - {static} TIME_INCREMENTATION = 5 : double
     --
     + {static} double getFrequency()
     + {static} double getAmplitude()
-    + {static} double getTimeIncrementation()
     + {static} double setFrequency()
     + {static} double setAmplitude()
-    + {static} double setTimeIncrementation()
     --
     + @Override void run()
 }

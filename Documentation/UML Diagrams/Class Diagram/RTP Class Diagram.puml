@@ -23,14 +23,11 @@ class AudioThread{
 class AudioSinusoidalThread{
     - {static} FREQUENCY = 200 : double
     - {static} AMPLITUDE = 4000 : double
-    - {static} TIME_INCREMENTATION = 5 : double
     --
     + {static} double getFrequency()
     + {static} double getAmplitude()
-    + {static} double getTimeIncrementation()
     + {static} double setFrequency()
     + {static} double setAmplitude()
-    + {static} double setTimeIncrementation()
     --
     + @Override void run()
 }
