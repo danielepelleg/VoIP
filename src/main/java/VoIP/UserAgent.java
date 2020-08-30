@@ -29,6 +29,15 @@ public class UserAgent implements Runnable {
     }
 
     /**
+     * Set the Source Port
+     *
+     * @param newValue the port's number
+     */
+    public static void setSourcePort(int newValue){
+        sourcePort = newValue;
+    }
+
+    /**
      * Set the loopback address for a local VoIP Communication.
      */
     public static InetAddress getAddress() {

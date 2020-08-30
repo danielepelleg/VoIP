@@ -20,9 +20,18 @@ import java.net.DatagramSocket;
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
 public abstract class OutputAudio {
-    private static int sourcePort = 4080;
+    private static int sourcePort;
     private static DatagramSocket socketOutgoing = UserAgent.getSocketOutgoing();
     private static volatile boolean running = false;
+
+    /**
+     * Set the Source Port
+     *
+     * @param newValue the port's number
+     */
+    public static void setSourcePort(int newValue){
+        sourcePort = newValue;
+    }
 
     /**
      * Set sendingAudio
