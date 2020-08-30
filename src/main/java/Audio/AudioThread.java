@@ -68,8 +68,9 @@ public class AudioThread implements Runnable {
                     for (int i = 1; i < 120; i++)
                         toSend[random.nextInt(160) + 12] = (byte) random.nextInt();
                     OutputAudio.sendAudio(toSend);
+                    Thread.sleep(20);
                 }
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
     }
