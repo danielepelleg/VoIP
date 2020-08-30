@@ -1,5 +1,7 @@
 package VoIP;
 
+import Audio.OutputAudio;
+
 import java.net.DatagramPacket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -87,9 +89,8 @@ public abstract class Response {
                 System.out.println(serverAnswer + " RINGING");
             }
 
-            if (serverAnswer.charAt(1) == '8') {                // Take Receiver (Bob) Tag
-                // and set it in VoIP.Request Class
-                String receive = new String(responsePacket.getData());
+            if (serverAnswer.charAt(1) == '8') {                             // Take Receiver (Bob) Tag
+                String receive = new String(responsePacket.getData());      // and set it in VoIP.Request Class
                 Scanner scanner = new Scanner(receive);
                 String line;
                  do {
@@ -122,6 +123,17 @@ public abstract class Response {
                     UserAgent.send(Request.getAck());           // response of a BYE VoIP.Request Send ACK
                     System.out.println(" ACK MESSAGE ");
                     System.out.println(new String(Request.getAck()));
+
+                    Scanner scannerPort = new Scanner(sequence);        // Set the RTP Port for sending RTP
+                    String line;                                       // (audio) packets
+                    do {
+                        line = scannerPort.nextLine();
+                    }while (!line.contains("m=audio"));
+                    String audioPort = line.substring(line.indexOf("m=audio") + 8, line.indexOf(" RTP/AVP"));
+                    int rtpPort = Integer.parseInt(audioPort);
+                    OutputAudio.setSourcePort(rtpPort);
+                    System.out.println("RTP Port: " + audioPort);
+
                     System.out.println(" ACK SENT \n");
                     Program.controller.setConnectionLabel("ON CALL");
                     Session.setActive(true);
