@@ -134,6 +134,13 @@ public class ApplicationController implements Initializable {
     private Button saveSettingsButton;
 
     /**
+     * Define the three threads sending audio (RTP) packets.
+     */
+    AudioThread spoiledThread = new AudioThread();
+    AudioFileThread imperialThread = new AudioFileThread();
+    AudioSinusoidalThread sinusoidalThread = new AudioSinusoidalThread();
+
+    /**
      * Initialize the page
      */
     @Override
@@ -182,11 +189,6 @@ public class ApplicationController implements Initializable {
     @FXML
     void hangUp(ActionEvent event) {
         if (Session.isActive()) {
-            /*
-            OutputAudio.setRunning(false);
-            UserAgent.send(Request.getBye());
-            Session.setActive(false);
-            Response.showMessage();*/
             UserAgent.closeCall();
         }
     }
@@ -200,7 +202,6 @@ public class ApplicationController implements Initializable {
     @FXML
     void sendSpoiledAudio(ActionEvent event) {
         if (!OutputAudio.isRunning()) {
-            AudioThread spoiledThread = new AudioThread();
             new Thread(spoiledThread).start();
         }
     }
@@ -213,7 +214,6 @@ public class ApplicationController implements Initializable {
     @FXML
     void sendImperialMarch(ActionEvent event) {
         if (!OutputAudio.isRunning()) {
-            AudioFileThread imperialThread = new AudioFileThread();
             new Thread(imperialThread).start();
         }
     }
@@ -226,7 +226,6 @@ public class ApplicationController implements Initializable {
     @FXML
     void sendSinusoidalAudio(ActionEvent event) {
         if (!OutputAudio.isRunning()) {
-            AudioSinusoidalThread sinusoidalThread = new AudioSinusoidalThread();
             new Thread(sinusoidalThread).start();
         }
     }
@@ -237,7 +236,7 @@ public class ApplicationController implements Initializable {
      * @param event press on Stop button
      */
     @FXML
-    void stopAudio(ActionEvent event) {
+    synchronized void stopAudio(ActionEvent event) {
         OutputAudio.setRunning(false);
     }
 
