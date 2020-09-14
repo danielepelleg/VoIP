@@ -4,11 +4,8 @@ import Audio.AudioFileThread;
 import Audio.AudioSinusoidalThread;
 import Audio.AudioThread;
 import Audio.OutputAudio;
-import VoIP.Request;
+import VoIP.*;
 
-import VoIP.Response;
-import VoIP.Session;
-import VoIP.UserAgent;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -140,6 +137,7 @@ public class ApplicationController implements Initializable {
     AudioFileThread imperialThread = new AudioFileThread();
     AudioSinusoidalThread sinusoidalThread = new AudioSinusoidalThread();
 
+
     /**
      * Initialize the page
      */
@@ -189,6 +187,7 @@ public class ApplicationController implements Initializable {
     @FXML
     void hangUp(ActionEvent event) {
         if (Session.isActive()) {
+            Response.listen4CloseThread.interrupt();
             UserAgent.closeCall();
         }
     }
@@ -237,6 +236,7 @@ public class ApplicationController implements Initializable {
      */
     @FXML
     synchronized void stopAudio(ActionEvent event) {
+
         OutputAudio.setRunning(false);
     }
 

@@ -113,6 +113,29 @@ public class UserAgent implements Runnable {
     }
 
     /**
+     * Listen for a new DatagramPacket on the Incoming DatagramSocket mjUA_1.8.
+     *  This method is called when the Listen4Close Class is instantiated inside a thread.
+     *
+     *  The socketIncoming timeout is set to 0, so it's disabled because the thread must
+     *  be active and listen for any datagram packet for all the duration of the call and
+     *  doesn't have to stop after 25 seconds like it was before when sending the Invite Request.
+     */
+    public static DatagramPacket listenClose() {
+        try {
+            socketIncoming.setSoTimeout(0);
+            byte[] response = new byte[1024];
+            DatagramPacket received = new DatagramPacket(response, response.length, address, destinationPort);
+            socketIncoming.receive(received);
+            Session.addPacket(received);
+            Session.addResponse(received.getData());
+            return received;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Close the VoIP call. Control if the Receiver answered the call
      */
     public static void closeCall() {

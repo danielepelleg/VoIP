@@ -17,10 +17,11 @@ import java.util.Scanner;
  * @author Guido Soncini <guido.soncini1@studenti.unipr.it> - 285140
  * @author Mattia Ricci <mattia.ricci1@studenti.unipr.it> - 285237
  */
-public abstract class Response {
+public abstract class Response{
     private static DatagramPacket responsePacket;
     private static byte[] message;
     private static String serverAnswer;
+    public static Thread listen4CloseThread = new Thread(new Listen4Close());
 
     /**
      * Class Constructor
@@ -30,6 +31,10 @@ public abstract class Response {
     public Response(DatagramPacket packet) {
         responsePacket = packet;
         setMessage();
+    }
+
+    public Response() {
+
     }
 
     /**
@@ -137,7 +142,10 @@ public abstract class Response {
                     System.out.println(" ACK SENT \n");
                     Program.controller.setConnectionLabel("ON CALL");
                     Session.setActive(true);
-                } else Program.controller.setConnectionLabel("BYE");
+                    listen4CloseThread.start();
+                } else {
+                    Program.controller.setConnectionLabel("BYE");
+                }
 
                 break;
 
